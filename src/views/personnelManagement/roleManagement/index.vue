@@ -1,7 +1,7 @@
 <template>
   <div class="roleManagement-container">
     <el-divider content-position="left">
-      演示环境仅做基础功能展示，若想实现不同角色的真实菜单配置，需将settings.js路由加载模式改为all模式，由后端全面接管路由渲染与权限控制
+      测试：演示环境仅做基础功能展示，若想实现不同角色的真实菜单配置，需将settings.js路由加载模式改为all模式，由后端全面接管路由渲染与权限控制
     </el-divider>
     <vab-query-form>
       <vab-query-form-left-panel :span="12">
