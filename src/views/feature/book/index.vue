@@ -2,11 +2,11 @@
   <div class="table-container">
     <vab-query-form>
       <vab-query-form-left-panel>
-        <el-button icon="el-icon-plus" type="primary" @click="handleAdd" >
+        <el-button icon="el-icon-plus" type="primary" @click="handleAdd">
           添加
         </el-button>
         <!--<el-button icon="el-icon-delete" type="danger" @click="handleDelete">-->
-          <!--删除-->
+        <!--删除-->
         <!--</el-button>-->
         <!--<el-button type="primary" @click="testMessage">baseMessage</el-button>-->
         <!--<el-button type="primary" @click="testALert">baseAlert</el-button>-->
@@ -24,8 +24,8 @@
             <el-input
               v-model.trim="queryForm.keyword"
               placeholder="请输入书本编号"
-              clearable>
-            </el-input>
+              clearable
+            ></el-input>
           </el-form-item>
           <el-form-item>
             <el-button
@@ -38,7 +38,7 @@
             </el-button>
           </el-form-item>
         </el-form>
-        </vab-query-form-right-panel>
+      </vab-query-form-right-panel>
     </vab-query-form>
 
     <el-table
@@ -63,30 +63,30 @@
       <el-table-column
         show-overflow-tooltip
         prop="bookId"
-        label="书本编号">
-      </el-table-column>
+        label="书本编号"
+      ></el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="name"
-        label="名称">
-      </el-table-column>
+        label="名称"
+      ></el-table-column>
       <el-table-column
         :formatter="releaseValueFormatter"
         show-overflow-tooltip
         label="发布"
-        prop="release">
-      </el-table-column>
+        prop="release"
+      ></el-table-column>
       <el-table-column
         :formatter="videoValueFormatter"
         show-overflow-tooltip
         label="视频"
-        prop="video">
-      </el-table-column>
+        prop="video"
+      ></el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="version"
-        label="版本">
-      </el-table-column>
+        label="版本"
+      ></el-table-column>
       <el-table-column show-overflow-tooltip label="操作" width="180px">
         <template #default="{ row }">
           <el-button type="text" @click="handleEdit(row)">编辑</el-button>
@@ -112,9 +112,12 @@
   import { getList, doDelete } from '@/api/table'
   import TableEdit from './components/TableEdit'
   import TableAdd from './components/TableAdd'
-  import {getBookDetailList} from '@/api/Bookresource'
-  import {getBookDetailListByName} from '@/api/Bookresource'
-  import {deleteBookinfo,saveBookinfo} from '@/api/Bookresource'
+  import { getBookDetailList, getAllUserReviewList } from '@/api/Bookresource'
+  import {
+    getBookDetailListByName,
+    getBookDetailListById,
+  } from '@/api/Bookresource'
+  import { deleteBookinfo, saveBookinfo } from '@/api/Bookresource'
   export default {
     name: 'ComprehensiveTable',
     components: {
@@ -163,16 +166,16 @@
     methods: {
       releaseValueFormatter(row, column) {
         if (row.release == 1) {
-          return "是";
+          return '是'
         } else {
-          return "否";
+          return '否'
         }
       },
       videoValueFormatter(row, column) {
         if (row.video == 1) {
-          return "是";
+          return '是'
         } else {
-          return "否";
+          return '否'
         }
       },
       tableSortChange() {
@@ -227,13 +230,13 @@
       },
       async fetchData() {
         this.listLoading = true
-        var data =  await getBookDetailList()
+        var data = await getBookDetailList()
         console.log(data)
         console.log(data.data)
-        var a = [];
-        a = data.data;
-        this.list = a;
-        var totalCount = a.length;
+        var a = []
+        a = data.data
+        this.list = a
+        var totalCount = a.length
         const imageList = []
         this.imageList = imageList
         this.total = totalCount
@@ -241,15 +244,17 @@
           this.listLoading = false
         }, 500)
       },
+      // 根据书本ID查询数据
       async fetchDataByBookname() {
         this.listLoading = true
-        var data =  await getBookDetailListByName(this.queryForm.keyword)
+        // var data =  await getBookDetailListByName(this.queryForm.keyword)
+        let data = await getBookDetailListById(this.queryForm.keyword)
         console.log(data)
         console.log(data.data)
-        var a = [];
-        a = data.data;
-        this.list = a;
-        var totalCount = a.length;
+        var a = []
+        a = data.data
+        this.list = a
+        var totalCount = a.length
         this.total = totalCount
         setTimeout(() => {
           this.listLoading = false

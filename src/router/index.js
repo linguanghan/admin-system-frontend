@@ -129,6 +129,12 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/book/index'),
         meta: { title: '书本版号', badge: 'New',permissions: ['admin'] },
       },
+      {
+        path: 'review',
+        name: 'Rook',
+        component: () => import('@/views/feature/review/index'),
+        meta: { title: '用户评论', badge: 'New',permissions: ['admin'] },
+      },
       // {
       //   path: 'buy',
       //   component: () => import('@/views/feature/total/index'),

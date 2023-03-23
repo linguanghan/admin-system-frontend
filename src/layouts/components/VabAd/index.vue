@@ -30,8 +30,8 @@
     },
     methods: {
       async fetchData() {
-        const { data } = await getList2()
-        this.adList = data
+        // const { data } = await getList2()
+        // this.adList = data
       },
     },
   }
