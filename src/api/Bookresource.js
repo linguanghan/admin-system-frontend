@@ -1,6 +1,5 @@
 import request from '@/utils/request'
-var urlPrefix = 'http://47.122.17.43:39001'
-// var urlPrefix = 'http://localhost:39001'
+import urlPrefix from '@/api/env'
 
 export function getBookDetailList(startTime, endTime) {
   return request({

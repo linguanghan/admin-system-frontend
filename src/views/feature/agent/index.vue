@@ -9,6 +9,7 @@
       @selection-change="setSelectRows"
       @sort-change="tableSortChange"
     >
+      <!-- 列表项 -->
       <el-table-column
         show-overflow-tooltip
         type="selection"
@@ -21,20 +22,52 @@
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
-        prop="pid"
-        label="用户编号"
+        prop="agentPid"
+        label="代理Id"
       ></el-table-column>
       <el-table-column
         show-overflow-tooltip
-        prop="describe"
-        label="评论内容"
+        prop="agentName"
+        label="代理名称"
       ></el-table-column>
-      <el-table-column show-overflow-tooltip label="操作" width="180px">
+      <el-table-column
+        show-overflow-tooltip
+        prop="userNum"
+        label="用户数量"
+      ></el-table-column>
+      <el-table-column show-overflow-tooltip label="是否开通代理" width="180px">
         <template #default="{ row }">
-          <el-button type="text" @click="handleEdit(row)">编辑评论</el-button>
-          <el-button type="text" @click="handleDelete(row)">删除评论</el-button>
+          <el-switch
+            v-model="row.state"
+            inline-prompt
+            active-text="是"
+            inactive-text="否"
+            @change="changeAgentState(row)"
+          />
         </template>
       </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="curProfit"
+        label="当前利润"
+      ></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="totalProfit"
+        label="总利润"
+      ></el-table-column>
+      <el-table-column
+        :formatter="timeValueFormatter"
+        show-overflow-tooltip
+        prop="createTime"
+        label="创建日期"
+      ></el-table-column>
+      <!-- <el-table-column show-overflow-tooltip label="操作" width="180px">
+        <template #default="{ row }">
+          <el-button type="text" @click="handleEdit(row)">编辑</el-button>
+          <el-button type="text" @click="handleDelete(row)">删除</el-button>
+        </template>
+      </el-table-column> -->
     </el-table>
     <el-pagination
       :background="background"
@@ -54,12 +87,10 @@
   import { getList, doDelete } from '@/api/table'
   import TableEdit from './components/TableEdit'
   import TableAdd from './components/TableAdd'
-  import { getAllUserReviewList } from '@/api/review'
-  import {
-    getBookDetailListByName,
-    getBookDetailListById,
-  } from '@/api/Bookresource'
-  import { deleteBookinfo, saveBookinfo } from '@/api/Bookresource'
+  import { parseTime } from '@/utils/index'
+  //   导入代理的接口
+  import { getAgentList, updateAgentInfoState } from '@/api/agent'
+  import { deleteBookinfo } from '@/api/Bookresource'
   export default {
     name: 'ComprehensiveTable',
     components: {
@@ -101,11 +132,16 @@
       },
     },
     created() {
+      // 获取代理相关数据
       this.fetchData()
     },
     beforeDestroy() {},
     mounted() {},
     methods: {
+      timeValueFormatter(row, column) {
+        const time = parseTime(row.createTime)
+        return time
+      },
       tableSortChange() {
         const imageList = []
         this.$refs.tableSort.tableData.forEach((item, index) => {
@@ -156,34 +192,39 @@
         this.queryForm.pageNo = 1
         this.fetchDataByBookname()
       },
-      //获取所有的评论数据
+      //   获取代理数据
       async fetchData() {
         this.listLoading = true
-        var data = await getAllUserReviewList(this.queryForm)
-        var a = []
-        a = data.data.list
-        this.list = a
-        var totalCount = data.data.total
-        this.total = totalCount
-        setTimeout(() => {
-          this.listLoading = false
-        }, 500)
-      },
-      // 根据书本ID查询数据
-      async fetchDataByBookname() {
-        this.listLoading = true
-        // var data =  await getBookDetailListByName(this.queryForm.keyword)
-        let data = await getBookDetailListById(this.queryForm.keyword)
-        console.log(data)
-        console.log(data.data)
+        var data = await getAgentList()
         var a = []
         a = data.data
+        // 遍历数组对象 是否是代理模式
+        a.forEach((item) => {
+          item.state = item.state === 1 ? true : false
+        })
         this.list = a
+        // 列表共计的长度
         var totalCount = a.length
         this.total = totalCount
         setTimeout(() => {
           this.listLoading = false
         }, 500)
+      },
+      //更改代理的开通状态
+      async changeAgentState(row) {
+        if (row.state) {
+          row.state = 1
+        } else {
+          row.state = 0
+        }
+        console.log('row', row)
+        let res = await updateAgentInfoState(row)
+        if (res.data == 'success') {
+          this.$baseMessage('更改代理成功', 'success')
+          this.fetchData()
+        } else {
+          this.$baseMessage('更改代理失败', 'danger')
+        }
       },
       testMessage() {
         this.$baseMessage('test1', 'success')
