@@ -82,7 +82,6 @@ instance.interceptors.response.use(
 
     const { data, config } = response
     const { code, msg } = data
-    console.log('code:' + code)
     // 操作正常Code数组
     const codeVerificationArray = isArray(successCode)
       ? [...successCode]

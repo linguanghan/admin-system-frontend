@@ -103,8 +103,7 @@ export const asyncRoutes = [
         meta: {
           title: '特定版本购买',
           badge: 'New',
-          permissions: ['admin'],
-        },
+          permissions: ['admin'] },
       },
       {
         path: 'purchase',
@@ -113,8 +112,7 @@ export const asyncRoutes = [
         meta: {
           title: '用户购买版本',
           badge: 'New',
-          permissions: ['admin'],
-        },
+          permissions: ['admin'] },
       },
       {
         path: 'video',
@@ -123,26 +121,19 @@ export const asyncRoutes = [
         meta: {
           title: '视频查询',
           badge: 'New',
-          permissions: ['admin'],
-        },
+          permissions: ['admin'] },
       },
       {
         path: 'book',
         name: 'Book',
         component: () => import('@/views/feature/book/index'),
-        meta: { title: '书本版号', badge: 'New', permissions: ['admin'] },
+        meta: { title: '书本版号', badge: 'New',permissions: ['admin'] },
       },
       {
         path: 'review',
         name: 'Rook',
         component: () => import('@/views/feature/review/index'),
-        meta: { title: '用户评论', badge: 'New', permissions: ['admin'] },
-      },
-      {
-        path: 'agent',
-        name: 'Agent',
-        component: () => import('@/views/feature/agent/index'),
-        meta: { title: '代理审批', badge: 'New', permissions: ['admin'] },
+        meta: { title: '用户评论', badge: 'New',permissions: ['admin'] },
       },
       // {
       //   path: 'buy',

@@ -22,50 +22,36 @@
       <el-table-column
         show-overflow-tooltip
         prop="pid"
-        label="用户编号"
+        label="用户Id"
       ></el-table-column>
       <el-table-column
+        :formatter="releaseValueFormatter"
         show-overflow-tooltip
-        prop="describe"
         label="评论内容"
+        prop="describe"
       ></el-table-column>
       <el-table-column show-overflow-tooltip label="操作" width="180px">
         <template #default="{ row }">
-          <el-button type="text" @click="handleEdit(row)">编辑评论</el-button>
-          <el-button type="text" @click="handleDelete(row)">删除评论</el-button>
+          <el-button type="text" @click="handleReview(row)">评论</el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-pagination
       :background="background"
-      :current-page="queryForm.pageNo"
+      :current-page="queryForm.pageNum"
       :layout="layout"
       :page-size="queryForm.pageSize"
       :total="total"
       @current-change="handleCurrentChange"
       @size-change="handleSizeChange"
     ></el-pagination>
-    <table-edit ref="edit"></table-edit>
-    <table-add ref="add"></table-add>
   </div>
 </template>
 
 <script>
-  import { getList, doDelete } from '@/api/table'
-  import TableEdit from './components/TableEdit'
-  import TableAdd from './components/TableAdd'
   import { getAllUserReviewList } from '@/api/review'
-  import {
-    getBookDetailListByName,
-    getBookDetailListById,
-  } from '@/api/Bookresource'
-  import { deleteBookinfo, saveBookinfo } from '@/api/Bookresource'
   export default {
-    name: 'ComprehensiveTable',
-    components: {
-      TableEdit,
-      TableAdd,
-    },
+    name: 'UserReview',
     filters: {
       statusFilter(status) {
         const statusMap = {
@@ -79,19 +65,15 @@
     data() {
       return {
         showAdd: false,
-        imgShow: true,
         list: [],
-        imageList: [],
         listLoading: true,
         layout: 'total, sizes, prev, pager, next, jumper',
         total: 0,
         background: true,
-        selectRows: '',
         elementLoadingText: '正在加载...',
         queryForm: {
-          pageNo: 1,
+          pageNum: 1,
           pageSize: 20,
-          keyword: '',
         },
       }
     },
@@ -106,43 +88,11 @@
     beforeDestroy() {},
     mounted() {},
     methods: {
-      tableSortChange() {
-        const imageList = []
-        this.$refs.tableSort.tableData.forEach((item, index) => {
-          imageList.push(item.img)
-        })
-        this.imageList = imageList
-      },
       setSelectRows(val) {
         this.selectRows = val
       },
-      handleAdd() {
-        this.$refs['add'].showEdit()
-      },
-      handleEdit(row) {
-        this.$refs['edit'].showEdit(row)
-      },
-      handleDelete(row) {
-        if (row.id) {
-          this.$baseConfirm('你确定要删除当前项吗', null, async () => {
-            // const { msg } = await deleteBookinfo({ ids: row.id })
-            const { msg } = await deleteBookinfo(row)
-            this.$baseMessage(msg, 'success')
-            this.fetchData()
-          })
-        } else {
-          if (this.selectRows.length > 0) {
-            const ids = this.selectRows.map((item) => item.id).join()
-            this.$baseConfirm('你确定要删除选中项吗', null, async () => {
-              const { msg } = await deleteBookinfo({ ids: ids })
-              this.$baseMessage(msg, 'success')
-              this.fetchData()
-            })
-          } else {
-            this.$baseMessage('未选中任何行', 'error')
-            return false
-          }
-        }
+      handleReview(row) {
+        // 处理评论
       },
       handleSizeChange(val) {
         this.queryForm.pageSize = val
@@ -152,65 +102,17 @@
         this.queryForm.pageNo = val
         this.fetchData()
       },
-      handleQuery() {
-        this.queryForm.pageNo = 1
-        this.fetchDataByBookname()
-      },
-      //获取所有的评论数据
       async fetchData() {
         this.listLoading = true
         var data = await getAllUserReviewList(this.queryForm)
+        console.table(data.list)
         var a = []
-        a = data.data.list
+        a = data.list
         this.list = a
-        var totalCount = data.data.total
-        this.total = totalCount
+        this.total = data.total
         setTimeout(() => {
           this.listLoading = false
         }, 500)
-      },
-      // 根据书本ID查询数据
-      async fetchDataByBookname() {
-        this.listLoading = true
-        // var data =  await getBookDetailListByName(this.queryForm.keyword)
-        let data = await getBookDetailListById(this.queryForm.keyword)
-        console.log(data)
-        console.log(data.data)
-        var a = []
-        a = data.data
-        this.list = a
-        var totalCount = a.length
-        this.total = totalCount
-        setTimeout(() => {
-          this.listLoading = false
-        }, 500)
-      },
-      testMessage() {
-        this.$baseMessage('test1', 'success')
-      },
-      testALert() {
-        this.$baseAlert('11')
-        this.$baseAlert('11', '自定义标题', () => {
-          /* 可以写回调; */
-        })
-        this.$baseAlert('11', null, () => {
-          /* 可以写回调; */
-        })
-      },
-      testConfirm() {
-        this.$baseConfirm(
-          '你确定要执行该操作?',
-          null,
-          () => {
-            /* 可以写回调; */
-          },
-          () => {
-            /* 可以写回调; */
-          }
-        )
-      },
-      testNotify() {
-        this.$baseNotify('测试消息提示', 'test', 'success', 'bottom-right')
       },
     },
   }
