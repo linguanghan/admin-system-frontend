@@ -100,8 +100,8 @@
         // quan'hu
         title: this.$baseTitle,
         form: {
-          username: 'zhangsan',
-          password: '123345555',
+          username: 'admin',
+          password: '123456',
         },
         // 表单校验规则
         rules: {
@@ -153,11 +153,13 @@
       handleLogin() {
         //校验合法性
         this.$refs.form.validate((valid) => {
+          console.log(this.form);
           if (valid) {
             this.loading = true
             this.$store
               .dispatch('user/login', this.form)
               .then(() => {
+                console.log('进主页')
                 // 跳转到index主页
                 this.$router.push('/').catch(() => {})
                 this.loading = false

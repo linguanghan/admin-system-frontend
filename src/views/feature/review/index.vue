@@ -7,7 +7,6 @@
       :element-loading-text="elementLoadingText"
       :height="height"
       @selection-change="setSelectRows"
-      @sort-change="tableSortChange"
     >
       <el-table-column
         show-overflow-tooltip
@@ -25,7 +24,6 @@
         label="用户Id"
       ></el-table-column>
       <el-table-column
-        :formatter="releaseValueFormatter"
         show-overflow-tooltip
         label="评论内容"
         prop="describe"
@@ -105,9 +103,9 @@
       async fetchData() {
         this.listLoading = true
         var data = await getAllUserReviewList(this.queryForm)
-        console.table(data.list)
+        console.table(data)
         var a = []
-        a = data.list
+        a = data.data.list
         this.list = a
         this.total = data.total
         setTimeout(() => {

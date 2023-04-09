@@ -21,7 +21,7 @@ export function getBookDetailListByName(bookId) {
 // 根据书本的Id查询
 export function getBookDetailListById(bookId) {
   return request({
-    url: urlPrefix + '/book/resource/search',
+    url: '/book/resource/search',
     method: 'get',
     params: {
       bookId: bookId,

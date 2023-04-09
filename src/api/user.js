@@ -4,17 +4,14 @@ import { loginRSA, tokenName } from '@/config'
 // 向后端发起登录验证
 // 登录接口
 export async function login(data) {
-  if (loginRSA) {
-    data = await encryptedData(data)
-  }
-  console.log('data',data)
+  // if (loginRSA) { 暂时不使用加密
+  //   data = await encryptedData(data)
+  // }
+  console.log('data', data)
   return request({
-    url: '/login',
-    method: 'get',
-    params:{
-      'username': startTime,
-      'password': endTime,
-    },
+    url: '/user/login',
+    method: 'post',
+    data,
   })
 }
 

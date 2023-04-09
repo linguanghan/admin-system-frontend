@@ -17,25 +17,30 @@ const state = () => ({
   accessToken: getAccessToken(),
   username: '',
   avatar: '',
+  role:0,
   permissions: [],
 })
 const getters = {
   accessToken: (state) => state.accessToken,
   username: (state) => state.username,
   avatar: (state) => state.avatar,
+  role: (state) => state.role,
   permissions: (state) => state.permissions,
 }
 const mutations = {
   // 设置后端返回的Token
   setAccessToken(state, accessToken) {
     state.accessToken = accessToken
-    // setAccessToken(accessToken)
+    setAccessToken(accessToken)
   },
   setUsername(state, username) {
     state.username = username
   },
   setAvatar(state, avatar) {
     state.avatar = avatar
+  },
+  setRole(state, role) {
+    state.role = role
   },
   setPermissions(state, permissions) {
     state.permissions = permissions
@@ -47,11 +52,15 @@ const actions = {
   },
   // 调用user/login
   async login({ commit }, userInfo) {
-    const { data } = await login(userInfo)
-    console.log('tokenName',tokenName)//accessToken
-    const accessToken = data[tokenName]
+    // 向后端传递数据
+    const res = await login(userInfo)
+    const user = res.data.user
+    const accessToken = res.data.token
+    console.log("从后端返回的role值:",user.role)
     if (accessToken) {
       commit('setAccessToken', accessToken)
+      commit('setUsername', user.username)
+      commit('setRole', user.role)
       // 添加后台返回的用户信息代码
       const hour = new Date().getHours()
       const thisTime =
@@ -80,7 +89,7 @@ const actions = {
     }
     let { permissions, username, avatar } = data
     // 在这个地方进行权限的修改
-    console.log('权限:',permissions);
+    console.log('权限:', permissions)
     if (permissions && username && Array.isArray(permissions)) {
       commit('setPermissions', permissions)
       commit('setUsername', username)

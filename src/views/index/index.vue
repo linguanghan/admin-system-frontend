@@ -1,28 +1,6 @@
 <template>
   <!-- 首页 -->
   <div class="index-container">
-    <!--<el-card shadow="never">-->
-      <!--&lt;!&ndash;<div slot="header" style="display: none">&ndash;&gt;-->
-      <!--&lt;!&ndash;<span>注册人数</span>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--<div>-->
-        <!--<vab-chart autoresize :options="sqs" />-->
-      <!--</div>-->
-      <!--<div class="bottom">-->
-            <!--<span id="todayNum">-->
-              <!--今日总注册人数:-->
-              <!--&lt;!&ndash;<vab-count&ndash;&gt;-->
-              <!--&lt;!&ndash;:start-val="config2.startVal"&ndash;&gt;-->
-              <!--&lt;!&ndash;:end-val="config2.endVal"&ndash;&gt;-->
-              <!--&lt;!&ndash;:duration="config2.duration"&ndash;&gt;-->
-              <!--&lt;!&ndash;:separator="config2.separator"&ndash;&gt;-->
-              <!--&lt;!&ndash;:prefix="config2.prefix"&ndash;&gt;-->
-              <!--&lt;!&ndash;:suffix="config2.suffix"&ndash;&gt;-->
-              <!--&lt;!&ndash;:decimals="config2.decimals"&ndash;&gt;-->
-              <!--&lt;!&ndash;/>&ndash;&gt;-->
-            <!--</span>-->
-      <!--</div>-->
-    <!--</el-card>-->
 
     <el-row :gutter="10">
       <el-col :span="20">
@@ -36,15 +14,6 @@
           <div class="bottom">
             <span id="todayNum">
               今日总注册人数:
-              <!--<vab-count-->
-                <!--:start-val="config2.startVal"-->
-                <!--:end-val="config2.endVal"-->
-                <!--:duration="config2.duration"-->
-                <!--:separator="config2.separator"-->
-                <!--:prefix="config2.prefix"-->
-                <!--:suffix="config2.suffix"-->
-                <!--:decimals="config2.decimals"-->
-              <!--/>-->
             </span>
             <span style="margin-left: 5px;color: blue">
             ||

@@ -25,11 +25,9 @@ VabProgress.configure({
 router.beforeResolve(async (to, from, next) => {
   if (progressBar) VabProgress.start()
   let hasToken = store.getters['user/accessToken']
-  console.log('是否有TOKEN:hasToken',hasToken)
-  if (!loginInterception) hasToken = true
-
+ 
   if (hasToken) {
-    console.log('To Path==>',to.path)
+    console.log('To Path==>', to.path)
     //有Token直接免密登录
     if (to.path === '/login') {
       next({ path: '/' })
@@ -39,17 +37,26 @@ router.beforeResolve(async (to, from, next) => {
       const hasPermissions =
         store.getters['user/permissions'] &&
         store.getters['user/permissions'].length > 0
+      console.log('permission:',hasPermissions)
       if (hasPermissions) {
         next()
       } else {
         try {
           let permissions
           if (!loginInterception) {
-            //settings.js loginInterception为false时，创建虚拟权限
-            // await store.dispatch('user/setPermissions', ['admin'])
-            // permissions = ['admin']
+            // settings.js loginInterception为false时，创建虚拟权限
+            await store.dispatch('user/setPermissions', ['admin'])
+            permissions = ['admin']
           } else {
-            permissions = await store.dispatch('user/getUserInfo')
+            // 重新获取权限这个地方还没有做
+            let role = store.getters['user/role']
+            // 根据role类型进行权限的判断
+            if(role){
+              permissions = ['admin']
+            }else{
+              permissions = ['editor']
+            }
+            await store.dispatch('user/setPermissions', permissions)
           }
 
           let accessRoutes = []
@@ -63,6 +70,7 @@ router.beforeResolve(async (to, from, next) => {
           })
           next({ ...to, replace: true })
         } catch {
+          console.log('有异常！！')
           await store.dispatch('user/resetAccessToken')
           if (progressBar) VabProgress.done()
         }

@@ -1,5 +1,6 @@
 import request from '@/utils/request'
-import urlPrefix from '@/api/env'
+// import urlPrefix from '@/api/env'
+
 import { parseTime } from '@/utils/index'
 
 export function getChannelList() {
@@ -15,7 +16,7 @@ export function getChannelListByDate(date) {
   console.log('endTime',endTime)
 
   return request({
-    url: urlPrefix + '/player/unit/channel/sort',
+    url: '/player/unit/channel/sort',
     method: 'get',
     params:{
       'startTime': startTime,

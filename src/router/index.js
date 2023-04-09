@@ -35,8 +35,7 @@ export const asyncRoutes = [
   {
     path: '/',
     component: Layout,
-    // redirect: '/index',
-    redirect: '/feature/channel',
+    redirect: '/index',
     children: [
       {
         path: 'index',
