@@ -26,9 +26,10 @@ const getters = {
   permissions: (state) => state.permissions,
 }
 const mutations = {
+  // 设置后端返回的Token
   setAccessToken(state, accessToken) {
     state.accessToken = accessToken
-    setAccessToken(accessToken)
+    // setAccessToken(accessToken)
   },
   setUsername(state, username) {
     state.username = username
@@ -44,11 +45,14 @@ const actions = {
   setPermissions({ commit }, permissions) {
     commit('setPermissions', permissions)
   },
+  // 调用user/login
   async login({ commit }, userInfo) {
     const { data } = await login(userInfo)
+    console.log('tokenName',tokenName)//accessToken
     const accessToken = data[tokenName]
     if (accessToken) {
       commit('setAccessToken', accessToken)
+      // 添加后台返回的用户信息代码
       const hour = new Date().getHours()
       const thisTime =
         hour < 8
@@ -75,6 +79,8 @@ const actions = {
       return false
     }
     let { permissions, username, avatar } = data
+    // 在这个地方进行权限的修改
+    console.log('权限:',permissions);
     if (permissions && username && Array.isArray(permissions)) {
       commit('setPermissions', permissions)
       commit('setUsername', username)

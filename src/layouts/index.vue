@@ -1,4 +1,5 @@
 <template>
+  <!-- 主布局架构 -->
   <div class="vue-admin-beautiful-wrapper" :class="classObj">
     <div
       v-if="'horizontal' === layout"
@@ -9,12 +10,14 @@
       }"
     >
       <div :class="header === 'fixed' ? 'fixed-header' : ''">
+        <!-- 头部栏 -->
         <vab-top-bar />
         <div
           v-if="tabsBar === 'true' || tabsBar === true"
           :class="{ 'tag-view-show': tabsBar }"
         >
           <div class="vab-main">
+            <!-- 侧边栏 -->
             <vab-tabs-bar />
           </div>
         </div>
@@ -81,12 +84,14 @@
     },
     mounted() {
       this.oldLayout = this.layout
+      // 掘金展示
       const userAgent = navigator.userAgent
       if (userAgent.includes('Juejin')) {
         this.$baseAlert(
           'vue-admin-beautiful不支持在掘金内置浏览器演示，请手动复制以下地址到浏览器中查看http://mpfhrd48.sanxing.uz7.cn/vue-admin-beautiful'
         )
       }
+      // 判断当前环境是不是手机端
       const isMobile = this.handleIsMobile()
       if (isMobile) {
         if (isMobile) {
@@ -103,6 +108,7 @@
         this.$store.dispatch('settings/openSideBar')
       }
       this.$nextTick(() => {
+        // 监听存储器
         window.addEventListener(
           'storage',
           (e) => {

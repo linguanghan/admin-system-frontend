@@ -21,17 +21,21 @@ VabProgress.configure({
   trickleSpeed: 200,
   showSpinner: false,
 })
+// 路由守卫
 router.beforeResolve(async (to, from, next) => {
   if (progressBar) VabProgress.start()
   let hasToken = store.getters['user/accessToken']
-
+  console.log('是否有TOKEN:hasToken',hasToken)
   if (!loginInterception) hasToken = true
 
   if (hasToken) {
+    console.log('To Path==>',to.path)
+    //有Token直接免密登录
     if (to.path === '/login') {
       next({ path: '/' })
       if (progressBar) VabProgress.done()
     } else {
+      // 查看权限
       const hasPermissions =
         store.getters['user/permissions'] &&
         store.getters['user/permissions'].length > 0
@@ -42,8 +46,8 @@ router.beforeResolve(async (to, from, next) => {
           let permissions
           if (!loginInterception) {
             //settings.js loginInterception为false时，创建虚拟权限
-            await store.dispatch('user/setPermissions', ['admin'])
-            permissions = ['admin']
+            // await store.dispatch('user/setPermissions', ['admin'])
+            // permissions = ['admin']
           } else {
             permissions = await store.dispatch('user/getUserInfo')
           }
