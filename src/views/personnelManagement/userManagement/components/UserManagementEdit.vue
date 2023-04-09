@@ -23,6 +23,7 @@
         <el-checkbox-group v-model="form.permissions">
           <el-checkbox label="admin"></el-checkbox>
           <el-checkbox label="editor"></el-checkbox>
+          <el-checkbox label="customer"></el-checkbox>
         </el-checkbox-group>
       </el-form-item>
     </el-form>

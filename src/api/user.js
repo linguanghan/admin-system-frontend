@@ -1,15 +1,20 @@
 import request from '@/utils/request'
 import { encryptedData } from '@/utils/encrypt'
 import { loginRSA, tokenName } from '@/config'
-
+// 向后端发起登录验证
+// 登录接口
 export async function login(data) {
   if (loginRSA) {
     data = await encryptedData(data)
   }
+  console.log('data',data)
   return request({
     url: '/login',
-    method: 'post',
-    data,
+    method: 'get',
+    params:{
+      'username': startTime,
+      'password': endTime,
+    },
   })
 }
 

@@ -14,6 +14,7 @@ files.keys().forEach((key) => {
   modules[key.replace(/(\.\/|\.js)/g, '')] = files(key).default
 })
 Object.keys(modules).forEach((key) => {
+  //解决vuex命名冲突
   modules[key]['namespaced'] = true
 })
 const store = new Vuex.Store({

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+// 侧边栏布局组件
 import Layout from '@/layouts'
 import EmptyLayout from '@/layouts/EmptyLayout'
 import { publicPath, routerMode } from '@/config'
@@ -29,12 +30,13 @@ export const constantRoutes = [
     hidden: true,
   },
 ]
-
+// 首页的路由配置
 export const asyncRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/index',
+    // redirect: '/index',
+    redirect: '/feature/channel',
     children: [
       {
         path: 'index',
@@ -48,24 +50,6 @@ export const asyncRoutes = [
       },
     ],
   },
-  /* {
-    path: "/test",
-    component: Layout,
-    redirect: "noRedirect",
-    children: [
-      {
-        path: "test",
-        name: "Test",
-        component: () => import("@/views/test/index"),
-        meta: {
-          title: "test",
-          icon: "marker",
-          permissions: ["admin"],
-        },
-      },
-    ],
-  }, */
-
   {
     path: '/feature',
     component: Layout,
@@ -144,6 +128,12 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/agent/index'),
         meta: { title: '代理审批', badge: 'New', permissions: ['admin'] },
       },
+      {
+        path: 'channel',
+        name: 'Channel',
+        component: () => import('@/views/feature/channel/index'),
+        meta: { title: '渠道统计', badge: 'New', permissions: ['admin','editor'] },
+      },
       // {
       //   path: 'buy',
       //   component: () => import('@/views/feature/total/index'),
@@ -172,7 +162,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: 'noRedirect',
     name: 'PersonnelManagement',
-    meta: { title: '配置', icon: 'users-cog', permissions: ['admin'] },
+    meta: { title: '配置', icon: 'users-cog', permissions: ['admin','editor'] },
     children: [
       {
         path: 'userManagement',
@@ -188,20 +178,20 @@ export const asyncRoutes = [
           import('@/views/personnelManagement/roleManagement/index'),
         meta: { title: '角色管理' },
       },
-      // {
-      //   path: 'themeManagement',
-      //   name: 'themeManagement',
-      //   component: () =>
-      //     import('@/layouts/components/VabThemeBar/index'),
-      //   meta: { title: '主题管理' },
-      // },
-      // {
-      //   path: 'menuManagement',
-      //   name: 'MenuManagement',
-      //   component: () =>
-      //     import('@/views/personnelManagement/menuManagement/index'),
-      //   meta: { title: '菜单管理', badge: 'New' },
-      // },
+      {
+        path: 'themeManagement',
+        name: 'themeManagement',
+        component: () =>
+          import('@/layouts/components/VabThemeBar/index'),
+        meta: { title: '主题管理' },
+      },
+      {
+        path: 'menuManagement',
+        name: 'MenuManagement',
+        component: () =>
+          import('@/views/personnelManagement/menuManagement/index'),
+        meta: { title: '菜单管理', badge: 'New' },
+      },
     ],
   },
   {
