@@ -8,7 +8,6 @@ npm-debug.log*
 yarn.lock
 yarn-debug.log*
 yarn-error.log*
-.vscode
 .idea
 *.suo
 *.ntvs*
@@ -20,7 +19,7 @@ public/video
 *.7z
 /src/layouts/components/zx-layouts
 /zx-templates
-/package-lock.json
+# /package-lock.json
 /src/styles/themes/green.scss
 /src/styles/themes/dark.scss
 /src/styles/themes/glory.scss
