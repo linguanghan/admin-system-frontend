@@ -37,7 +37,6 @@ router.beforeResolve(async (to, from, next) => {
       const hasPermissions =
         store.getters['user/permissions'] &&
         store.getters['user/permissions'].length > 0
-      console.log('permission:',hasPermissions)
       if (hasPermissions) {
         next()
       } else {

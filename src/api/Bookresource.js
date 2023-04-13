@@ -8,6 +8,12 @@ export function getBookDetailList(startTime, endTime) {
     method: 'get',
   })
 }
+export function getBookList() {
+  return request({
+    url: '/book/resource/list',
+    method: 'get',
+  })
+}
 
 export function getBookDetailListByName(bookId) {
   return request({

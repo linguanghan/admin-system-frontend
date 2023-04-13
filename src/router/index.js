@@ -86,7 +86,8 @@ export const asyncRoutes = [
         meta: {
           title: '特定版本购买',
           badge: 'New',
-          permissions: ['admin'] },
+          permissions: ['admin'],
+        },
       },
       {
         path: 'purchase',
@@ -95,7 +96,8 @@ export const asyncRoutes = [
         meta: {
           title: '用户购买版本',
           badge: 'New',
-          permissions: ['admin'] },
+          permissions: ['admin'],
+        },
       },
       {
         path: 'video',
@@ -104,47 +106,37 @@ export const asyncRoutes = [
         meta: {
           title: '视频查询',
           badge: 'New',
-          permissions: ['admin'] },
+          permissions: ['admin'],
+        },
       },
       {
         path: 'book',
         name: 'Book',
         component: () => import('@/views/feature/book/index'),
-        meta: { title: '书本版号', badge: 'New',permissions: ['admin'] },
+        meta: { title: '书本版号', badge: 'New', permissions: ['admin'] },
       },
       {
         path: 'review',
         name: 'Rook',
         component: () => import('@/views/feature/review/index'),
-        meta: { title: '用户评论', badge: 'New',permissions: ['admin'] },
+        meta: { title: '用户评论', badge: 'New', permissions: ['admin'] },
       },
       {
         path: 'channel',
         name: 'Channel',
         component: () => import('@/views/feature/channel/index'),
-        meta: { title: '渠道统计', badge: 'New', permissions: ['admin','editor'] },
+        meta: { title: '渠道统计', badge: 'New', permissions: ['admin'] },
       },
-      // {
-      //   path: 'buy',
-      //   component: () => import('@/views/feature/total/index'),
-      //   name: 'Buy',
-      //   meta: {
-      //     title: '绘本新购买总数',
-      //     permissions: ['admin'],
-      //   },
-      // },
-      // {
-      //   path: 'cloud',
-      //   name: 'Cloud',
-      //   component: () => import('@/views/feature/cloud/index'),
-      //   meta: { title: '智慧云', permissions: ['admin'] },
-      // },
-      // {
-      //   path: 'duplication',
-      //   name: 'Duplication',
-      //   component: () => import('@/views/feature/duplication/index'),
-      //   meta: { title: '重复数据查询', permissions: ['admin'] },
-      // },
+      {
+        path: 'bill',
+        name: 'Bill',
+        component: () => import('@/views/feature/bill/index'),
+        meta: {
+          title: '查询充值',
+          badge: 'New',
+          permissions: ['admin', 'editor'],
+        },
+      },
     ],
   },
   {
@@ -152,7 +144,11 @@ export const asyncRoutes = [
     component: Layout,
     redirect: 'noRedirect',
     name: 'PersonnelManagement',
-    meta: { title: '配置', icon: 'users-cog', permissions: ['admin','editor'] },
+    meta: {
+      title: '配置',
+      icon: 'users-cog',
+      permissions: ['admin', 'editor'],
+    },
     children: [
       {
         path: 'userManagement',
@@ -171,8 +167,7 @@ export const asyncRoutes = [
       {
         path: 'themeManagement',
         name: 'themeManagement',
-        component: () =>
-          import('@/layouts/components/VabThemeBar/index'),
+        component: () => import('@/layouts/components/VabThemeBar/index'),
         meta: { title: '主题管理' },
       },
       {
