@@ -107,7 +107,7 @@
           <el-image
             v-if="imgShow"
             :preview-src-list="imageList"
-            :src="row.img"
+            :src="row.headimageurl"
           ></el-image>
         </template>
       </el-table-column>
@@ -176,6 +176,7 @@
   // import { getDailyList } from '@/api/table'
   import { getActiveDetailList } from '@/api/playerActive'
   import TableEdit from './components/TableEdit'
+  var moment = require('moment');
   export default {
     name: 'ComprehensiveTable',
     components: {
@@ -214,7 +215,7 @@
         },
         valueDate: '',
         valueDateStart: '',
-        valueDateDate: [],
+        valueDateDate:[moment().day(-30).format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')],
         time: {
           starttime: '',
           endtime: ''
@@ -228,7 +229,7 @@
       },
     },
     created() {
-      // this.fetchData()
+      this.fetchData()
     },
     beforeDestroy() {},
     mounted() {
