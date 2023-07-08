@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
 
-var urlPrefix = 'http://47.122.17.43:39003'
-// var urlPrefix = 'http://localhost:39003'
+// var urlPrefix = 'http://47.122.17.43:39003'
+var urlPrefix = 'http://localhost:39003'
 
 export function getList(startTime,endTime) {
   return request({
@@ -62,14 +62,16 @@ export function getActiveNum(dateTime) {
   })
 }
 
-export function getActiveDetailList(startTime,endTime) {
+export function getActiveDetailList(startTime,endTime,pageNo,pageSize) {
   return request({
     // url: 'http://47.122.17.43:39003/player/active/rangedate/detail',
     url: urlPrefix+'/player/active/rangedate/detail',
-    method: 'get',
+    method: 'post',
     params:{
       'startTime': startTime,
       'endTime': endTime,
+      'pageNo': pageNo,
+      'pageSize': pageSize
     }
   })
 }

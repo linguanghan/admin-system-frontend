@@ -229,7 +229,7 @@
       },
     },
     created() {
-      this.fetchData()
+      this.fetchData(this.queryForm)
     },
     beforeDestroy() {},
     mounted() {
@@ -281,7 +281,7 @@
           this.$baseConfirm('你确定要删除当前项吗', null, async () => {
             const { msg } = await doDelete({ ids: row.id })
             this.$baseMessage(msg, 'success')
-            this.fetchData()
+            this.fetchData(this.queryForm)
           })
         } else {
           if (this.selectRows.length > 0) {
@@ -289,7 +289,7 @@
             this.$baseConfirm('你确定要删除选中项吗', null, async () => {
               const { msg } = await doDelete({ ids: ids })
               this.$baseMessage(msg, 'success')
-              this.fetchData()
+              this.fetchData(this.queryForm)
             })
           } else {
             this.$baseMessage('未选中任何行', 'error')
@@ -299,24 +299,28 @@
       },
       handleSizeChange(val) {
         this.queryForm.pageSize = val
-        this.fetchData(val)
+        this.fetchData(this.queryForm)
       },
       handleCurrentChange(val) {
         this.queryForm.pageNo = val
-        this.fetchData(val)
+        this.fetchData(this.queryForm)
       },
       handleQuery() {
         this.queryForm.pageNo = 1
-        this.fetchData()
+        this.fetchData(this.queryForm)
       },
-      async fetchData() {
-        this.listLoading = true
+      async fetchData(queryForm) {
+      
         // if (this.valueDate < this.valueDateStart) {
         //   alert('结束日期需大于开始日期')
         //   return
         // }
+        if(this.valueDateDate == undefined ) {
+          this.$message.error('请选择日期');
+          return;
+        }
         if (this.valueDateDate[0] > this.valueDateDate[1]) {
-          alert('结束日期需大于开始日期')
+          this.$message.error('结束日期需大于开始日期')
           return
         }
         console.log(this.valueDateDate[0])
@@ -327,7 +331,7 @@
         var valStart = this.valueDateDate[0];
         console.log(val)
         if (val == undefined || val.trim().length == 0||valStart == undefined || valStart.trim().length == 0){
-          alert('请选择日期')
+          this.$message.error('请选择日期')
           return
         }
         // if (val == undefined || val.trim().length == 0){
@@ -344,15 +348,11 @@
         valStart = valStart + ' 00:00:00'
         val = val + ' 23:59:59';
         var timedate = val;
-        var data =  await getActiveDetailList(valStart,timedate)
-        console.log(data)
-        console.log(data.data)
-        var a = [];
-        a = data.data;
-        this.list = a;
-        var totalCount = a.length;
-        const imageList = []
-        this.imageList = imageList
+        this.listLoading = true
+        var data =  await getActiveDetailList(valStart,timedate, this.queryForm.pageNo, this.queryForm.pageSize)
+        var result = data?.result == undefined ? [] : data?.result; 
+        this.list = result?.data == undefined ? [] : result?.data;
+        var totalCount = result.total;
         this.total = totalCount
         setTimeout(() => {
           this.listLoading = false
