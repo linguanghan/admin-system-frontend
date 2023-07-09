@@ -94,12 +94,15 @@
       <el-table-column
         show-overflow-tooltip
         prop="channel"
-        label="渠道">
+        label="渠道"
+        :formatter="channelFormat"
+        >
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="packageidx"
-        label="包编号">
+        label="包编号"
+        >
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
@@ -114,7 +117,8 @@
       <el-table-column
         show-overflow-tooltip
         prop="period"
-        label="有效期">
+        label="有效期"
+        :formatter="periodFormatter">
       </el-table-column>
       <!--<el-table-column show-overflow-tooltip label="操作" width="180px">-->
       <!--<template #default="{ row }">-->
@@ -140,6 +144,8 @@
   // import { getDailyList } from '@/api/table'
   import { getHuibenDetailList } from '@/api/playerUnit'
   import TableEdit from './components/TableEdit'
+  import {getChannels} from '@/assets/data/ChannelDefine.js'
+  // import {getPackagesInfo} from '@/assets/data/PackageDefine.js'
   var moment = require('moment');
   export default {
     name: 'ComprehensiveTable',
@@ -167,6 +173,8 @@
         background: true,
         selectRows: '',
         elementLoadingText: '正在加载...',
+        channelsDefine:[],
+        // packagesInfo:[],
         queryForm: {
           pageNo: 1,
           pageSize: 20,
@@ -193,6 +201,8 @@
       },
     },
     created() {
+      this.channelsDefine =  getChannels();
+      // this.packagesInfo = getPackagesInfo();
       this.fetchData(this.queryForm);
     },
     beforeDestroy() {},
@@ -211,6 +221,16 @@
         var s = date.getSeconds()
         return Y+M+D+h+m+s
       },
+       periodFormatter:function(row){
+        return `${row['period']}个月`;
+      },
+      channelFormat: function(row) {
+        return this.channelsDefine.get(row.channel)         
+      },
+
+      // packageIdxFormat: function(row) {
+      //   return this.packagesInfo.get(row.packageidx) 
+      // },
       timestampToTime(row, column) {
         var date = new Date(row['createtime']); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
         var Y = date.getFullYear() + "-";

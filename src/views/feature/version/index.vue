@@ -94,12 +94,16 @@
       <el-table-column
         show-overflow-tooltip
         prop="channel"
-        label="渠道">
+        label="渠道"
+        :formatter="channelFormat"
+        >
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="packageidx"
-        label="包编号">
+        label="包编号"
+        :formatter="packageIdxFormat"
+        >
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
@@ -142,6 +146,8 @@
   // import { getDailyList } from '@/api/table'
   import { getVersionDetailList } from '@/api/playerUnit'
   import TableEdit from './components/TableEdit'
+  import {getChannels} from '@/assets/data/ChannelDefine.js'
+  import {getPackagesInfo} from '@/assets/data/PackageDefine.js'
   var moment = require('moment');
   export default {
     name: 'ComprehensiveTable',
@@ -161,6 +167,8 @@
     data() {
       return {
         imgShow: true,
+        channelsDefine:new Map(),
+        packagesInfo:new Map(),
         list: [],
         imageList: [],
         listLoading: false,
@@ -195,16 +203,25 @@
       },
     },
     created() {
-      this.fetchData(this.queryForm)
+      this.channelsDefine =  getChannels();
+      this.packagesInfo = getPackagesInfo();
+      this.fetchData(this.queryForm);
     },
     beforeDestroy() {},
     mounted() {
       this.defaultDate = new Date();
+       this.packagesInfo = getPackagesInfo();
       this.defaultDate.setMonth(new Date().getMonth()-1);
     },
     methods: {
       periodFormatter:function(row){
         return `${row['period']}个月`;
+      },
+      channelFormat: function(row) {
+        return this.channelsDefine.get(row.channel)         
+      },
+       packageIdxFormat: function(row) {
+        return this.packagesInfo.get(row.packageidx) 
       },
       dateFormatter:function(row){
         var date = new Date(row['lastlogin']*1000) //时间戳为10位需*1000，时间戳为13位的话不需乘1000
