@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
 
-// var urlPrefix = 'http://47.122.17.43:39003'
-var urlPrefix = 'http://localhost:39003'
+var urlPrefix = 'http://47.122.17.43:39003'
+// var urlPrefix = 'http://localhost:39003'
 
 export function getList(startTime,endTime) {
   return request({
@@ -27,7 +27,7 @@ export function getRegisterNum(dateTime) {
   })
 }
 
-export function getRegisterDetailList(startTime,endTime) {
+export function getRegisterDetailList(startTime,endTime,pageNo,pageSize) {
   return request({
     // url: 'http://47.122.17.43:39003/player/register/rangedate/detail',
     url: urlPrefix+'/player/register/rangedate/detail',
@@ -35,6 +35,8 @@ export function getRegisterDetailList(startTime,endTime) {
     params:{
       'startTime': startTime,
       'endTime': endTime,
+      'pageNo': pageNo,
+      'pageSize': pageSize
     }
   })
 }

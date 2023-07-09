@@ -172,7 +172,7 @@
 </template>
 
 <script>
-  import { getDailyList } from '@/api/table'
+  import { getRegisterDetailList } from '@/api/playerActive'
   import TableEdit from './components/TableEdit'
   var moment = require('moment');
   export default {
@@ -346,7 +346,7 @@
         val = val + ' 23:59:59';
         var timedate = val;
         this.listLoading = true
-        var data =  await getDailyList(valStart,timedate, queryForm.pageNo  , queryForm.pageSize)
+        var data =  await getRegisterDetailList(valStart,timedate, queryForm.pageNo  , queryForm.pageSize)
         var result = data?.result == undefined ?  [] : data?.result;
         this.list = result?.data == undefined ? [] : result?.data;
         this.total = result.total
