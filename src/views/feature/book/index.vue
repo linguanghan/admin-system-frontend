@@ -23,7 +23,7 @@
           <el-form-item>
             <el-input
               v-model.trim="queryForm.keyword"
-              placeholder="请输入书本编号"
+              placeholder="请输入书本编号/书本名称"
               clearable
             ></el-input>
           </el-form-item>
@@ -159,7 +159,7 @@
       },
     },
     created() {
-      this.fetchData()
+      this.fetchData(this.queryForm)
     },
     beforeDestroy() {},
     mounted() {},
@@ -198,17 +198,17 @@
         if (row.id) {
           this.$baseConfirm('你确定要删除当前项吗', null, async () => {
             // const { msg } = await deleteBookinfo({ ids: row.id })
-            const { msg } = await deleteBookinfo(row)
-            this.$baseMessage(msg, 'success')
-            this.fetchData()
+            const { data } = await deleteBookinfo(row)
+            this.$baseMessage(data, 'success')
+            this.fetchData(this.queryForm)
           })
         } else {
           if (this.selectRows.length > 0) {
             const ids = this.selectRows.map((item) => item.id).join()
             this.$baseConfirm('你确定要删除选中项吗', null, async () => {
-              const { msg } = await deleteBookinfo({ ids: ids })
-              this.$baseMessage(msg, 'success')
-              this.fetchData()
+              const { data } = await deleteBookinfo({ ids: ids })
+              this.$baseMessage(data, 'success')
+              this.fetchData(this.queryForm)
             })
           } else {
             this.$baseMessage('未选中任何行', 'error')
@@ -218,31 +218,34 @@
       },
       handleSizeChange(val) {
         this.queryForm.pageSize = val
-        this.fetchData()
+        this.fetchData(this.queryForm)
       },
       handleCurrentChange(val) {
         this.queryForm.pageNo = val
-        this.fetchData()
+        this.fetchData(this.queryForm)
       },
       handleQuery() {
         this.queryForm.pageNo = 1
-        this.fetchDataByBookname()
+        this.fetchData(this.queryForm)
       },
-      async fetchData() {
+      dataFormat(queryForm) {
+        let queryFormTemp = {...queryForm};
+        if( isNaN(queryFormTemp.keyword)) {
+          queryFormTemp["bookName"] = queryForm.keyword;
+        }else{
+          queryFormTemp["bookId"] = queryForm.keyword;
+        }
+        delete queryFormTemp["keyword"]
+        return queryFormTemp;
+      },
+      async fetchData(queryForm) {
+        let queryFormTemp = this.dataFormat(queryForm)    
         this.listLoading = true
-        var data = await getBookDetailList()
-        console.log(data)
-        console.log(data.data)
-        var a = []
-        a = data.data
-        this.list = a
-        var totalCount = a.length
-        const imageList = []
-        this.imageList = imageList
-        this.total = totalCount
-        setTimeout(() => {
-          this.listLoading = false
-        }, 500)
+        var data = await getBookDetailList(queryFormTemp);
+        var result = data?.result == undefined ? [] : data?.result;
+        this.list = result?.data == undefined ? [] : result.data;
+        this.total = result?.total == undefined ? 0 : result.total;
+        this.listLoading = false
       },
       // 根据书本ID查询数据
       async fetchDataByBookname() {

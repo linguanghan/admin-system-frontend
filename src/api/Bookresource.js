@@ -2,10 +2,16 @@ import request from '@/utils/request'
 // var urlPrefix = 'http://47.122.17.43:39003'
 var urlPrefix = 'http://localhost:39003'
 
-export function getBookDetailList(startTime, endTime) {
+export function getBookDetailList(queryForm) {
   return request({
     url: urlPrefix + '/book/resource/list',
-    method: 'get',
+    method: 'post',
+    params: {
+      pageNo: queryForm.pageNo,
+      pageSize: queryForm.pageSize,
+      bookId: queryForm.bookId,
+      bookName: queryForm.bookName,
+    },
   })
 }
 
