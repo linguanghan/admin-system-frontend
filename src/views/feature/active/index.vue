@@ -22,30 +22,11 @@
       >
         <el-date-picker
           v-model="valueDateDate"
-          type="daterange"
-          range-separator="至"
-          start-placeholder="选择开始日期"
-          end-placeholder="选择结束日期"
+          type="date"
           value-format="yyyy-MM-dd"
           format="yyyy-MM-dd"
           :default-value="defaultDate">
         </el-date-picker>
-        <!--<el-date-picker-->
-        <!--v-model="valueDateStart"-->
-        <!--type="date"-->
-        <!--placeholder="选择开始日期"-->
-        <!--format="yyyy-MM-dd"-->
-        <!--value-format="yyyy-MM-dd">-->
-        <!--</el-date-picker>-->
-        <!--至-->
-        <!--<el-date-picker-->
-        <!--v-model="valueDate"-->
-        <!--type="date"-->
-        <!--placeholder="选择结束日期"-->
-        <!--format="yyyy-MM-dd"-->
-        <!--value-format="yyyy-MM-dd">-->
-        <!--</el-date-picker>-->
-
         <el-button
           icon="el-icon-search"
           type="primary"
@@ -93,35 +74,14 @@
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
-        prop="name"
-        label="昵称">
+        prop="activeCount"
+        label="活跃人数">
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
-        label="性别"
-        prop="sex">
-        <template slot-scope="scope">{{ scope.row.sex === 0 ? '男' : '女' }}</template>
+        label="统计日期"
+        prop="countTime">
       </el-table-column>
-      <el-table-column show-overflow-tooltip label="头像">
-        <template #default="{ row }">
-          <el-image
-            v-if="imgShow"
-            :preview-src-list="imageList"
-            :src="row.headimageurl"
-          ></el-image>
-        </template>
-      </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        label="游戏币"
-        prop="gold"
-      ></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        label="等级"
-        prop="lv"
-        sortable
-      ></el-table-column>
       <!--<el-table-column show-overflow-tooltip label="等级">-->
       <!--<template #default="{ row }">-->
       <!--<el-tooltip-->
@@ -136,22 +96,6 @@
       <!--</el-tooltip>-->
       <!--</template>-->
       <!--</el-table-column>-->
-      <el-table-column
-        show-overflow-tooltip
-        label="创建时间"
-        prop="createtime"
-        width="180"
-        sortable
-        :formatter="timestampToTime"
-      ></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        label="最近登陆时间"
-        prop="lastlogin"
-        width="180"
-        sortable
-        :formatter="dateFormatter"
-      ></el-table-column>
       <!--<el-table-column show-overflow-tooltip label="操作" width="180px">-->
       <!--<template #default="{ row }">-->
       <!--<el-button type="text" @click="handleEdit(row)">编辑</el-button>-->
@@ -213,9 +157,7 @@
             return time.getTime() > Date.now();
           },
         },
-        valueDate: '',
-        valueDateStart: '',
-        valueDateDate:[moment().day(-30).format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')],
+        valueDateDate:moment().day(-1).format('YYYY-MM-DD'),
         time: {
           starttime: '',
           endtime: ''
@@ -310,46 +252,9 @@
         this.fetchData(this.queryForm)
       },
       async fetchData(queryForm) {
-      
-        // if (this.valueDate < this.valueDateStart) {
-        //   alert('结束日期需大于开始日期')
-        //   return
-        // }
-        if(this.valueDateDate == undefined ) {
-          this.$message.error('请选择日期');
-          return;
-        }
-        if (this.valueDateDate[0] > this.valueDateDate[1]) {
-          this.$message.error('结束日期需大于开始日期')
-          return
-        }
-        console.log(this.valueDateDate[0])
-        console.log(this.valueDateDate[1])
-        // var val = this.valueDate;
-        // var valStart = this.valueDateStart;
-        var val = this.valueDateDate[1];
-        var valStart = this.valueDateDate[0];
-        console.log(val)
-        if (val == undefined || val.trim().length == 0||valStart == undefined || valStart.trim().length == 0){
-          this.$message.error('请选择日期')
-          return
-        }
-        // if (val == undefined || val.trim().length == 0){
-        //   const nowDate = new Date();
-        //   const date = {
-        //     year: nowDate.getFullYear(),
-        //     month: nowDate.getMonth() + 1,
-        //     date: nowDate.getDate(),
-        //   }
-        //   const newmonth = date.month>10?date.month:'0'+date.month
-        //   const day = date.date>10?date.date:'0'+date.date
-        //   val = date.year + '-' + newmonth + '-' + day+' 23:59:59'
-        // }
-        valStart = valStart + ' 00:00:00'
-        val = val + ' 23:59:59';
-        var timedate = val;
+        console.log(this.valueDateDate);
         this.listLoading = true
-        var data =  await getActiveDetailList(valStart,timedate, this.queryForm.pageNo, this.queryForm.pageSize)
+        var data =  await getActiveDetailList(this.valueDateDate, this.queryForm.pageNo, this.queryForm.pageSize)
         var result = data?.result == undefined ? [] : data?.result; 
         this.list = result?.data == undefined ? [] : result?.data;
         var totalCount = result.total;

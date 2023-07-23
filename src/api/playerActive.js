@@ -64,14 +64,13 @@ export function getActiveNum(dateTime) {
   })
 }
 
-export function getActiveDetailList(startTime,endTime,pageNo,pageSize) {
+export function getActiveDetailList(countTime,pageNo,pageSize) {
   return request({
     // url: 'http://47.122.17.43:39003/player/active/rangedate/detail',
-    url: urlPrefix+'/player/active/rangedate/detail',
+    url: urlPrefix+'/active/log/fetchDailyActiveUserLogByPage',
     method: 'post',
     params:{
-      'startTime': startTime,
-      'endTime': endTime,
+      'countTime': countTime,
       'pageNo': pageNo,
       'pageSize': pageSize
     }
