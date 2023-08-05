@@ -1,9 +1,6 @@
 import request from '@/utils/request'
 import { encryptedData } from '@/utils/encrypt'
-import { loginRSA, tokenName } from '@/config'
 
-var urlPrefix = 'http://47.122.17.43:39003'
-// var urlPrefix = 'http://127.0.0.1:39003'
 
 export async function login(data) {
   console.log(data);
@@ -11,7 +8,7 @@ export async function login(data) {
   
   console.log(password);
   return request({
-     url: urlPrefix+'/user/login',
+     url: '/user/login',
      method: 'post',
      params:{
       'userName': data.username,
@@ -23,7 +20,7 @@ export async function login(data) {
 
 export function getUserInfo(username) {
   return request({
-    url: urlPrefix+'/user/getUserInfoByName',
+    url: '/user/getUserInfoByName',
      method: 'post',
      params:{
       'username': username

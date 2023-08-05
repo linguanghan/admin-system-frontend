@@ -1,10 +1,8 @@
 import request from '@/utils/request'
-var urlPrefix = 'http://47.122.17.43:39003'
-// var urlPrefix = 'http://localhost:39003'
 
 export function getBookDetailList(queryForm) {
   return request({
-    url: urlPrefix + '/book/resource/list',
+    url: '/book/resource/list',
     method: 'post',
     params: {
       pageNo: queryForm.pageNo,
@@ -17,7 +15,7 @@ export function getBookDetailList(queryForm) {
 
 export function getBookDetailListByName(bookId) {
   return request({
-    url: urlPrefix + '/book/resource/list/bookId',
+    url: '/book/resource/list/bookId',
     method: 'get',
     params: {
       bookId: bookId,
@@ -27,7 +25,7 @@ export function getBookDetailListByName(bookId) {
 // 根据书本的Id查询
 export function getBookDetailListById(bookId) {
   return request({
-    url: urlPrefix + '/book/resource/search',
+    url: '/book/resource/search',
     method: 'get',
     params: {
       bookId: bookId,
@@ -37,7 +35,7 @@ export function getBookDetailListById(bookId) {
 
 export function updateBookinfo(data) {
   return request({
-    url: urlPrefix + '/book/resource/update/info',
+    url: '/book/resource/update/info',
     method: 'post',
     data,
   })
@@ -45,7 +43,7 @@ export function updateBookinfo(data) {
 
 export function deleteBookinfo(data) {
   return request({
-    url: urlPrefix + '/book/resource/del/info',
+    url: '/book/resource/del/info',
     method: 'post',
     data,
   })
@@ -53,7 +51,7 @@ export function deleteBookinfo(data) {
 
 export function saveBookinfo(data) {
   return request({
-    url: urlPrefix + '/book/resource/save/info',
+    url: '/book/resource/save/info',
     method: 'post',
     data,
   })

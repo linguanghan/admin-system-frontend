@@ -1,12 +1,9 @@
 import request from '@/utils/request'
 
 
-var urlPrefix = 'http://47.122.17.43:39003'
-// var urlPrefix = 'http://localhost:39003'
-
 export function searchFuncBundleVersionLogByKeyWord(queryForm) {
   return request({
-    url: urlPrefix + '/funcBundleVersionLog/searchFuncBundleVersionLogByKeyWord',
+    url: '/funcBundleVersionLog/searchFuncBundleVersionLogByKeyWord',
     method: 'post',
     params: {
       pageNo: queryForm.pageNo,
@@ -18,7 +15,7 @@ export function searchFuncBundleVersionLogByKeyWord(queryForm) {
 
 export function updateFuncBundleVersionLog(data) {
   return request({
-    url: urlPrefix + '/funcBundleVersionLog/updateFuncBundleVersionLog',
+    url: '/funcBundleVersionLog/updateFuncBundleVersionLog',
     method: 'post',
     data,
   })
@@ -26,7 +23,7 @@ export function updateFuncBundleVersionLog(data) {
 
 export function deleteFuncBundleVersionLogById(data) {
   return request({
-    url: urlPrefix + '/funcBundleVersionLog/deleteFuncBundleVersionLogById',
+    url: '/funcBundleVersionLog/deleteFuncBundleVersionLogById',
     method: 'post',
     params: {
       "id":data?.id
@@ -36,7 +33,7 @@ export function deleteFuncBundleVersionLogById(data) {
 
 export function saveFuncBundleVersionLog(data) {
   return request({
-    url: urlPrefix + '/funcBundleVersionLog/saveFuncBundleVersionLog',
+    url: '/funcBundleVersionLog/saveFuncBundleVersionLog',
     method: 'post',
     data,
   })
@@ -44,7 +41,7 @@ export function saveFuncBundleVersionLog(data) {
 
 export function searchFuncBundleVersionLogByIdx(idx) {
   return request({
-    url: urlPrefix + `/funcBundleVersionLog/searchFuncBundleVersionLogByIdx?idx=${idx}`,
+    url: `/funcBundleVersionLog/searchFuncBundleVersionLogByIdx?idx=${idx}`,
     method: 'get',
   })
 }

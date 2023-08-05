@@ -23,7 +23,7 @@
           <el-form-item>
             <el-input
               v-model.trim="queryForm.keyword"
-              placeholder="请输入书本编号/书本名称"
+              placeholder="请输入功能编号/功能名称"
               clearable
             ></el-input>
           </el-form-item>

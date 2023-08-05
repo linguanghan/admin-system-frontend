@@ -157,7 +157,7 @@
             return time.getTime() > Date.now();
           },
         },
-        valueDateDate:moment().day(-1).format('YYYY-MM-DD'),
+        valueDateDate:moment().subtract(1, 'days').format('YYYY-MM-DD'),
         time: {
           starttime: '',
           endtime: ''
@@ -175,8 +175,7 @@
     },
     beforeDestroy() {},
     mounted() {
-      this.defaultDate = new Date();
-      this.defaultDate.setMonth(new Date().getMonth()-1);
+      this.defaultDate =  moment().subtract(1, 'days').format('YYYY-MM-DD');
     },
     methods: {
       dateFormatter:function(row){
