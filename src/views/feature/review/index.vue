@@ -7,7 +7,6 @@
       :element-loading-text="elementLoadingText"
       :height="height"
       @selection-change="setSelectRows"
-      @sort-change="tableSortChange"
     >
       <el-table-column
         show-overflow-tooltip
@@ -25,7 +24,6 @@
         label="用户Id"
       ></el-table-column>
       <el-table-column
-        :formatter="releaseValueFormatter"
         show-overflow-tooltip
         label="评论内容"
         prop="describe"
@@ -83,7 +81,7 @@
       },
     },
     created() {
-      this.fetchData()
+      this.fetchData(this.queryForm)
     },
     beforeDestroy() {},
     mounted() {},
@@ -96,23 +94,19 @@
       },
       handleSizeChange(val) {
         this.queryForm.pageSize = val
-        this.fetchData()
+        this.fetchData(this.queryForm)
       },
       handleCurrentChange(val) {
-        this.queryForm.pageNo = val
-        this.fetchData()
+        console.log(val);
+        this.queryForm.pageNum = val
+        this.fetchData(this.queryForm)
       },
-      async fetchData() {
+      async fetchData(queryForm) {
         this.listLoading = true
-        var data = await getAllUserReviewList(this.queryForm)
-        console.table(data.list)
-        var a = []
-        a = data.list
-        this.list = a
-        this.total = data.total
-        setTimeout(() => {
-          this.listLoading = false
-        }, 500)
+        var data = await getAllUserReviewList(queryForm)
+        this.list = data?.data?.list == undefined ? [] : data?.data?.list
+        this.total = data?.data?.total == undefined ? 0 : data?.data?.total;
+        this.listLoading = false
       },
     },
   }

@@ -23,7 +23,7 @@
           <el-form-item>
             <el-input
               v-model.trim="queryForm.keyword"
-              placeholder="请输入书本编号/书本名称"
+              placeholder="请输入功能编号/功能名称"
               clearable
             ></el-input>
           </el-form-item>
@@ -62,30 +62,38 @@
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
-        prop="bookId"
-        label="书本编号"
+        prop="idx"
+        label="功能编号"
       ></el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="name"
-        label="名称"
+        label="功能名称"
       ></el-table-column>
       <el-table-column
-        :formatter="releaseValueFormatter"
         show-overflow-tooltip
-        label="发布"
-        prop="release"
+        label="目录"
+        prop="folder"
       ></el-table-column>
       <el-table-column
-        :formatter="videoValueFormatter"
         show-overflow-tooltip
-        label="视频"
-        prop="video"
+        label="路径"
+        prop="path"
       ></el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="version"
         label="版本"
+      ></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="createTime"
+        label="创建时间"
+      ></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="updateTime"
+        label="更新时间"
       ></el-table-column>
       <el-table-column show-overflow-tooltip label="操作" width="180px">
         <template #default="{ row }">
@@ -109,15 +117,10 @@
 </template>
 
 <script>
-  import { getList, doDelete } from '@/api/table'
   import TableEdit from './components/TableEdit'
   import TableAdd from './components/TableAdd'
-  import { getBookDetailList, getAllUserReviewList } from '@/api/Bookresource'
-  import {
-    getBookDetailListByName,
-    getBookDetailListById,
-  } from '@/api/Bookresource'
-  import { deleteBookinfo, saveBookinfo } from '@/api/Bookresource'
+  import { searchFuncBundleVersionLogByKeyWord,deleteFuncBundleVersionLogById } from '@/api/funcVersion'
+  
   export default {
     name: 'ComprehensiveTable',
     components: {
@@ -198,15 +201,15 @@
         if (row.id) {
           this.$baseConfirm('你确定要删除当前项吗', null, async () => {
             // const { msg } = await deleteBookinfo({ ids: row.id })
-            const { data } = await deleteBookinfo(row)
-            this.$baseMessage(data, 'success')
+            const { errorMsg } = await deleteFuncBundleVersionLogById(row)
+            this.$baseMessage(errorMsg, 'success')
             this.fetchData(this.queryForm)
           })
         } else {
           if (this.selectRows.length > 0) {
             const ids = this.selectRows.map((item) => item.id).join()
             this.$baseConfirm('你确定要删除选中项吗', null, async () => {
-              const { data } = await deleteBookinfo({ ids: ids })
+              const { data } = await deleteFuncBundleVersionLogById({ ids: ids })
               this.$baseMessage(data, 'success')
               this.fetchData(this.queryForm)
             })
@@ -228,20 +231,9 @@
         this.queryForm.pageNo = 1
         this.fetchData(this.queryForm)
       },
-      dataFormat(queryForm) {
-        let queryFormTemp = {...queryForm};
-        if( isNaN(queryFormTemp.keyword)) {
-          queryFormTemp["bookName"] = queryForm.keyword;
-        }else{
-          queryFormTemp["bookId"] = queryForm.keyword;
-        }
-        delete queryFormTemp["keyword"]
-        return queryFormTemp;
-      },
       async fetchData(queryForm) {
-        let queryFormTemp = this.dataFormat(queryForm)    
         this.listLoading = true
-        var data = await getBookDetailList(queryFormTemp);
+        var data = await searchFuncBundleVersionLogByKeyWord(queryForm);
         var result = data?.result == undefined ? [] : data?.result;
         this.list = result?.data == undefined ? [] : result.data;
         this.total = result?.total == undefined ? 0 : result.total;

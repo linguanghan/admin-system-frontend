@@ -6,17 +6,20 @@
     @close="close"
   >
     <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-      <el-form-item label="书本编号" prop="bookId">
-        <el-input v-model.trim="form.bookId" autocomplete="off"></el-input>
+      <el-form-item v-show="show" label="id" prop="id">
+        <el-input v-model.trim="form.id" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="名称" prop="name">
+      <el-form-item label="功能编号" prop="idx" >
+        <el-input v-model.trim="form.idx" autocomplete="off" disabled ></el-input>
+      </el-form-item>
+      <el-form-item label="功能名称" prop="name">
         <el-input v-model.trim="form.name" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="发布" prop="release">
-        <el-input v-model.trim="form.release" ></el-input>
+      <el-form-item label="目录" prop="folder">
+        <el-input v-model.trim="form.folder" ></el-input>
       </el-form-item>
-      <el-form-item label="视频" prop="video">
-        <el-input v-model.trim="form.video" ></el-input>
+      <el-form-item label="路径" prop="path">
+        <el-input v-model.trim="form.path" ></el-input>
       </el-form-item>
       <el-form-item label="版本" prop="version">
         <el-input v-model.trim="form.version" autocomplete="off"></el-input>
@@ -30,47 +33,25 @@
 </template>
 
 <script>
-  import { doEdit } from '@/api/table'
-  import {updateBookinfo,saveBookinfo} from '@/api/Bookresource'
+  import {updateFuncBundleVersionLog} from '@/api/funcVersion'
 
   export default {
-    name: 'TableAdd',
+    name: 'TableEdit',
     data() {
       return {
+        show:0,
         form: {
-          bookId:'',
+          idx:'',
           name: '',
-          release: '',
-          video: '',
+          folder: '',
+          path: '',
           version: '',
         },
         rules: {
-          bookId: [{ required: true, trigger: 'blur', message: '请输入书本编号' }],
-          name: [{ required: true, trigger: 'blur', message: '请输入名称' }],
-          release: [{ required: true, trigger: 'blur', message: '是否发布：1是；0否' },
-            {
-              validator: function(rule, value, callback) {
-                if (value == 1 || value == 0 ) {
-                  //校验通过
-                  callback();
-                } else {
-                  callback(new Error("请输入0或1"));
-                }
-              },
-              trigger: "blur"
-            }],
-          video: [{ required: true,trigger: 'blur', message: '是否带有视频：1是；0否' },
-            {
-              validator: function(rule, value, callback) {
-                if (value == 1 || value == 0 ) {
-                  //校验通过
-                  callback();
-                } else {
-                  callback(new Error("请输入0或1"));
-                }
-              },
-              trigger: "blur"
-            }],
+          idx: [{ required: true, trigger: 'blur', message: '请输入功能编号' }],
+          name: [{ required: true, trigger: 'blur', message: '请输入功能名称' }],
+          folder: [{ required: true, trigger: 'blur', message: '请输入目录' }],
+          path: [{ required: true,trigger: 'blur', message: '请输入路径' }],
           version: [{ required: true, trigger: 'blur', message: '请输入版本' }],
         },
         title: '',
@@ -99,15 +80,15 @@
           if (valid) {
             var id = this.form.id
             if (id == undefined || id.length == 0){
-              const { data } = await saveBookinfo(this.form)
-              this.$baseMessage(data, 'success')
+              const { errorMsg, success } = await updateFuncBundleVersionLog(this.form)
+              this.$baseMessage(errorMsg, success ?  "success" : 'error')
               this.$refs['form'].resetFields()
               this.dialogFormVisible = false
               this.$parent.fetchData(this.$parent.queryForm)
               this.form = this.$options.data().form
             } else {
-              const { data } = await updateBookinfo(this.form)
-              this.$baseMessage(data, 'success')
+              const { errorMsg, success } = await updateFuncBundleVersionLog(this.form)
+              this.$baseMessage(errorMsg, success ?  "success" : 'error')
               this.$refs['form'].resetFields()
               this.dialogFormVisible = false
               this.$parent.fetchData(this.$parent.queryForm)

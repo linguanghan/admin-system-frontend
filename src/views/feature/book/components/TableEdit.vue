@@ -104,18 +104,19 @@
           if (valid) {
             var id = this.form.id
             if (id == undefined || id.length == 0){
-              const { msg } = await saveBookinfo(this.form)
-              this.$baseMessage(msg, 'success')
+              const { data } = await saveBookinfo(this.form)
+              this.$baseMessage(data, 'success')
               this.$refs['form'].resetFields()
               this.dialogFormVisible = false
-              this.$parent.fetchData()
+              this.$parent.fetchData(this.$parent.queryForm)
               this.form = this.$options.data().form
             } else {
-              const { msg } = await updateBookinfo(this.form)
-              this.$baseMessage(msg, 'success')
+              const { data } = await updateBookinfo(this.form)
+              // console.log(aa);
+              this.$baseMessage(data, 'success')
               this.$refs['form'].resetFields()
               this.dialogFormVisible = false
-              this.$parent.fetchData()
+              this.$parent.fetchData(this.$parent.queryForm)
               this.form = this.$options.data().form
             }
           } else {

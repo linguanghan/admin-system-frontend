@@ -45,10 +45,13 @@ const actions = {
     commit('setPermissions', permissions)
   },
   async login({ commit }, userInfo) {
-    const { data } = await login(userInfo)
-    const accessToken = data[tokenName]
+    const { result,errorMsg } = await login(userInfo)
+    const accessToken = result?.data;
+    console.log("accessToken");
     if (accessToken) {
       commit('setAccessToken', accessToken)
+      commit('setUsername', userInfo.username)
+      localStorage.setItem("username", userInfo.username)
       const hour = new Date().getHours()
       const thisTime =
         hour < 8
@@ -63,23 +66,24 @@ const actions = {
       Vue.prototype.$baseNotify(`欢迎登录${title}`, `${thisTime}！`)
     } else {
       Vue.prototype.$baseMessage(
-        `登录接口异常，未正确返回${tokenName}...`,
+        errorMsg,
         'error'
       )
     }
   },
   async getUserInfo({ commit, state }) {
-    const { data } = await getUserInfo(state.accessToken)
-    if (!data) {
+    const username = localStorage.getItem("username");
+    const { result } = await getUserInfo(username)
+    if (!result && !result?.data) {
       Vue.prototype.$baseMessage('验证失败，请重新登录...', 'error')
       return false
     }
-    let { permissions, username, avatar } = data
-    if (permissions && username && Array.isArray(permissions)) {
-      commit('setPermissions', permissions)
-      commit('setUsername', username)
+    let {userName, avatar } = result?.data;
+    if ( userName) {
+      commit('setPermissions', [userName])
+      commit('setUsername', userName)
       commit('setAvatar', avatar)
-      return permissions
+      return [userName]
     } else {
       Vue.prototype.$baseMessage('用户信息接口异常', 'error')
       return false

@@ -107,7 +107,7 @@
           <el-image
             v-if="imgShow"
             :preview-src-list="imageList"
-            :src="row.img"
+            :src="row.headimageurl"
           ></el-image>
         </template>
       </el-table-column>
@@ -172,8 +172,9 @@
 </template>
 
 <script>
-  import { getDailyList } from '@/api/table'
+  import { getRegisterDetailList } from '@/api/playerActive'
   import TableEdit from './components/TableEdit'
+  var moment = require('moment');
   export default {
     name: 'ComprehensiveTable',
     components: {
@@ -212,7 +213,7 @@
         },
         valueDate: '',
         valueDateStart: '',
-        valueDateDate: [],
+        valueDateDate: [moment().day(-30).format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')],
         time: {
           starttime: '',
           endtime: ''
@@ -226,7 +227,7 @@
       },
     },
     created() {
-      // this.fetchData()
+      this.fetchData(this.queryForm)
     },
     beforeDestroy() {},
     mounted() {
@@ -296,24 +297,27 @@
       },
       handleSizeChange(val) {
         this.queryForm.pageSize = val
-        this.fetchData(val)
+        this.fetchData(this.queryForm)
       },
       handleCurrentChange(val) {
         this.queryForm.pageNo = val
-        this.fetchData(val)
+        this.fetchData(this.queryForm)
       },
       handleQuery() {
         this.queryForm.pageNo = 1
-        this.fetchData()
+        this.fetchData(this.queryForm)
       },
-      async fetchData() {
-        this.listLoading = true
+      async fetchData(queryForm) {
         // if (this.valueDate < this.valueDateStart) {
         //   alert('结束日期需大于开始日期')
         //   return
         // }
+        if(this.valueDateDate == undefined ) {
+          this.$message.error('请选择日期');
+          return;
+        }
         if (this.valueDateDate[0] > this.valueDateDate[1]) {
-          alert('结束日期需大于开始日期')
+          this.$message.error('结束日期需大于开始日期')
           return
         }
         console.log(this.valueDateDate[0])
@@ -324,7 +328,7 @@
         var valStart = this.valueDateDate[0];
         console.log(val)
         if (val == undefined || val.trim().length == 0||valStart == undefined || valStart.trim().length == 0){
-          alert('请选择日期')
+          this.$message.error('请选择日期')
           return
         }
         // if (val == undefined || val.trim().length == 0){
@@ -340,20 +344,15 @@
         // }
         valStart = valStart + ' 00:00:00'
         val = val + ' 23:59:59';
-    var timedate = val;
-    var data =  await getDailyList(valStart,timedate)
-    console.log(data)
-    console.log(data.data)
-    var a = [];
-    a = data.data;
-    this.list = a;
-    var totalCount = a.length;
-    const imageList = []
-    this.imageList = imageList
-    this.total = totalCount
-    setTimeout(() => {
-      this.listLoading = false
-  }, 500)
+        var timedate = val;
+        this.listLoading = true
+        var data =  await getRegisterDetailList(valStart,timedate, queryForm.pageNo  , queryForm.pageSize)
+        var result = data?.result == undefined ?  [] : data?.result;
+        this.list = result?.data == undefined ? [] : result?.data;
+        this.total = result.total
+        setTimeout(() => {
+          this.listLoading = false
+      }, 500)
   },
   async fetchDailyData() {
     this.listLoading = true

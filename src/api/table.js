@@ -1,7 +1,5 @@
 import request from '@/utils/request'
 
-var urlPrefix = 'http://47.122.17.43:39001'
-// var urlPrefix = 'http://localhost:39001'
 
 export function getList(data) {
   return request({
@@ -11,14 +9,16 @@ export function getList(data) {
   })
 }
 
-export function getDailyList(startTime,endTime) {
+export function getDailyList(startTime,endTime, pageNo, pageSize ) {
   return request({
-    // url: 'http://47.122.17.43:39001/player/register/rangedate/detail',
-    url: urlPrefix+'/player/register/rangedate/detail',
-    method: 'get',
+    // url: 'http://47.122.17.43:39003/player/register/rangedate/detail',
+    url: '/player/register/rangedate/detail',
+    method: 'post',
     params:{
       'startTime': startTime,
       'endTime': endTime,
+      'pageNo': pageNo,
+      'pageSize': pageSize
     }
   })
 }

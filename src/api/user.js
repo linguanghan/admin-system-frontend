@@ -1,25 +1,30 @@
 import request from '@/utils/request'
 import { encryptedData } from '@/utils/encrypt'
-import { loginRSA, tokenName } from '@/config'
+
 
 export async function login(data) {
-  if (loginRSA) {
-    data = await encryptedData(data)
-  }
+  console.log(data);
+  const password = await encryptedData(data?.password)
+  
+  console.log(password);
   return request({
-    url: '/login',
-    method: 'post',
-    data,
+     url: '/user/login',
+     method: 'post',
+     params:{
+      'userName': data.username,
+      'password': password,
+    }
+    
   })
 }
 
-export function getUserInfo(accessToken) {
+export function getUserInfo(username) {
   return request({
-    url: '/userInfo',
-    method: 'post',
-    data: {
-      [tokenName]: accessToken,
-    },
+    url: '/user/getUserInfoByName',
+     method: 'post',
+     params:{
+      'username': username
+    }
   })
 }
 
