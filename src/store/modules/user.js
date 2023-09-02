@@ -90,7 +90,7 @@ const actions = {
     }
   },
   async logout({ dispatch }) {
-    await logout(state.accessToken)
+    // await logout(state.accessToken)
     await dispatch('resetAccessToken')
     await resetRouter()
   },

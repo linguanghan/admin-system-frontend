@@ -141,6 +141,12 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/funcVersion/index'),
         meta: { title: '功能版号', badge: 'New',permissions: ['admin','customer'] },
       },
+      {
+        path: 'eventTrackLog',
+        name: 'EventTrackLog',
+        component: () => import('@/views/feature/eventTrackLog/index'),
+        meta: { title: '埋点记录', badge: 'New',permissions: ['admin'] },
+      }
       // {
       //   path: 'buy',
       //   component: () => import('@/views/feature/total/index'),
