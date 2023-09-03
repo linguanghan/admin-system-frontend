@@ -146,6 +146,12 @@ export const asyncRoutes = [
         name: 'EventTrackLog',
         component: () => import('@/views/feature/eventTrackLog/index'),
         meta: { title: '埋点记录', badge: 'New',permissions: ['admin'] },
+      },
+      {
+        path: 'queryRecharge',
+        name: 'QueryRecharge',
+        component: () => import('@/views/feature/queryRecharge/index'),
+        meta: { title: '查询充值', badge: 'New',permissions: ['admin'] },
       }
       // {
       //   path: 'buy',
