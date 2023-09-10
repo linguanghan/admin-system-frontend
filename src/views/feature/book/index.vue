@@ -87,6 +87,13 @@
         prop="version"
         label="版本"
       ></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="bookType"
+        label="对应年级"
+        :formatter="bookTypeFormatter"
+      ></el-table-column>
+      
       <el-table-column show-overflow-tooltip label="操作" width="180px">
         <template #default="{ row }">
           <el-button type="text" @click="handleEdit(row)">编辑</el-button>
@@ -118,6 +125,7 @@
     getBookDetailListById,
   } from '@/api/Bookresource'
   import { deleteBookinfo, saveBookinfo } from '@/api/Bookresource'
+   import {getBooktypes} from '@/assets/data/bookTypeDefine.js'
   export default {
     name: 'ComprehensiveTable',
     components: {
@@ -177,6 +185,10 @@
         } else {
           return '否'
         }
+      },
+      bookTypeFormatter(row) {
+        const bookTypesMap = getBooktypes().bookTypesMap;
+        return bookTypesMap.get(row.bookType) == undefined ? 0 :  bookTypesMap.get(row.bookType);
       },
       tableSortChange() {
         const imageList = []

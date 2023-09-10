@@ -11,12 +11,7 @@ export function queryRechargeByPage(queryForm) {
   return request({
     url: '/player/unit/queryRechargeByPage',
     method: 'post',
-    params: {
-      pageNo: queryForm.pageNo,
-      pageSize: queryForm.pageSize,
-      pid: queryForm.pid,
-      orderId: queryForm.orderId,
-    },
+    params: queryForm,
   })
 }
 
@@ -29,6 +24,22 @@ export function changeRecharge(form) {
       bookIdx: form.bookIdx,
       originPid: form.originPid,
       targetPid: form.targetPid
+    },
+  })
+}
+
+/**
+ * 加锁解锁
+ * @param {*} form 
+ * @returns 
+ */
+export function updateUnlockStatus(id, unlock) {
+  return request({
+    url: '/player/unit/updateUnlockStatus',
+    method: 'post',
+    params: {
+      id: id,
+      unlock: unlock
     },
   })
 }

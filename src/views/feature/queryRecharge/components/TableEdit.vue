@@ -73,7 +73,7 @@
         this.$refs['form'].resetFields()
         this.form = this.$options.data().form
         this.dialogFormVisible = false
-        this.$emit('fetch-data')
+        this.$emit('fresh')
       },
       save() {
         this.$refs['form'].validate(async (valid) => {
@@ -81,15 +81,15 @@
             const { errorMsg, success } = await changeRecharge(this.form)
             if(success == true) {
               this.$baseMessage(errorMsg, 'success')
+              this.$emit('fresh')
             }
             else {
               this.$baseMessage(errorMsg, 'error')
             }
-            
             this.$refs['form'].resetFields()
-            this.dialogFormVisible = false
-            this.$emit('fetch-data')
+            this.$emit('fresh')
             this.form = this.$options.data().form
+            this.dialogFormVisible = false
           } else {
             return false
           }

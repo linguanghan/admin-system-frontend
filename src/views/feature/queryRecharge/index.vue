@@ -24,6 +24,7 @@
             v-model.trim="queryForm.pid" 
             autocomplete="off"
             placeholder="请输入用户账号"
+            clearable
           />
         </el-form-item>
         <el-form-item label="订单号" prop="orderId">
@@ -31,7 +32,22 @@
             v-model.trim="queryForm.orderId" 
             autocomplete="off"
             placeholder="请输入订单号"
+            clearable
           />
+        </el-form-item>
+        <el-form-item label="解锁状态" prop="unlock">
+          <el-select
+            v-model="queryForm.unlock" 
+            placeholder="请选择"
+            clearable
+            >
+            <el-option
+              v-for="item in unlockOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+          </el-option>
+        </el-select>
         </el-form-item>
         <el-button
           icon="el-icon-search"
@@ -76,7 +92,12 @@
       <el-table-column
         show-overflow-tooltip
         prop="pid"
-        label="用户账号">
+        label="购买人账号">
+      </el-table-column>
+       <el-table-column
+        show-overflow-tooltip
+        prop="playerName"
+        label="购买人名称">
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
@@ -90,13 +111,39 @@
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
-        label="购买书本类型"
-        prop="bookType">
+        label="对应年级"
+        prop="bookType"
+        :formatter="bookTypeFormatter"
+        >
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
         label="购买时间"
         prop="createTime">
+      </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="unlock"
+        label="解锁状态">
+        <template #default="{ row }">
+              <span>
+                {{ row.unlock == 1 ? '是' : '否' }}
+              </span>
+            </template>
+      </el-table-column>
+       <el-table-column
+        show-overflow-tooltip
+        prop="remainTime"
+        label="使用时间（月）">
+      </el-table-column>
+      <el-table-column show-overflow-tooltip label="操作" width="180px">
+        <template #default="{ row }">
+          <el-button type="text" @click="handleLock(row, row.unlock == 1 ?  '加锁' : '解锁' )">
+           {{ row.unlock == 1 ? 
+              '加锁' : '解锁' 
+            }}
+          </el-button>
+        </template>
       </el-table-column>
     </el-table>
     <el-pagination
@@ -108,13 +155,14 @@
       @current-change="handleCurrentChange"
       @size-change="handleSizeChange"
     ></el-pagination>
-    <table-edit ref="edit"></table-edit>
+    <table-edit ref="edit" @fresh="fetchData(queryForm)"></table-edit>
   </div>
 </template>
 
 <script>
-  import { queryRechargeByPage } from '@/api/queryRecharge'
+  import { queryRechargeByPage, updateUnlockStatus } from '@/api/queryRecharge'
   import TableEdit from './components/TableEdit'
+  import {getBooktypes} from '@/assets/data/bookTypeDefine.js'
   var moment = require('moment');
   export default {
     name: 'ComprehensiveTable',
@@ -145,10 +193,21 @@
         queryForm: {
           createTime: [],
           orderId: '',
+          unlock: '',
           pid:'',
           pageNo: 1,
           pageSize: 20
         },
+        unlockOptions:[
+          {
+            value: 1,
+            label: '是'
+          },
+          {
+            value: 0,
+            label: '否'
+          }
+        ]
       }
     },
     computed: {
@@ -189,14 +248,50 @@
       handleChange() {
         this.$refs['edit'].showEdit();
       },
+      handleLock(row, operateTypeName) {
+        this.$confirm(`是否进行${operateTypeName}操作`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(async() => {
+          console.log(row?.unlock);
+          console.log(row?.unlock ^ 1);
+          await this.updateUnlockStatus(row.id, row?.unlock ^ 1)
+          // this.listLoading = true
+          this.fetchData(this.queryForm);
+          this.$message({
+            type: 'success',
+            message: '操作成功!'
+          });
+          // this.listLoading = false
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });   
+          // this.listLoading = false       
+        });
+      },
+      bookTypeFormatter(row) {
+        const bookTypesMap = getBooktypes().bookTypesMap;
+        return bookTypesMap.get(row.bookType) == undefined ? 0 :  bookTypesMap.get(row.bookType);
+      },
+      async updateUnlockStatus(id, unlockStatus) {
+         const {success} = await updateUnlockStatus(id, unlockStatus);
+         return success;
+      },
       async fetchData(queryForm) {
-        var data =  await queryRechargeByPage(queryForm)
-        var result = data?.result == undefined ?  [] : data?.result;
-        this.list = result?.data == undefined ? [] : result?.data;
-        this.total = result.total
-        setTimeout(() => {
-          this.listLoading = false
-      }, 500)
+         this.listLoading = true
+         try {
+            var data =  await queryRechargeByPage(queryForm)
+            var result = data?.result == undefined ?  [] : data?.result;
+            this.list = result?.data == undefined ? [] : result?.data;
+            this.total = result.total
+         } catch (error) {
+            message.error(error.message);
+         } finally{
+            this.listLoading = false
+         }
   },
   async fetchDailyData() {
     this.listLoading = true

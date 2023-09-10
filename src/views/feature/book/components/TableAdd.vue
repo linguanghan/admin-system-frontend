@@ -21,6 +21,21 @@
       <el-form-item label="版本" prop="version">
         <el-input v-model.trim="form.version" autocomplete="off"></el-input>
       </el-form-item>
+      <el-form-item label="对应年级" prop="bookType">
+        <el-select
+            v-model="form.bookType" 
+            placeholder="请选择"
+            clearable
+            style="width: 100%;"
+            >
+            <el-option
+              v-for="item in bookTypeOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="close">取 消</el-button>
@@ -32,6 +47,7 @@
 <script>
   import { doEdit } from '@/api/table'
   import {updateBookinfo,saveBookinfo} from '@/api/Bookresource'
+  import {getBooktypes} from '@/assets/data/bookTypeDefine.js'
 
   export default {
     name: 'TableAdd',
@@ -44,6 +60,7 @@
           video: '',
           version: '',
         },
+        bookTypeOptions:[],
         rules: {
           bookId: [{ required: true, trigger: 'blur', message: '请输入书本编号' }],
           name: [{ required: true, trigger: 'blur', message: '请输入名称' }],
@@ -72,12 +89,15 @@
               trigger: "blur"
             }],
           version: [{ required: true, trigger: 'blur', message: '请输入版本' }],
+          bookType:  [{ required: true, trigger: 'blur', message: '请选择对应年级' }],
         },
         title: '',
         dialogFormVisible: false,
       }
     },
-    created() {},
+    created() {
+      this.bookTypeOptions = getBooktypes().bookTypeOptions;
+    },
     methods: {
       showEdit(row) {
         if (!row) {
