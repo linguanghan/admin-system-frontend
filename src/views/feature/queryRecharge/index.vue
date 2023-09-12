@@ -136,10 +136,16 @@
         prop="remainTime"
         label="使用时间（月）">
       </el-table-column>
+       <el-table-column
+        show-overflow-tooltip
+        prop="deadLineTime"
+        label="书本截止使用时间">
+      </el-table-column>
       <el-table-column show-overflow-tooltip label="操作" width="180px">
         <template #default="{ row }">
           <el-button type="text" @click="handleLock(row, row.unlock == 1 ?  '加锁' : '解锁' )">
-           {{ row.unlock == 1 ? 
+           {{ row.unlockShow == 0 ? 
+              '' : row.unlock == 1 ?
               '加锁' : '解锁' 
             }}
           </el-button>
@@ -256,13 +262,21 @@
         }).then(async() => {
           console.log(row?.unlock);
           console.log(row?.unlock ^ 1);
-          await this.updateUnlockStatus(row.id, row?.unlock ^ 1)
+          const res = await this.updateUnlockStatus(row.id, row?.unlock ^ 1)
           // this.listLoading = true
           this.fetchData(this.queryForm);
-          this.$message({
-            type: 'success',
-            message: '操作成功!'
-          });
+          if(res?.success == true) {
+            this.$message({
+              type: 'success',
+              message: '操作成功!'
+            });
+          }else{
+            this.$message({
+              type: 'error',
+              message: res?.errorMsg
+            });
+          }
+          
           // this.listLoading = false
         }).catch(() => {
           this.$message({
@@ -277,8 +291,8 @@
         return bookTypesMap.get(row.bookType) == undefined ? 0 :  bookTypesMap.get(row.bookType);
       },
       async updateUnlockStatus(id, unlockStatus) {
-         const {success} = await updateUnlockStatus(id, unlockStatus);
-         return success;
+         const res = await updateUnlockStatus(id, unlockStatus);
+         return res;
       },
       async fetchData(queryForm) {
          this.listLoading = true
