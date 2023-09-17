@@ -66,6 +66,14 @@
         >
         转移
         </el-button>
+         <el-button
+          type="primary"
+          native-type="submit"
+          style="margin-left: 10px"
+          @click="handleAdd"
+        >
+        新增
+        </el-button>
        
       </el-form>
     </vab-query-form>
@@ -141,6 +149,16 @@
         prop="deadLineTime"
         label="书本截止使用时间">
       </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="totalTime"
+        label="学习时长（分钟）">
+        <template #default="{ row }">
+              <span>
+                {{ row.totalTime == undefined ? '未学习' : row.totalTime }}
+              </span>
+            </template>
+      </el-table-column>
       <el-table-column show-overflow-tooltip label="操作" width="180px">
         <template #default="{ row }">
           <el-button type="text" @click="handleLock(row, row.unlock == 1 ?  '加锁' : '解锁' )">
@@ -148,6 +166,9 @@
               '' : row.unlock == 1 ?
               '加锁' : '解锁' 
             }}
+          </el-button>
+          <el-button type="text" @click="handleEdit(row)">
+           编辑
           </el-button>
         </template>
       </el-table-column>
@@ -161,19 +182,25 @@
       @current-change="handleCurrentChange"
       @size-change="handleSizeChange"
     ></el-pagination>
-    <table-edit ref="edit" @fresh="fetchData(queryForm)"></table-edit>
+    <book-change-form ref="book-change-form" @fresh="fetchData(queryForm)"></book-change-form>
+    <edit-form ref="edit-form"  @fresh="fetchData(queryForm)"></edit-form>
+    <add-form ref="add-form"  @fresh="fetchData(queryForm)"></add-form>
   </div>
 </template>
 
 <script>
   import { queryRechargeByPage, updateUnlockStatus } from '@/api/queryRecharge'
-  import TableEdit from './components/TableEdit'
+  import BookChangeForm from './components/BookChangeForm'
+  import EditForm from './components/EditForm'
+  import AddForm from './components/AddForm'
   import {getBooktypes} from '@/assets/data/bookTypeDefine.js'
   var moment = require('moment');
   export default {
     name: 'ComprehensiveTable',
     components: {
-      TableEdit,
+      BookChangeForm,
+      EditForm,
+      AddForm
     },
     filters: {
       statusFilter(status) {
@@ -252,7 +279,11 @@
         this.fetchData(this.queryForm)
       },
       handleChange() {
-        this.$refs['edit'].showEdit();
+        this.$refs['book-change-form'].showEdit();
+      },
+      handleAdd() {
+        this.$refs['add-form'].showEdit();
+        console.log("新增");
       },
       handleLock(row, operateTypeName) {
         this.$confirm(`是否进行${operateTypeName}操作`, '提示', {
@@ -306,7 +337,11 @@
          } finally{
             this.listLoading = false
          }
-  },
+      },
+      handleEdit(row) {
+        this.$refs['edit-form'].showEdit(row);
+        console.log("编辑", row);
+      },
   async fetchDailyData() {
     this.listLoading = true
     const { data, totalCount } = await getList(this.queryForm)

@@ -203,7 +203,7 @@
       },
     },
     created() {
-      this.channelsDefine =  getChannels();
+      this.channelsDefine = getChannels().ChannelsMap;
       this.packagesInfo = getPackagesInfo();
       this.fetchData(this.queryForm);
     },

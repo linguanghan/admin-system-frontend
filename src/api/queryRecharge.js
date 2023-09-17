@@ -44,3 +44,47 @@ export function updateUnlockStatus(id, unlock) {
   })
 }
 
+export function queryBookResourceOptions(pid) {
+  return request({
+    url: '/player/unit/queryBookResourceOptions',
+    method: 'get',
+    params:{
+      'pid': pid
+    }
+  })
+  
+}
+
+export function addBookUnit(param) {
+  return request({
+    url: '/player/unit/addBookUnit',
+    method: 'post',
+    params:{
+      'pid': param?.pid,
+      'channel': param?.channel,
+      'packageIdx': param?.packageIdx,
+      'bookIdx': param?.bookIdx,
+      'remainTime': param?.remainTime
+    }
+  })
+  
+}
+
+export function updateBookUnitUpdateTimeOrLearnTime(param) {
+  return request({
+    url: '/player/unit/updateBookUnitUpdateTimeOrLearnTime',
+    method: 'post',
+    params:{
+      'pid': param?.pid,
+      'bookIdx': param?.bookIdx,
+      'remainTime': param?.remainTime,
+      'learnTime': param?.totalTime
+    }
+  })
+  
+}
+
+
+
+
+
