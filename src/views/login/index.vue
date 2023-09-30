@@ -26,7 +26,6 @@
             </span>
             <el-input
               v-model.trim="form.username"
-              v-focus
               placeholder="请输入用户名"
               tabindex="1"
               type="text"
@@ -138,6 +137,8 @@
     },
     created() {
       document.body.style.overflow = 'hidden'
+      // 每5s试探自动登录
+      setInterval(this.autoLogin, 5000)
     },
     beforeDestroy() {
       document.body.style.overflow = 'auto'
@@ -175,6 +176,15 @@
           }
         })
       },
+      autoLogin() {
+        if(this.form.username != undefined 
+        && this.form.username != '' 
+        && this.form.password != undefined
+        && this.form.password != ''
+        ) {
+          this.handleLogin()
+        }
+      }
     },
   }
 </script>
