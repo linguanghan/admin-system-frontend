@@ -125,13 +125,13 @@
         },
         loading: false,
         passwordType: 'password',
-        redirect: undefined,
+        redirect: '/feature/review',
       }
     },
     watch: {
       $route: {
         handler(route) {
-          this.redirect = (route.query && route.query.redirect) || '/'
+          this.redirect = (route.query && route.query.redirect) || '/feature/review'
         },
         immediate: true,
       },
@@ -163,7 +163,7 @@
                 const routerPath =
                   this.redirect === '/404' || this.redirect === '/401'
                     ? '/'
-                    : this.redirect
+                    : '/feature/review'
                 this.$router.push(routerPath).catch(() => {})
                 this.loading = false
               })
