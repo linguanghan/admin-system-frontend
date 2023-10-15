@@ -126,6 +126,12 @@
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
+        label="包编号"
+        prop="packageIdx"
+        >
+      </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
         label="购买时间"
         prop="createTime">
       </el-table-column>
