@@ -28,6 +28,15 @@
         label="评论内容"
         prop="describe"
       ></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        label="评论时间"
+        prop="time"
+      >
+        <template #default="{ row }">
+          {{ row.time == undefined ? "-" : row.time}}
+        </template>
+      </el-table-column>
       <el-table-column show-overflow-tooltip label="操作" width="180px">
         <template #default="{ row }">
           <el-button type="text" @click="handleReview(row)">评论</el-button>

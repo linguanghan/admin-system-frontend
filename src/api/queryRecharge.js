@@ -75,10 +75,14 @@ export function updateBookUnitUpdateTimeOrLearnTime(param) {
     url: '/player/unit/updateBookUnitUpdateTimeOrLearnTime',
     method: 'post',
     params:{
+      'id': param?.id,
       'pid': param?.pid,
       'bookIdx': param?.bookIdx,
       'remainTime': param?.remainTime,
-      'learnTime': param?.totalTime
+      'learnTime': param?.totalTime,
+      'createTime':  param?.createTime,
+      'bookType': param?.bookType,
+      'packageIdx': param?.packageIdx
     }
   })
   

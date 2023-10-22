@@ -112,7 +112,7 @@ export const asyncRoutes = [
         meta: {
           title: '用户购买版本',
           badge: 'New',
-          permissions: ['admin','customer'] },
+          permissions: ['admin'] },
       },
       {
         path: 'video',
@@ -127,7 +127,7 @@ export const asyncRoutes = [
         path: 'book',
         name: 'Book',
         component: () => import('@/views/feature/book/index'),
-        meta: { title: '书本版号', badge: 'New',permissions: ['admin','customer'] },
+        meta: { title: '书本版号', badge: 'New',permissions: ['admin'] },
       },
       {
         path: 'review',
@@ -139,7 +139,7 @@ export const asyncRoutes = [
         path: 'funcVersion',
         name: 'FuncVersion',
         component: () => import('@/views/feature/funcVersion/index'),
-        meta: { title: '功能版号', badge: 'New',permissions: ['admin','customer'] },
+        meta: { title: '功能版号', badge: 'New',permissions: ['admin'] },
       },
       {
         path: 'eventTrackLog',
