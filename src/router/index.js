@@ -127,7 +127,7 @@ export const asyncRoutes = [
         path: 'book',
         name: 'Book',
         component: () => import('@/views/feature/book/index'),
-        meta: { title: '书本版号', badge: 'New',permissions: ['admin'] },
+        meta: { title: '书本版号', badge: 'New',permissions: ['admin','customer2', 'customer3'] },
       },
       {
         path: 'review',
@@ -139,7 +139,7 @@ export const asyncRoutes = [
         path: 'funcVersion',
         name: 'FuncVersion',
         component: () => import('@/views/feature/funcVersion/index'),
-        meta: { title: '功能版号', badge: 'New',permissions: ['admin'] },
+        meta: { title: '功能版号', badge: 'New',permissions: ['admin', 'customer2', 'customer3'] },
       },
       {
         path: 'eventTrackLog',
@@ -151,7 +151,13 @@ export const asyncRoutes = [
         path: 'queryRecharge',
         name: 'QueryRecharge',
         component: () => import('@/views/feature/queryRecharge/index'),
-        meta: { title: '查询充值', badge: 'New',permissions: ['admin'] },
+        meta: { title: '查询充值', badge: 'New',permissions: ['admin', 'customer'] },
+      },
+      {
+        path: 'playerext',
+        name: 'Playerext',
+        component: () => import('@/views/feature/playerext/index'),
+        meta: { title: '绘本VIP查询', badge: 'New',permissions: ['admin'] },
       },
       {
         path: '/record',

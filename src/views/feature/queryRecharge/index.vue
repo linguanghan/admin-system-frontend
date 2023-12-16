@@ -7,18 +7,6 @@
         :inline="true"
         @submit.native.prevent
       >
-        <!-- <el-form-item label="购买时间">
-          <el-date-picker
-            v-model="queryForm.createTime"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="选择开始日期"
-            end-placeholder="选择结束日期"
-            value-format="yyyy-MM-dd"
-            format="yyyy-MM-dd"
-            :default-value="defaultDate">
-          </el-date-picker>
-        </el-form-item> -->
          <el-form-item label="账号" prop="orderId">
           <el-input 
             v-model.trim="queryForm.pid" 
@@ -26,6 +14,17 @@
             placeholder="请输入用户账号"
             clearable
           />
+        </el-form-item>
+         <el-form-item label="购买时间">
+          <el-date-picker
+            v-model="queryForm.createTime"
+            type="datetimerange"
+            range-separator="至"
+            start-placeholder="选择开始日期"
+            end-placeholder="选择结束日期"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            format="yyyy-MM-dd HH:mm:ss">
+          </el-date-picker>
         </el-form-item>
         <el-form-item label="订单号" prop="orderId">
           <el-input 
@@ -158,7 +157,7 @@
       <el-table-column
         show-overflow-tooltip
         prop="totalTime"
-        label="学习时长（分钟）">
+        label="学习总时长（分钟）">
         <template #default="{ row }">
               <span>
                 {{ row.totalTime == undefined ? '未学习' : row.totalTime }}
@@ -333,8 +332,14 @@
       },
       async fetchData(queryForm) {
          this.listLoading = true
+         if(Array.isArray(queryForm.createTime)){
+          queryForm["startTime"] = queryForm.createTime[0];
+          queryForm["endTime"] = queryForm.createTime[1];
+         }
+         const queryFormTemp = {...queryForm}
+         delete queryFormTemp.createTime;
          try {
-            var data =  await queryRechargeByPage(queryForm)
+            var data =  await queryRechargeByPage(queryFormTemp)
             var result = data?.result == undefined ?  [] : data?.result;
             this.list = result?.data == undefined ? [] : result?.data;
             this.total = result.total

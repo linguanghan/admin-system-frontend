@@ -64,7 +64,8 @@ export function addBookUnit(param) {
       'channel': param?.channel,
       'packageIdx': param?.packageIdx,
       'bookIdx': param?.bookIdx,
-      'remainTime': param?.remainTime
+      'remainTime': param?.remainTime,
+      'bookType': param?.bookType
     }
   })
   
@@ -82,7 +83,27 @@ export function updateBookUnitUpdateTimeOrLearnTime(param) {
       'learnTime': param?.totalTime,
       'createTime':  param?.createTime,
       'bookType': param?.bookType,
-      'packageIdx': param?.packageIdx
+      'packageIdx': param?.packageIdx,
+      'learnTimeUnit1': param?.learnTimeUnit1,
+      'learnTimeUnit2': param?.learnTimeUnit2,
+      'learnTimeUnit3': param?.learnTimeUnit3,
+      'learnTimeUnit4': param?.learnTimeUnit4,
+      'learnTimeUnit5': param?.learnTimeUnit5,
+      'learnTimeUnit6': param?.learnTimeUnit6,
+      'learnTimeUnit7': param?.learnTimeUnit7,
+      'learnTimeUnit8': param?.learnTimeUnit8,
+      'learnTimeUnit9': param?.learnTimeUnit9,
+      'learnTimeUnit10': param?.learnTimeUnit10,
+      'learnTimeUnit11': param?.learnTimeUnit11,
+      'learnTimeUnit12': param?.learnTimeUnit12,
+      'learnTimeUnit13': param?.learnTimeUnit13,
+      'learnTimeUnit14': param?.learnTimeUnit14,
+      'learnTimeUnit15': param?.learnTimeUnit15,
+      'learnTimeUnit16': param?.learnTimeUnit16,
+      'learnTimeUnit17': param?.learnTimeUnit17,
+      'learnTimeUnit18': param?.learnTimeUnit18,
+      'learnTimeUnit19': param?.learnTimeUnit19,
+      'learnTimeUnit20': param?.learnTimeUnit20
     }
   })
   

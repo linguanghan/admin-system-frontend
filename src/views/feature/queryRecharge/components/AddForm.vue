@@ -42,6 +42,21 @@
           </el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="对应年级" prop="bookType">
+        <el-select
+            v-model="form.bookType" 
+            placeholder="请选择"
+            clearable
+            style="width: 100%;"
+            >
+            <el-option
+              v-for="item in bookTypeOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="使用时间（月）" prop="remainTime">
         <el-input  v-model.trim="form.remainTime" placeholder="单位（月）" autocomplete="off"></el-input>
       </el-form-item>
@@ -57,6 +72,7 @@
   import { queryBookResourceOptions, addBookUnit } from '@/api/queryRecharge'
   
   import {getChannels} from '@/assets/data/ChannelDefine.js'
+  import {getBooktypes} from '@/assets/data/bookTypeDefine.js'
   export default {
     name: 'TableEdit',
     data() {
@@ -82,6 +98,7 @@
           packageIdx: undefined,
           remainTime: undefined
         },
+        bookTypeOptions:[],
         bookIdxOptions: [],
         channelOptions: getChannels().channelOptions,
         rules: {
@@ -89,6 +106,7 @@
           channel: [{  required: true, trigger: 'blur', message: '请选择渠道' }],
           bookIdx: [{  required: true, trigger: 'blur', message: '请选择书本编号' }],
           packageIdx: [{  required: true, trigger: 'blur', message: '请输入包编号' }],
+          bookType: [{  required: true, trigger: 'blur', message: '请输入对应年级' }],
           remainTime: [{  required: true, validator: validRemainTime, trigger: 'blur', message: '请输入使用时间' }]
         },
         title: '',
@@ -96,6 +114,7 @@
       }
     },
     created() {
+      this.bookTypeOptions = getBooktypes().bookTypeOptions;
     },
     methods: {
       showEdit(row) {
