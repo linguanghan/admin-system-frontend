@@ -24,6 +24,9 @@
       <el-form-item label="版本" prop="version">
         <el-input v-model.trim="form.version" autocomplete="off"></el-input>
       </el-form-item>
+      <el-form-item label="服务器地址" prop="serverAddress">
+        <el-input v-model.trim="form.serverAddress" autocomplete="off"></el-input>
+      </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="close">取 消</el-button>
@@ -48,6 +51,7 @@
           release: '',
           video: '',
           version: '',
+          serverAddress: '',
         },
         rules: {
           bookId: [{ required: true, trigger: 'blur', message: '请输入书本编号' }],

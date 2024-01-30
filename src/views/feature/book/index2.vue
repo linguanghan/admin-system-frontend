@@ -116,6 +116,11 @@
         prop="version"
         label="版本">
       </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="serverAddress"
+        label="服务器地址">
+      </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button
