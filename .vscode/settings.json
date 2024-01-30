@@ -1,7 +1,4 @@
 {
-  "[vue]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "editor.quickSuggestions": {
     "strings": true
   },
@@ -9,8 +6,8 @@
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
   "emmet.triggerExpansionOnTab": true,
-  "editor.formatOnSave": true,
-  "javascript.format.enable": true,
+  "editor.formatOnSave": false,
+  "javascript.format.enable": false,
   "git.enableSmartCommit": true,
   "git.autofetch": true,
   "git.confirmSync": false,

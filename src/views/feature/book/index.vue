@@ -87,6 +87,11 @@
         prop="version"
         label="版本"
       ></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="serverAddress"
+        label="服务器地址"
+      ></el-table-column>
       <el-table-column show-overflow-tooltip label="操作" width="180px">
         <template #default="{ row }">
           <el-button type="text" @click="handleEdit(row)">编辑</el-button>
@@ -245,6 +250,8 @@
         var result = data?.result == undefined ? [] : data?.result;
         this.list = result?.data == undefined ? [] : result.data;
         this.total = result?.total == undefined ? 0 : result.total;
+        console.log(this.list);
+        console.log(this.total);
         this.listLoading = false
       },
       // 根据书本ID查询数据
