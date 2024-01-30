@@ -1,6 +1,10 @@
 export function getBooktypes() {
   const bookTypeOptions = [
     {
+      label: "未知",
+      value: 0
+    },
+    {
       label: "一年级上册",
       value: 11
     },

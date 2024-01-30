@@ -154,10 +154,26 @@ export const asyncRoutes = [
         meta: { title: '查询充值', badge: 'New',permissions: ['admin', 'customer'] },
       },
       {
-        path: 'playerext',
-        name: 'Playerext',
-        component: () => import('@/views/feature/playerext/index'),
-        meta: { title: '绘本VIP查询', badge: 'New',permissions: ['admin'] },
+        path: '/huibenVip',
+        component: EmptyLayout,
+        redirect: 'noRedirect',
+        name: 'HuibenVip',
+        alwaysShow: true,
+        meta: { title: '绘本VIP', badge: 'New', permissions: ['admin']},
+        children: [
+          {
+            path: 'vipRecordList',
+            name: 'VipRecordList',
+            component: () => import('@/views/feature/playerext/vipRecordList/index'),
+            meta: { title: '绘本VIP查询', badge: 'New', permissions: ['admin'] },
+          },
+          {
+            path: 'vipDailyRecord',
+            name: 'VipDailyRecord',
+            component: () => import('@/views/feature/playerext/vipDailyRecord/index'),
+            meta: { title: '绘本VIP充值查询', badge: 'New', permissions: ['admin'] },
+          }
+        ]
       },
       {
         path: '/record',
