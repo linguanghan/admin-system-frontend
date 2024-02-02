@@ -106,6 +106,7 @@
         var data = await getAllUserReviewList(queryForm)
         this.list = data?.data?.list == undefined ? [] : data?.data?.list
         this.total = data?.data?.total == undefined ? 0 : data?.data?.total;
+        console.log(this.total);
         this.listLoading = false
       },
     },

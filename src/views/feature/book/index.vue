@@ -244,7 +244,7 @@
         return queryFormTemp;
       },
       async fetchData(queryForm) {
-        let queryFormTemp = this.dataFormat(queryForm)    
+        let queryFormTemp = this.dataFormat(queryForm)
         this.listLoading = true
         var data = await getBookDetailList(queryFormTemp);
         var result = data?.result == undefined ? [] : data?.result;
