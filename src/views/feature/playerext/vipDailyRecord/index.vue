@@ -22,30 +22,11 @@
       >
         <el-date-picker
           v-model="valueDateDate"
-          type="daterange"
-          range-separator="至"
-          start-placeholder="选择开始日期"
-          end-placeholder="选择结束日期"
+          type="date"
           value-format="yyyy-MM-dd"
           format="yyyy-MM-dd"
           :default-value="defaultDate">
         </el-date-picker>
-        <!--<el-date-picker-->
-        <!--v-model="valueDateStart"-->
-        <!--type="date"-->
-        <!--placeholder="选择开始日期"-->
-        <!--format="yyyy-MM-dd"-->
-        <!--value-format="yyyy-MM-dd">-->
-        <!--</el-date-picker>-->
-        <!--至-->
-        <!--<el-date-picker-->
-        <!--v-model="valueDate"-->
-        <!--type="date"-->
-        <!--placeholder="选择结束日期"-->
-        <!--format="yyyy-MM-dd"-->
-        <!--value-format="yyyy-MM-dd">-->
-        <!--</el-date-picker>-->
-
         <el-button
           icon="el-icon-search"
           type="primary"
@@ -93,33 +74,28 @@
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
-        prop="channel"
-        label="渠道"
-        :formatter="channelFormat"
-        >
+        prop="vipRechargeCount"
+        label="充值人数">
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
-        prop="packageidx"
-        label="包编号"
-        >
+        label="统计日期"
+        prop="countTime">
       </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="bookidx"
-        label="书本编号">
-      </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="booktype"
-        label="书本对应年级">
-      </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="period"
-        label="有效期"
-        :formatter="periodFormatter">
-      </el-table-column>
+      <!--<el-table-column show-overflow-tooltip label="等级">-->
+      <!--<template #default="{ row }">-->
+      <!--<el-tooltip-->
+      <!--:content="row.status"-->
+      <!--class="item"-->
+      <!--effect="dark"-->
+      <!--placement="top-start"-->
+      <!--&gt;-->
+      <!--<el-tag :type="row.status | statusFilter">-->
+      <!--{{ row.status }}-->
+      <!--</el-tag>-->
+      <!--</el-tooltip>-->
+      <!--</template>-->
+      <!--</el-table-column>-->
       <!--<el-table-column show-overflow-tooltip label="操作" width="180px">-->
       <!--<template #default="{ row }">-->
       <!--<el-button type="text" @click="handleEdit(row)">编辑</el-button>-->
@@ -136,21 +112,16 @@
       @current-change="handleCurrentChange"
       @size-change="handleSizeChange"
     ></el-pagination>
-    <table-edit ref="edit"></table-edit>
   </div>
 </template>
 
 <script>
   // import { getDailyList } from '@/api/table'
-  import { getHuibenDetailList } from '@/api/playerUnit'
-  import TableEdit from './components/TableEdit'
-  import {getChannels} from '@/assets/data/ChannelDefine.js'
-  // import {getPackagesInfo} from '@/assets/data/PackageDefine.js'
+  import { fetchDailyVipRechargeUserLogByPage } from '@/api/playerVipRecharge'
   var moment = require('moment');
   export default {
     name: 'ComprehensiveTable',
     components: {
-      TableEdit,
     },
     filters: {
       statusFilter(status) {
@@ -173,8 +144,6 @@
         background: true,
         selectRows: '',
         elementLoadingText: '正在加载...',
-        channelsDefine:[],
-        // packagesInfo:[],
         queryForm: {
           pageNo: 1,
           pageSize: 20,
@@ -185,9 +154,7 @@
             return time.getTime() > Date.now();
           },
         },
-        valueDate: '',
-        valueDateStart: '',
-        valueDateDate: [moment().day(-30).format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')],
+        valueDateDate:moment().subtract(1, 'days').format('YYYY-MM-DD'),
         time: {
           starttime: '',
           endtime: ''
@@ -201,14 +168,11 @@
       },
     },
     created() {
-      this.channelsDefine =  getChannels().ChannelsMap;
-      // this.packagesInfo = getPackagesInfo();
-      this.fetchData(this.queryForm);
+      this.fetchData(this.queryForm)
     },
     beforeDestroy() {},
     mounted() {
-      this.defaultDate = new Date();
-      this.defaultDate.setMonth(new Date().getMonth()-1);
+      this.defaultDate =  moment().subtract(1, 'days').format('YYYY-MM-DD');
     },
     methods: {
       dateFormatter:function(row){
@@ -221,16 +185,6 @@
         var s = date.getSeconds()
         return Y+M+D+h+m+s
       },
-       periodFormatter:function(row){
-        return `${row['period']}个月`;
-      },
-      channelFormat: function(row) {
-        return this.channelsDefine.get(row.channel)         
-      },
-
-      // packageIdxFormat: function(row) {
-      //   return this.packagesInfo.get(row.packageidx) 
-      // },
       timestampToTime(row, column) {
         var date = new Date(row['createtime']); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
         var Y = date.getFullYear() + "-";
@@ -255,10 +209,8 @@
         this.selectRows = val
       },
       handleAdd() {
-        this.$refs['edit'].showEdit()
       },
       handleEdit(row) {
-        this.$refs['edit'].showEdit(row)
       },
       handleDelete(row) {
         if (row.id) {
@@ -294,48 +246,13 @@
         this.fetchData(this.queryForm)
       },
       async fetchData(queryForm) {
-        // if (this.valueDate < this.valueDateStart) {
-        //   alert('结束日期需大于开始日期')
-        //   return
-        // }
-        if(this.valueDateDate == undefined) {
-          this.$message.error('请选择日期')
-          return;
-        }
-        if (this.valueDateDate[0] > this.valueDateDate[1]) {
-          this.$message.error('结束日期需大于开始日期')
-          return;
-        }
-        console.log(this.valueDateDate[0])
-        console.log(this.valueDateDate[1])
-        // var val = this.valueDate;
-        // var valStart = this.valueDateStart;
-        var val = this.valueDateDate[1];
-        var valStart = this.valueDateDate[0];
-        console.log(val)
-        if (val == undefined || val.trim().length == 0||valStart == undefined || valStart.trim().length == 0){
-          this.$message.error('请选择日期')
-          return
-        }
-        // if (val == undefined || val.trim().length == 0){
-        //   const nowDate = new Date();
-        //   const date = {
-        //     year: nowDate.getFullYear(),
-        //     month: nowDate.getMonth() + 1,
-        //     date: nowDate.getDate(),
-        //   }
-        //   const newmonth = date.month>10?date.month:'0'+date.month
-        //   const day = date.date>10?date.date:'0'+date.date
-        //   val = date.year + '-' + newmonth + '-' + day+' 23:59:59'
-        // }
-        valStart = valStart + ' 00:00:00'
-        val = val + ' 23:59:59';
-        var timedate = val;
-         this.listLoading = true
-        var data =  await getHuibenDetailList(valStart,timedate, this.queryForm.pageNo, this.queryForm.pageSize)
+        console.log(this.valueDateDate);
+        this.listLoading = true
+        var data =  await fetchDailyVipRechargeUserLogByPage(this.valueDateDate, this.queryForm.pageNo, this.queryForm.pageSize)
         var result = data?.result == undefined ? [] : data?.result; 
-        this.list = result?.data;
-        this.total = result.total
+        this.list = result?.data == undefined ? [] : result?.data;
+        var totalCount = result.total;
+        this.total = totalCount
         setTimeout(() => {
           this.listLoading = false
         }, 500)

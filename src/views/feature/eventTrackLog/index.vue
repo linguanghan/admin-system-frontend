@@ -7,6 +7,7 @@
       :element-loading-text="elementLoadingText"
       :height="height"
       @selection-change="setSelectRows"
+      @sort-change="tableSortChange"
     >
       <el-table-column
         show-overflow-tooltip
@@ -20,32 +21,23 @@
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
-        prop="pid"
-        label="用户Id"
-      ></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        label="评论内容"
-        prop="describe"
-      ></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        label="评论时间"
-        prop="time"
-      >
-        <template #default="{ row }">
-          {{ row.time == undefined ? "-" : row.time}}
-        </template>
+        prop="logContent"
+        label="埋点内容">
       </el-table-column>
-      <el-table-column show-overflow-tooltip label="操作" width="180px">
-        <template #default="{ row }">
-          <el-button type="text" @click="handleReview(row)">评论</el-button>
-        </template>
+      <el-table-column
+        show-overflow-tooltip
+        label="创建时间"
+        prop="createTime">
+      </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        label="渠道"
+        prop="channel">
       </el-table-column>
     </el-table>
     <el-pagination
       :background="background"
-      :current-page="queryForm.pageNum"
+      :current-page="queryForm.pageNo"
       :layout="layout"
       :page-size="queryForm.pageSize"
       :total="total"
@@ -56,9 +48,10 @@
 </template>
 
 <script>
-  import { getAllUserReviewList } from '@/api/review'
+  import { searchPageEventTrackLogByPage } from '@/api/eventTrackLog'
+  var moment = require('moment');
   export default {
-    name: 'UserReview',
+    name: 'ComprehensiveTable',
     filters: {
       statusFilter(status) {
         const statusMap = {
@@ -71,16 +64,18 @@
     },
     data() {
       return {
-        showAdd: false,
+        imgShow: true,
         list: [],
-        listLoading: true,
+        imageList: [],
+        listLoading: false,
         layout: 'total, sizes, prev, pager, next, jumper',
         total: 0,
         background: true,
+        selectRows: '',
         elementLoadingText: '正在加载...',
         queryForm: {
-          pageNum: 1,
-          pageSize: 20,
+          pageNo: 1,
+          pageSize: 20
         },
       }
     },
@@ -93,30 +88,55 @@
       this.fetchData(this.queryForm)
     },
     beforeDestroy() {},
-    mounted() {},
-    methods: {
+    methods: { 
+      tableSortChange() {
+        const imageList = []
+        this.$refs.tableSort.tableData.forEach((item, index) => {
+          imageList.push(item.img)
+      })
+        this.imageList = imageList
+      },
       setSelectRows(val) {
         this.selectRows = val
       },
-      handleReview(row) {
-        // 处理评论
+      handleDelete(row) {
+        
       },
       handleSizeChange(val) {
         this.queryForm.pageSize = val
         this.fetchData(this.queryForm)
       },
       handleCurrentChange(val) {
-        console.log(val);
-        this.queryForm.pageNum = val
+        this.queryForm.pageNo = val
+        this.fetchData(this.queryForm)
+      },
+      handleQuery() {
+        this.queryForm.pageNo = 1
         this.fetchData(this.queryForm)
       },
       async fetchData(queryForm) {
-        this.listLoading = true
-        var data = await getAllUserReviewList(queryForm)
-        this.list = data?.data?.list == undefined ? [] : data?.data?.list
-        this.total = data?.data?.total == undefined ? 0 : data?.data?.total;
-        this.listLoading = false
-      },
-    },
+        var data =  await searchPageEventTrackLogByPage(queryForm.pageNo  , queryForm.pageSize)
+        var result = data?.result == undefined ?  [] : data?.result;
+        this.list = result?.data == undefined ? [] : result?.data;
+        this.total = result.total
+        setTimeout(() => {
+          this.listLoading = false
+      }, 500)
+  },
+  async fetchDailyData() {
+    this.listLoading = true
+    const { data, totalCount } = await getList(this.queryForm)
+    this.list = data
+    const imageList = []
+    data.forEach((item, index) => {
+      imageList.push(item.img)
+  })
+    this.imageList = imageList
+    this.total = totalCount
+    setTimeout(() => {
+      this.listLoading = false
+  }, 500)
+  },
+  },
   }
 </script>

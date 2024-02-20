@@ -112,7 +112,7 @@ export const asyncRoutes = [
         meta: {
           title: '用户购买版本',
           badge: 'New',
-          permissions: ['admin','customer'] },
+          permissions: ['admin'] },
       },
       {
         path: 'video',
@@ -127,7 +127,7 @@ export const asyncRoutes = [
         path: 'book',
         name: 'Book',
         component: () => import('@/views/feature/book/index'),
-        meta: { title: '书本版号', badge: 'New',permissions: ['admin','customer'] },
+        meta: { title: '书本版号', badge: 'New',permissions: ['admin','customer2', 'customer3'] },
       },
       {
         path: 'review',
@@ -139,29 +139,57 @@ export const asyncRoutes = [
         path: 'funcVersion',
         name: 'FuncVersion',
         component: () => import('@/views/feature/funcVersion/index'),
-        meta: { title: '功能版号', badge: 'New',permissions: ['admin','customer'] },
+        meta: { title: '功能版号', badge: 'New',permissions: ['admin', 'customer2', 'customer3'] },
       },
-      // {
-      //   path: 'buy',
-      //   component: () => import('@/views/feature/total/index'),
-      //   name: 'Buy',
-      //   meta: {
-      //     title: '绘本新购买总数',
-      //     permissions: ['admin'],
-      //   },
-      // },
-      // {
-      //   path: 'cloud',
-      //   name: 'Cloud',
-      //   component: () => import('@/views/feature/cloud/index'),
-      //   meta: { title: '智慧云', permissions: ['admin'] },
-      // },
-      // {
-      //   path: 'duplication',
-      //   name: 'Duplication',
-      //   component: () => import('@/views/feature/duplication/index'),
-      //   meta: { title: '重复数据查询', permissions: ['admin'] },
-      // },
+      {
+        path: 'eventTrackLog',
+        name: 'EventTrackLog',
+        component: () => import('@/views/feature/eventTrackLog/index'),
+        meta: { title: '埋点记录', badge: 'New',permissions: ['admin'] },
+      },
+      {
+        path: 'queryRecharge',
+        name: 'QueryRecharge',
+        component: () => import('@/views/feature/queryRecharge/index'),
+        meta: { title: '查询充值', badge: 'New',permissions: ['admin', 'customer'] },
+      },
+      {
+        path: '/huibenVip',
+        component: EmptyLayout,
+        redirect: 'noRedirect',
+        name: 'HuibenVip',
+        alwaysShow: true,
+        meta: { title: '绘本VIP', badge: 'New', permissions: ['admin']},
+        children: [
+          {
+            path: 'vipRecordList',
+            name: 'VipRecordList',
+            component: () => import('@/views/feature/playerext/vipRecordList/index'),
+            meta: { title: '绘本VIP查询', badge: 'New', permissions: ['admin'] },
+          },
+          {
+            path: 'vipDailyRecord',
+            name: 'VipDailyRecord',
+            component: () => import('@/views/feature/playerext/vipDailyRecord/index'),
+            meta: { title: '绘本VIP充值查询', badge: 'New', permissions: ['admin'] },
+          }
+        ]
+      },
+      {
+        path: '/record',
+        component: EmptyLayout,
+        redirect: 'noRedirect',
+        name: 'Record',
+        alwaysShow: true,
+        meta: { title: '操作记录', badge: 'New', permissions: ['admin']},
+        children: [
+          {
+            path: 'changeregister',
+            name: 'Changeregister',
+            component: () => import('@/views/feature/record/change/index'),
+            meta: { title: '转移记录', badge: 'New', permissions: ['admin'] },
+          },]
+      }
     ],
   },
   {

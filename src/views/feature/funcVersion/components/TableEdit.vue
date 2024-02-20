@@ -10,7 +10,7 @@
         <el-input v-model.trim="form.id" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="功能编号" prop="idx" >
-        <el-input v-model.trim="form.idx" autocomplete="off" disabled ></el-input>
+        <el-input v-model.trim="form.idx" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="功能名称" prop="name">
         <el-input v-model.trim="form.name" autocomplete="off"></el-input>

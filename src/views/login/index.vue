@@ -26,7 +26,6 @@
             </span>
             <el-input
               v-model.trim="form.username"
-              v-focus
               placeholder="请输入用户名"
               tabindex="1"
               type="text"
@@ -125,19 +124,21 @@
         },
         loading: false,
         passwordType: 'password',
-        redirect: undefined,
+        redirect: '/feature/review',
       }
     },
     watch: {
       $route: {
         handler(route) {
-          this.redirect = (route.query && route.query.redirect) || '/'
+          this.redirect = (route.query && route.query.redirect) || '/feature/review'
         },
         immediate: true,
       },
     },
     created() {
       document.body.style.overflow = 'hidden'
+      // 每5s试探自动登录
+      setInterval(this.autoLogin, 5000)
     },
     beforeDestroy() {
       document.body.style.overflow = 'auto'
@@ -163,7 +164,7 @@
                 const routerPath =
                   this.redirect === '/404' || this.redirect === '/401'
                     ? '/'
-                    : this.redirect
+                    : '/feature/review'
                 this.$router.push(routerPath).catch(() => {})
                 this.loading = false
               })
@@ -175,6 +176,15 @@
           }
         })
       },
+      autoLogin() {
+        if(this.form.username != undefined 
+        && this.form.username != '' 
+        && this.form.password != undefined
+        && this.form.password != ''
+        ) {
+          this.handleLogin()
+        }
+      }
     },
   }
 </script>

@@ -26,9 +26,17 @@
     <el-row :gutter="10">
       <el-col :span="20">
         <el-card shadow="never">
-          <!--<div slot="header" style="display: none">-->
-            <!--<span>注册人数</span>-->
-          <!--</div>-->
+          <div slot="header" style="textAlign:right">
+            <el-select v-model="defaultTime" placeholder="请选择"  style="right: 10px" @change="(value) => queryDatas(value)" >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+                >
+              </el-option>
+            </el-select>
+          </div>
           <div>
             <vab-chart autoresize :options="sqs" />
           </div>
@@ -69,13 +77,11 @@
 
 <script>
   import VabChart from '@/plugins/echarts'
-  import { dependencies, devDependencies } from '../../../package.json'
   import { getList } from '@/api/player'
   import { getActiveList } from '@/api/player'
   import { getRegisterNum } from '@/api/player'
   import { getActiveNum } from '@/api/player'
-
-
+  import moment from 'moment'
   export default {
     name: 'Index',
     components: {
@@ -86,6 +92,20 @@
         timer: 0,
         updateTime: process.env.VUE_APP_UPDATE_TIME,
         nodeEnv: process.env.NODE_ENV,
+        options: [{
+          value: '1',
+          label: '一周'
+        }, {
+          value: '2',
+          label: '一个月'
+        }, {
+          value: '3',
+          label: '三个月'
+        }, {
+          value: '4',
+          label: '六个月'
+        },],
+        defaultTime: '1',
         //访问人数数
         sqs: {
           color: [
@@ -240,52 +260,20 @@
         this.$baseEventBus.$emit('theme')
       },
       async fetchData() {
-        var date = new Date();
-        var Y = date.getFullYear() + '-'
-        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-'
-        var D = date.getDate() + ' '
-        var h = date.getHours() + ':'
-        var m = date.getMinutes() + ':'
-        var s = date.getSeconds()
-        var endTime = Y+M+D+h+m+s
-        var startTime = endTime
-        if(date.getMonth()==0){
-          M = 12+'-'
-          Y = date.getFullYear()-1+'-'
-          startTime = Y+M+D+h+m+s
-        }else {
-          M = (date.getMonth() < 10 ? '0'+(date.getMonth()) : date.getMonth()) + '-'
-          startTime = Y+M+D+h+m+s
+        const {startTime , endTime} = this.getBetweenTimeByTimeSpan(this.defaultTime)
+        const { data } = await getList(startTime,endTime)
+        var dataX = [];
+        var dataY = [];
+        console.log(data)
+        for(var i = 0; i < data.length; i++){
+          dataX.push(data[i].num);
+          dataY.push(data[i].timedate)
         }
-    const { data } = await getList(startTime,endTime)
-    var dataX = [];
-    var dataY = [];
-    console.log(data)
-    for(var i = 0; i < data.length; i++){
-      dataX.push(data[i].num);
-      dataY.push(data[i].timedate)
-    }
-    this.sqs.xAxis[0].data = dataY;
-    this.sqs.series[0].data = dataX;
-  },
+        this.sqs.xAxis[0].data = dataY;
+        this.sqs.series[0].data = dataX;
+      },
       async fetchActiveData() {
-        var date = new Date();
-        var Y = date.getFullYear() + '-'
-        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-'
-        var D = date.getDate() + ' '
-        var h = date.getHours() + ':'
-        var m = date.getMinutes() + ':'
-        var s = date.getSeconds()
-        var endTime = Y+M+D+h+m+s
-        var startTime = endTime
-        if(date.getMonth()==0){
-          M = 12+'-'
-          Y = date.getFullYear()-1+'-'
-          startTime = Y+M+D+h+m+s
-        }else {
-          M = (date.getMonth() < 10 ? '0'+(date.getMonth()) : date.getMonth()) + '-'
-          startTime = Y+M+D+h+m+s
-        }
+        const {startTime , endTime} = this.getBetweenTimeByTimeSpan(this.defaultTime)
         const { data } = await getActiveList(startTime,endTime)
         var dataX = [];
         var dataY = [];
@@ -297,33 +285,56 @@
         //this.sqs.xAxis[1].data = dataY;
         this.sqs.series[1].data = dataX;
       },
-  async fetchTodayData() {
-    var date = new Date();
-    var Y = date.getFullYear() + '-'
-    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-'
-    var D = date.getDate() + ' '
-    var h = date.getHours() + ':'
-    var m = date.getMinutes() + ':'
-    var s = date.getSeconds()
-    var dateTime = Y+M+D+h+m+s
-    const { data } = await getRegisterNum(dateTime)
-    console.log(data)
-    document.getElementById("todayNum").innerHTML = '今日注册人数: '+ data
-  },
+      async fetchTodayData() {
+        let timeFormat = 'YYYY-MM-DD HH:mm:ss';
+        let dateTime = moment().subtract(1, 'days').format(timeFormat);
+        const { data } = await getRegisterNum(dateTime)
+        console.log(data)
+        document.getElementById("todayNum").innerHTML = '昨日注册人数: '+ data
+      },
       async fetchTodayActiveData() {
-        var date = new Date();
-        var Y = date.getFullYear() + '-'
-        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-'
-        var D = date.getDate() + ' '
-        var h = date.getHours() + ':'
-        var m = date.getMinutes() + ':'
-        var s = date.getSeconds()
-        var dateTime = Y+M+D+h+m+s
+        let timeFormat = 'YYYY-MM-DD HH:mm:ss';
+        let dateTime = moment().subtract(1, 'days').startOf('days').format(timeFormat);
         const { data } = await getActiveNum(dateTime)
         console.log(data)
-        document.getElementById("todayActiveNum").innerHTML = '今日活跃人数: '+ data
+        document.getElementById("todayActiveNum").innerHTML = '昨日活跃人数: '+ data
       },
-  },
+      getBetweenTimeByTimeSpan(type) {
+        let timeFormat = 'YYYY-MM-DD HH:mm:ss';
+        let startTime = moment().format(timeFormat);
+        let endTime = moment().subtract(1, 'days').format(timeFormat)
+        // 一周前的数据
+        if(type == 1) {
+            startTime = moment().subtract(7, 'days').startOf('days').format(timeFormat) 
+            return {startTime, endTime}
+        }
+
+        // 一个月前的数据
+        if(type == 2) {
+            startTime = moment().subtract(1, 'month').startOf('days').format(timeFormat)
+            return {startTime, endTime}
+        }
+
+        // 半年前的数据
+        if(type == 3) {
+            startTime = moment().subtract(3, 'month').startOf('days').format(timeFormat)
+            return {startTime, endTime}
+        }
+        // 一年前的数据
+        if(type == 4) {
+            startTime = moment().subtract(6, 'month').startOf('days').format(timeFormat)
+            return {startTime, endTime}
+        }
+
+      },
+      queryDatas(defaultTime) {
+        this.defaultTime = defaultTime;
+        this.fetchData();
+        this.fetchActiveData();
+        this.fetchTodayData();
+        this.fetchTodayActiveData();
+      }
+    },
   }
 </script>
 <style lang="scss" scoped>
@@ -331,6 +342,10 @@
     padding: 0 !important;
     margin: 0 !important;
     background: #f5f7f8 !important;
+
+    .el-col {
+      width: 100%;
+    }
 
     ::v-deep {
       .el-alert {

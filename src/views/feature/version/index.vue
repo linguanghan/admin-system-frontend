@@ -113,7 +113,7 @@
       <el-table-column
         show-overflow-tooltip
         prop="booktype"
-        label="书本类型">
+        label="书本对应年级">
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
@@ -203,7 +203,7 @@
       },
     },
     created() {
-      this.channelsDefine =  getChannels();
+      this.channelsDefine = getChannels().ChannelsMap;
       this.packagesInfo = getPackagesInfo();
       this.fetchData(this.queryForm);
     },

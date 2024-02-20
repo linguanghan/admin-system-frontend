@@ -14,11 +14,20 @@ export function getChannels(){
     Channels[10] = { bCheck: false,name:"网页",      brand:["WEB"],              idx:10,             };     
 
     var ChannelsMap = new Map();
+    var channelOptions = [];
     for (let index = 0; index < Channels.length; index++) {
       const element = Channels[index];
       ChannelsMap.set(element.idx, element.name);
+      channelOptions.push({
+        label: element.name,
+        value: element.idx
+
+      })
     }
 
-    return ChannelsMap;
+    return {
+      "ChannelsMap": ChannelsMap,
+      "channelOptions": channelOptions
+    }
 
 };
