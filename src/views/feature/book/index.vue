@@ -256,23 +256,18 @@
         return queryFormTemp;
       },
       async fetchData(queryForm) {
-        let queryFormTemp = this.dataFormat(queryForm)    
+        let queryFormTemp = this.dataFormat(queryForm)
         this.listLoading = true
         var data = await getBookDetailList(queryFormTemp);
         var result = data?.result == undefined ? [] : data?.result;
         this.list = result?.data == undefined ? [] : result.data;
         this.total = result?.total == undefined ? 0 : result.total;
-        console.log(this.list);
-        console.log(this.total);
         this.listLoading = false
       },
-      // 根据书本ID查询数据
       async fetchDataByBookname() {
         this.listLoading = true
         // var data =  await getBookDetailListByName(this.queryForm.keyword)
         let data = await getBookDetailListById(this.queryForm.keyword)
-        console.log(data)
-        console.log(data.data)
         var a = []
         a = data.data
         this.list = a

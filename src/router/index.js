@@ -130,6 +130,12 @@ export const asyncRoutes = [
         meta: { title: '书本版号', badge: 'New',permissions: ['admin','customer2', 'customer3'] },
       },
       {
+        path: 'player',
+        name: 'Player',
+        component: () => import('@/views/feature/player/index'),
+        meta: { title: '用户代理', badge: 'New',permissions: ['admin','customer'] },
+      },
+      {
         path: 'review',
         name: 'Rook',
         component: () => import('@/views/feature/review/index'),

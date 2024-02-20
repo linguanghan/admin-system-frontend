@@ -2,7 +2,7 @@
   "editor.quickSuggestions": {
     "strings": true
   },
-  "workbench.colorTheme": "One Monokai",
+  "workbench.colorTheme": "GitHub Dark Colorblind (Beta)",
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
   "emmet.triggerExpansionOnTab": true,
