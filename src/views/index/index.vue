@@ -1,40 +1,44 @@
 <template>
   <div class="index-container">
     <!--<el-card shadow="never">-->
-      <!--&lt;!&ndash;<div slot="header" style="display: none">&ndash;&gt;-->
-      <!--&lt;!&ndash;<span>注册人数</span>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--<div>-->
-        <!--<vab-chart autoresize :options="sqs" />-->
-      <!--</div>-->
-      <!--<div class="bottom">-->
-            <!--<span id="todayNum">-->
-              <!--今日总注册人数:-->
-              <!--&lt;!&ndash;<vab-count&ndash;&gt;-->
-              <!--&lt;!&ndash;:start-val="config2.startVal"&ndash;&gt;-->
-              <!--&lt;!&ndash;:end-val="config2.endVal"&ndash;&gt;-->
-              <!--&lt;!&ndash;:duration="config2.duration"&ndash;&gt;-->
-              <!--&lt;!&ndash;:separator="config2.separator"&ndash;&gt;-->
-              <!--&lt;!&ndash;:prefix="config2.prefix"&ndash;&gt;-->
-              <!--&lt;!&ndash;:suffix="config2.suffix"&ndash;&gt;-->
-              <!--&lt;!&ndash;:decimals="config2.decimals"&ndash;&gt;-->
-              <!--&lt;!&ndash;/>&ndash;&gt;-->
-            <!--</span>-->
-      <!--</div>-->
+    <!--&lt;!&ndash;<div slot="header" style="display: none">&ndash;&gt;-->
+    <!--&lt;!&ndash;<span>注册人数</span>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--<div>-->
+    <!--<vab-chart autoresize :options="sqs" />-->
+    <!--</div>-->
+    <!--<div class="bottom">-->
+    <!--<span id="todayNum">-->
+    <!--今日总注册人数:-->
+    <!--&lt;!&ndash;<vab-count&ndash;&gt;-->
+    <!--&lt;!&ndash;:start-val="config2.startVal"&ndash;&gt;-->
+    <!--&lt;!&ndash;:end-val="config2.endVal"&ndash;&gt;-->
+    <!--&lt;!&ndash;:duration="config2.duration"&ndash;&gt;-->
+    <!--&lt;!&ndash;:separator="config2.separator"&ndash;&gt;-->
+    <!--&lt;!&ndash;:prefix="config2.prefix"&ndash;&gt;-->
+    <!--&lt;!&ndash;:suffix="config2.suffix"&ndash;&gt;-->
+    <!--&lt;!&ndash;:decimals="config2.decimals"&ndash;&gt;-->
+    <!--&lt;!&ndash;/>&ndash;&gt;-->
+    <!--</span>-->
+    <!--</div>-->
     <!--</el-card>-->
 
     <el-row :gutter="10">
       <el-col :span="20">
         <el-card shadow="never">
-          <div slot="header" style="textAlign:right">
-            <el-select v-model="defaultTime" placeholder="请选择"  style="right: 10px" @change="(value) => queryDatas(value)" >
+          <div slot="header" style="textalign: right">
+            <el-select
+              v-model="defaultTime"
+              placeholder="请选择"
+              style="right: 10px"
+              @change="(value) => queryDatas(value)"
+            >
               <el-option
                 v-for="item in options"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
-                >
-              </el-option>
+              ></el-option>
             </el-select>
           </div>
           <div>
@@ -44,19 +48,17 @@
             <span id="todayNum">
               今日总注册人数:
               <!--<vab-count-->
-                <!--:start-val="config2.startVal"-->
-                <!--:end-val="config2.endVal"-->
-                <!--:duration="config2.duration"-->
-                <!--:separator="config2.separator"-->
-                <!--:prefix="config2.prefix"-->
-                <!--:suffix="config2.suffix"-->
-                <!--:decimals="config2.decimals"-->
+              <!--:start-val="config2.startVal"-->
+              <!--:end-val="config2.endVal"-->
+              <!--:duration="config2.duration"-->
+              <!--:separator="config2.separator"-->
+              <!--:prefix="config2.prefix"-->
+              <!--:suffix="config2.suffix"-->
+              <!--:decimals="config2.decimals"-->
               <!--/>-->
             </span>
-            <span style="margin-left: 5px;color: blue">
-            ||
-            </span>
-            <span id="todayActiveNum" style="margin-left: 5px;">
+            <span style="margin-left: 5px; color: blue">||</span>
+            <span id="todayActiveNum" style="margin-left: 5px">
               今日总活跃人数:
               <!--<vab-count-->
               <!--:start-val="config2.startVal"-->
@@ -92,19 +94,24 @@
         timer: 0,
         updateTime: process.env.VUE_APP_UPDATE_TIME,
         nodeEnv: process.env.NODE_ENV,
-        options: [{
-          value: '1',
-          label: '一周'
-        }, {
-          value: '2',
-          label: '一个月'
-        }, {
-          value: '3',
-          label: '三个月'
-        }, {
-          value: '4',
-          label: '六个月'
-        },],
+        options: [
+          {
+            value: '1',
+            label: '一周',
+          },
+          {
+            value: '2',
+            label: '一个月',
+          },
+          {
+            value: '3',
+            label: '三个月',
+          },
+          {
+            value: '4',
+            label: '六个月',
+          },
+        ],
         defaultTime: '1',
         //访问人数数
         sqs: {
@@ -125,7 +132,7 @@
             containLabel: true,
           },
           legend: {
-            data: ['注册人数', '活跃人数']
+            data: ['注册人数', '活跃人数'],
           },
           toolbox: {
             show: true,
@@ -137,17 +144,17 @@
               dataView: { show: true, readOnly: false },
               magicType: { show: true, type: ['line', 'bar', 'stack'] },
               restore: { show: false },
-              saveAsImage: { show: true }
-            }
+              saveAsImage: { show: true },
+            },
           },
           tooltip: {
             trigger: 'axis',
             axisPointer: {
               type: 'shadow',
               label: {
-                backgroundColor: '#6a7985'
-              }
-            }
+                backgroundColor: '#6a7985',
+              },
+            },
           },
           xAxis: [
             {
@@ -174,13 +181,13 @@
               // data: [10, 52, 20, 33, 39, 33, 22],
               data: [0],
               itemStyle: {
-                normal:{
-                  label:{
+                normal: {
+                  label: {
                     show: true,
                     position: 'top',
-                    textStyle:{
+                    textStyle: {
                       color: 'black',
-                      fontSize: 12
+                      fontSize: 12,
                     },
                   },
                 },
@@ -193,13 +200,13 @@
               // data: [10, 52, 20, 33, 39, 33, 22],
               data: [0],
               itemStyle: {
-                normal:{
-                  label:{
+                normal: {
+                  label: {
                     show: true,
                     position: 'top',
-                    textStyle:{
+                    textStyle: {
                       color: 'red',
-                      fontSize: 12
+                      fontSize: 12,
                     },
                   },
                 },
@@ -210,10 +217,10 @@
       }
     },
     created() {
-      this.fetchData();
-      this.fetchActiveData();
-      this.fetchTodayData();
-      this.fetchTodayActiveData();
+      this.fetchData()
+      this.fetchActiveData()
+      this.fetchTodayData()
+      this.fetchTodayActiveData()
     },
     beforeDestroy() {
       clearInterval(this.timer)
@@ -243,13 +250,13 @@
         addData()
       }
       addData(true)
-    //   this.fwl.xAxis[0].data = date
-    //   this.fwl.series[0].data = data
-    //   this.timer = setInterval(() => {
-    //     addData(true)
-    //   this.fwl.xAxis[0].data = date
-    //   this.fwl.series[0].data = data
-    // }, 3000)
+      //   this.fwl.xAxis[0].data = date
+      //   this.fwl.series[0].data = data
+      //   this.timer = setInterval(() => {
+      //     addData(true)
+      //   this.fwl.xAxis[0].data = date
+      //   this.fwl.series[0].data = data
+      // }, 3000)
     },
     methods: {
       handleClick(e) {
@@ -260,80 +267,99 @@
         this.$baseEventBus.$emit('theme')
       },
       async fetchData() {
-        const {startTime , endTime} = this.getBetweenTimeByTimeSpan(this.defaultTime)
-        const { data } = await getList(startTime,endTime)
-        var dataX = [];
-        var dataY = [];
+        const { startTime, endTime } = this.getBetweenTimeByTimeSpan(
+          this.defaultTime
+        )
+        const { data } = await getList(startTime, endTime)
+        var dataX = []
+        var dataY = []
+        // registerNum
         console.log(data)
-        for(var i = 0; i < data.length; i++){
-          dataX.push(data[i].num);
+        for (var i = 0; i < data.length; i++) {
+          dataX.push(data[i].num)
           dataY.push(data[i].timedate)
         }
-        this.sqs.xAxis[0].data = dataY;
-        this.sqs.series[0].data = dataX;
+        this.sqs.xAxis[0].data = dataY
+        this.sqs.series[0].data = dataX
       },
       async fetchActiveData() {
-        const {startTime , endTime} = this.getBetweenTimeByTimeSpan(this.defaultTime)
-        const { data } = await getActiveList(startTime,endTime)
-        var dataX = [];
-        var dataY = [];
-        console.log(data)
-        for(var i = 0; i < data.length; i++){
-          dataX.push(data[i].num);
+        const { startTime, endTime } = this.getBetweenTimeByTimeSpan(
+          this.defaultTime
+        )
+        const { data } = await getActiveList(startTime, endTime)
+        var dataX = []
+        var dataY = []
+        // activeNum
+        // console.log(data)
+        for (var i = 0; i < data.length; i++) {
+          dataX.push(data[i].num)
           dataY.push(data[i].timedate)
         }
         //this.sqs.xAxis[1].data = dataY;
-        this.sqs.series[1].data = dataX;
+        this.sqs.series[1].data = dataX
       },
       async fetchTodayData() {
-        let timeFormat = 'YYYY-MM-DD HH:mm:ss';
-        let dateTime = moment().subtract(1, 'days').format(timeFormat);
+        let timeFormat = 'YYYY-MM-DD HH:mm:ss'
+        let dateTime = moment().subtract(1, 'days').format(timeFormat)
         const { data } = await getRegisterNum(dateTime)
-        console.log(data)
-        document.getElementById("todayNum").innerHTML = '昨日注册人数: '+ data
+        document.getElementById('todayNum').innerHTML = '昨日注册人数: ' + data
       },
       async fetchTodayActiveData() {
-        let timeFormat = 'YYYY-MM-DD HH:mm:ss';
-        let dateTime = moment().subtract(1, 'days').startOf('days').format(timeFormat);
+        let timeFormat = 'YYYY-MM-DD HH:mm:ss'
+        let dateTime = moment()
+          .subtract(1, 'days')
+          .startOf('days')
+          .format(timeFormat)
         const { data } = await getActiveNum(dateTime)
-        console.log(data)
-        document.getElementById("todayActiveNum").innerHTML = '昨日活跃人数: '+ data
+        document.getElementById('todayActiveNum').innerHTML =
+          '昨日活跃人数: ' + data
       },
       getBetweenTimeByTimeSpan(type) {
-        let timeFormat = 'YYYY-MM-DD HH:mm:ss';
-        let startTime = moment().format(timeFormat);
+        let timeFormat = 'YYYY-MM-DD HH:mm:ss'
+        let startTime = moment().format(timeFormat)
         let endTime = moment().subtract(1, 'days').format(timeFormat)
         // 一周前的数据
-        if(type == 1) {
-            startTime = moment().subtract(7, 'days').startOf('days').format(timeFormat) 
-            return {startTime, endTime}
+        if (type == 1) {
+          startTime = moment()
+            .subtract(7, 'days')
+            .startOf('days')
+            .format(timeFormat)
+          return { startTime, endTime }
         }
 
         // 一个月前的数据
-        if(type == 2) {
-            startTime = moment().subtract(1, 'month').startOf('days').format(timeFormat)
-            return {startTime, endTime}
+        if (type == 2) {
+          startTime = moment()
+            .subtract(1, 'month')
+            .startOf('days')
+            .format(timeFormat)
+          return { startTime, endTime }
         }
 
         // 半年前的数据
-        if(type == 3) {
-            startTime = moment().subtract(3, 'month').startOf('days').format(timeFormat)
-            return {startTime, endTime}
+        if (type == 3) {
+          startTime = moment()
+            .subtract(3, 'month')
+            .startOf('days')
+            .format(timeFormat)
+          return { startTime, endTime }
         }
         // 一年前的数据
-        if(type == 4) {
-            startTime = moment().subtract(6, 'month').startOf('days').format(timeFormat)
-            return {startTime, endTime}
+        if (type == 4) {
+          startTime = moment()
+            .subtract(6, 'month')
+            .startOf('days')
+            .format(timeFormat)
+          return { startTime, endTime }
         }
-
       },
       queryDatas(defaultTime) {
-        this.defaultTime = defaultTime;
-        this.fetchData();
-        this.fetchActiveData();
-        this.fetchTodayData();
-        this.fetchTodayActiveData();
-      }
+        this.defaultTime = defaultTime
+        this.fetchData()
+        this.fetchActiveData()
+        this.fetchTodayData()
+        this.fetchTodayActiveData()
+      },
     },
   }
 </script>

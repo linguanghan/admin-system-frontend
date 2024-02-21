@@ -103,7 +103,8 @@ export const asyncRoutes = [
         meta: {
           title: '特定版本购买',
           badge: 'New',
-          permissions: ['admin'] },
+          permissions: ['admin'],
+        },
       },
       {
         path: 'purchase',
@@ -112,7 +113,8 @@ export const asyncRoutes = [
         meta: {
           title: '用户购买版本',
           badge: 'New',
-          permissions: ['admin'] },
+          permissions: ['admin'],
+        },
       },
       {
         path: 'video',
@@ -121,37 +123,64 @@ export const asyncRoutes = [
         meta: {
           title: '视频查询',
           badge: 'New',
-          permissions: ['admin'] },
+          permissions: ['admin'],
+        },
       },
       {
         path: 'book',
         name: 'Book',
         component: () => import('@/views/feature/book/index'),
-        meta: { title: '书本版号', badge: 'New',permissions: ['admin','customer2', 'customer3'] },
+        meta: {
+          title: '书本版号',
+          badge: 'New',
+          permissions: ['admin', 'customer2', 'customer3'],
+        },
       },
       {
         path: 'review',
         name: 'Rook',
         component: () => import('@/views/feature/review/index'),
-        meta: { title: '用户评论', badge: 'New',permissions: ['admin','customer'] },
+        meta: {
+          title: '用户评论',
+          badge: 'New',
+          permissions: ['admin', 'customer'],
+        },
       },
       {
         path: 'funcVersion',
         name: 'FuncVersion',
         component: () => import('@/views/feature/funcVersion/index'),
-        meta: { title: '功能版号', badge: 'New',permissions: ['admin', 'customer2', 'customer3'] },
+        meta: {
+          title: '功能版号',
+          badge: 'New',
+          permissions: ['admin', 'customer2', 'customer3'],
+        },
       },
       {
         path: 'eventTrackLog',
         name: 'EventTrackLog',
         component: () => import('@/views/feature/eventTrackLog/index'),
-        meta: { title: '埋点记录', badge: 'New',permissions: ['admin'] },
+        meta: { title: '埋点记录', badge: 'New', permissions: ['admin'] },
       },
       {
         path: 'queryRecharge',
         name: 'QueryRecharge',
         component: () => import('@/views/feature/queryRecharge/index'),
-        meta: { title: '查询充值', badge: 'New',permissions: ['admin', 'customer'] },
+        meta: {
+          title: '查询充值',
+          badge: 'New',
+          permissions: ['admin', 'customer'],
+        },
+      },
+      {
+        path: 'queryPackage',
+        name: 'QueryPackage',
+        component: () => import('@/views/feature/queryPackage/index'),
+        meta: {
+          title: '按包查询',
+          badge: 'New',
+          permissions: ['admin', 'customer'],
+        },
       },
       {
         path: '/huibenVip',
@@ -159,21 +188,31 @@ export const asyncRoutes = [
         redirect: 'noRedirect',
         name: 'HuibenVip',
         alwaysShow: true,
-        meta: { title: '绘本VIP', badge: 'New', permissions: ['admin']},
+        meta: { title: '绘本VIP', badge: 'New', permissions: ['admin'] },
         children: [
           {
             path: 'vipRecordList',
             name: 'VipRecordList',
-            component: () => import('@/views/feature/playerext/vipRecordList/index'),
-            meta: { title: '绘本VIP查询', badge: 'New', permissions: ['admin'] },
+            component: () =>
+              import('@/views/feature/playerext/vipRecordList/index'),
+            meta: {
+              title: '绘本VIP查询',
+              badge: 'New',
+              permissions: ['admin'],
+            },
           },
           {
             path: 'vipDailyRecord',
             name: 'VipDailyRecord',
-            component: () => import('@/views/feature/playerext/vipDailyRecord/index'),
-            meta: { title: '绘本VIP充值查询', badge: 'New', permissions: ['admin'] },
-          }
-        ]
+            component: () =>
+              import('@/views/feature/playerext/vipDailyRecord/index'),
+            meta: {
+              title: '绘本VIP充值查询',
+              badge: 'New',
+              permissions: ['admin'],
+            },
+          },
+        ],
       },
       {
         path: '/record',
@@ -181,15 +220,16 @@ export const asyncRoutes = [
         redirect: 'noRedirect',
         name: 'Record',
         alwaysShow: true,
-        meta: { title: '操作记录', badge: 'New', permissions: ['admin']},
+        meta: { title: '操作记录', badge: 'New', permissions: ['admin'] },
         children: [
           {
             path: 'changeregister',
             name: 'Changeregister',
             component: () => import('@/views/feature/record/change/index'),
             meta: { title: '转移记录', badge: 'New', permissions: ['admin'] },
-          },]
-      }
+          },
+        ],
+      },
     ],
   },
   {
