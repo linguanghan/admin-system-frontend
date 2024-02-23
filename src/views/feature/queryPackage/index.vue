@@ -158,13 +158,15 @@
           startTime,
           endTime
         )
+        
+        console.log(data);
 
         const date = []
         const rechargeData = []
 
         for (const entry of data) {
           date.push(entry.timedate)
-          rechargeData.push(entry.rechargeAmount)
+          rechargeData.push(entry.num)
         }
 
         this.sqs.xAxis[0].data = date
