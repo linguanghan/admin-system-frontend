@@ -88,24 +88,43 @@
       save() {
         this.$refs['form'].validate(async (valid) => {
           if (valid) {
-            var agentPid = this.form.agentPid
-            if (agentPid) {
-              const { data } = await savePlayerInfo(this.form)
-              this.$baseMessage(data, 'success')
+            try {
+              var agentPid = this.form.agentPid;
+              if (agentPid) {
+                if (agentPid) {
+                  // 保存或更新之前检查代理编号是否已存在
+                  const { data } = await savePlayerInfo(this.form);
+                  this.$baseMessage(data, 'success');
+                } else {
+                  const { data } = await updatePlayerInfo(this.form);
+                  this.$baseMessage(data, 'success');
+                }
+              
+                this.$refs['form'].resetFields();
+                this.dialogFormVisible = false;
+                this.$parent.fetchData(this.$parent.queryForm);
+                this.form = this.$options.data().form;
+              }
+            } catch (error) {
+              // 捕获异常，检查是否为代理编号已存在的错误
+              if (error.response && error.response.status === 500) {
+                const errorMessage = error.response.data.message;
+                if (errorMessage.includes("Duplicate entry")) {
+                  this.$message.error('该代理编号已存在，请输入其他编号。');
+                  return;
+                }
+              }
+            
+              // 其他错误处理
+              console.error('发生错误:', error);
+              this.$message.error('保存失败，请检查编号是否存在');
             }
-            else {
-              const { data } = await updatePlayerInfo(this.form)
-              this.$baseMessage(data, 'success')
-            }
-            this.$refs['form'].resetFields()
-            this.dialogFormVisible = false
-            this.$parent.fetchData(this.$parent.queryForm)
-            this.form = this.$options.data().form
           } else {
-            return false
+            return false;
           }
-        })
+        });
       },
+
     },
   }
 </script>
