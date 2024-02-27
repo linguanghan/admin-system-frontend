@@ -20,13 +20,23 @@
         :inline="true"
         @submit.native.prevent
       >
-        <el-date-picker
+        <!-- <el-date-picker
           v-model="valueDateDate"
           type="date"
           value-format="yyyy-MM-dd"
           format="yyyy-MM-dd"
           :default-value="defaultDate">
-        </el-date-picker>
+        </el-date-picker> -->
+        <el-date-picker
+            v-model="valueDateDate"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="选择开始日期"
+            end-placeholder="选择结束日期"
+            value-format="yyyy-MM-dd"
+            format="yyyy-MM-dd"
+          :default-value="defaultDate">
+          </el-date-picker>
         <el-button
           icon="el-icon-search"
           type="primary"
@@ -74,35 +84,17 @@
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
-        prop="activeCount"
-        label="活跃人数">
-      </el-table-column>
+        label="日期"
+        prop="timedate"
+      ></el-table-column>
       <el-table-column
         show-overflow-tooltip
-        label="统计日期"
-        prop="countTime">
-      </el-table-column>
-      <!--<el-table-column show-overflow-tooltip label="等级">-->
-      <!--<template #default="{ row }">-->
-      <!--<el-tooltip-->
-      <!--:content="row.status"-->
-      <!--class="item"-->
-      <!--effect="dark"-->
-      <!--placement="top-start"-->
-      <!--&gt;-->
-      <!--<el-tag :type="row.status | statusFilter">-->
-      <!--{{ row.status }}-->
-      <!--</el-tag>-->
-      <!--</el-tooltip>-->
-      <!--</template>-->
-      <!--</el-table-column>-->
-      <!--<el-table-column show-overflow-tooltip label="操作" width="180px">-->
-      <!--<template #default="{ row }">-->
-      <!--<el-button type="text" @click="handleEdit(row)">编辑</el-button>-->
-      <!--<el-button type="text" @click="handleDelete(row)">删除</el-button>-->
-      <!--</template>-->
-      <!--</el-table-column>-->
+        label="活跃人数"
+        prop="num"
+      ></el-table-column>
     </el-table>
+
+
     <el-pagination
       :background="background"
       :current-page="queryForm.pageNo"
@@ -157,7 +149,8 @@
             return time.getTime() > Date.now();
           },
         },
-        valueDateDate:moment().subtract(1, 'days').format('YYYY-MM-DD'),
+        // valueDateDate:moment().subtract(1, 'days').format('YYYY-MM-DD'),
+        valueDateDate: [moment().day(-30).format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')],
         time: {
           starttime: '',
           endtime: ''
@@ -251,13 +244,37 @@
         this.fetchData(this.queryForm)
       },
       async fetchData(queryForm) {
-        console.log(this.valueDateDate);
+        // 日期范围选择组件处理
+        if(this.valueDateDate == undefined ) {
+          this.$message.error('请选择日期');
+          return;
+        }
+        if (this.valueDateDate[0] > this.valueDateDate[1]) {
+          this.$message.error('结束日期需大于开始日期')
+          return
+        }
+        var val = this.valueDateDate[1];
+        var valStart = this.valueDateDate[0];
+        if (val == undefined || val.trim().length == 0||valStart == undefined || valStart.trim().length == 0){
+          this.$message.error('请选择日期')
+          return
+        }
+        valStart = valStart + ' 00:00:00'
+        val = val + ' 23:59:59';
+        var timedate = val;
         this.listLoading = true
-        var data =  await getActiveDetailList(this.valueDateDate, this.queryForm.pageNo, this.queryForm.pageSize)
-        var result = data?.result == undefined ? [] : data?.result; 
-        this.list = result?.data == undefined ? [] : result?.data;
-        var totalCount = result.total;
-        this.total = totalCount
+
+        // 接口调用
+        var data =  await getActiveDetailList(valStart, timedate, this.queryForm.pageNo, this.queryForm.pageSize)
+        // console.log(data);
+
+        // 结果处理
+        // var result = data?.result == undefined ? [] : data?.result; 
+        // console.log(result);
+        this.list = data?.data == undefined ? [] : data?.data;
+        console.log(this.list);
+        // var totalCount = result.total;
+        // this.total = totalCount
         setTimeout(() => {
           this.listLoading = false
         }, 500)
