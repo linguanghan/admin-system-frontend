@@ -28,24 +28,29 @@
           :default-value="defaultDate">
         </el-date-picker> -->
         <el-date-picker
-            v-model="valueDateDate"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="选择开始日期"
-            end-placeholder="选择结束日期"
-            value-format="yyyy-MM-dd"
-            format="yyyy-MM-dd"
-          :default-value="defaultDate">
-          </el-date-picker>
-        <el-button
-          icon="el-icon-search"
-          type="primary"
-          native-type="submit"
-          style="margin-left: 10px"
-          @click="handleQuery"
-        >
-          查询
-        </el-button>
+      v-model="valueDateDate"
+      type="daterange"
+      range-separator="至"
+      start-placeholder="选择开始日期"
+      end-placeholder="选择结束日期"
+      value-format="yyyy-MM-dd"
+      format="yyyy-MM-dd"
+      :default-value="defaultDate"
+    ></el-date-picker>
+    <el-select v-model="timeRange" placeholder="选择时间范围" style="margin-left: 10px">
+      <el-option label="按日" value="day"></el-option>
+      <el-option label="按周" value="week"></el-option>
+      <el-option label="按月" value="month"></el-option>
+    </el-select>
+    <el-button
+      icon="el-icon-search"
+      type="primary"
+      native-type="submit"
+      style="margin-left: 10px"
+      @click="handleQuery"
+    >
+      查询
+    </el-button>
         <!--<el-form-item>-->
         <!--<el-input v-model="queryForm.title" placeholder="标题" />-->
         <!--</el-form-item>-->
@@ -144,6 +149,7 @@
           pageSize: 20,
           title: '',
         },
+        timeRange: 'day',
         pickerOptions: {
           disabledDate(time) {
             return time.getTime() > Date.now();
@@ -259,20 +265,39 @@
           this.$message.error('请选择日期')
           return
         }
-        valStart = valStart + ' 00:00:00'
-        val = val + ' 23:59:59';
-        var timedate = val;
+        var valStart = this.valueDateDate[0] + ' 00:00:00';
+        var valEnd = this.valueDateDate[1] + ' 23:59:59';
+        var timedate = valEnd;
+        var data = undefined;
+
+        // 当选择按周显示时，处理数据
+        if (this.timeRange === 'week') {
+          const data = await getActiveDetailList(valStart, valEnd, 1, this.queryForm.pageSize * 7); // 获取一周的数据
+          const weeklyData = this.groupDataByWeek(data.data); 
+          console.log('weeklyData')
+          console.log(weeklyData);
+          this.list = weeklyData;
+        }
+        // 当选择按月显示时，处理数据
+        else if (this.timeRange === 'month') {
+          const data = await getActiveDetailList(valStart, valEnd, 1, this.queryForm.pageSize * 30); // 获取30天的数据
+          console.log('monthlyData')
+          console.log(data);
+          const monthlyData = this.groupDataByMonth(data.data); 
+          this.list = monthlyData;
+        }
+        // 当选择按日显示时，处理数据
+        else {
+          const data = await getActiveDetailList(valStart, valEnd, this.queryForm.pageNo, this.queryForm.pageSize);
+          this.list = data.data;
+        }
+        
+        
+        // var data =  await getActiveDetailList(valStart, timedate, this.queryForm.pageNo, this.queryForm.pageSize)
         this.listLoading = true
 
-        // 接口调用
-        var data =  await getActiveDetailList(valStart, timedate, this.queryForm.pageNo, this.queryForm.pageSize)
-        // console.log(data);
-
-        // 结果处理
-        // var result = data?.result == undefined ? [] : data?.result; 
-        // console.log(result);
-        this.list = data?.data == undefined ? [] : data?.data;
-        console.log(this.list);
+        
+        // this.list = data?.data == undefined ? [] : data?.data;
         // var totalCount = result.total;
         // this.total = totalCount
         setTimeout(() => {
@@ -319,6 +344,37 @@
       },
       testNotify() {
         this.$baseNotify('测试消息提示', 'test', 'success', 'bottom-right')
+      },
+      // 自定义函数，按周分组求和
+      groupDataByWeek(data) {
+        const groupedData = [];
+        let weekData = [];
+        data.forEach((item, index) => {
+          weekData.push(item);
+          if ((index + 1) % 7 === 0 || index === data.length - 1) {
+            const sum = weekData.reduce((acc, curr) => acc + curr.num, 0);
+            const firstDay = moment(weekData[0].timedate).format('YYYY-MM-DD');
+            groupedData.push({ timedate: firstDay, num: sum });
+            weekData = [];
+          }
+        });
+        return groupedData;
+      },
+      
+      // 自定义函数，按月分组求和
+      groupDataByMonth(data) {
+        const groupedData = [];
+        let monthData = [];
+        data.forEach((item, index) => {
+          monthData.push(item);
+          if (index > 0 && moment(item.timedate).month() !== moment(data[index - 1].timedate).month()) {
+            const sum = monthData.reduce((acc, curr) => acc + curr.num, 0);
+            const monthFirstDay = moment(monthData[0].timedate).format('YYYY-MM');
+            groupedData.push({ timedate: monthFirstDay, num: sum });
+            monthData = [item];
+          }
+        });
+        return groupedData;
       },
     },
   }
