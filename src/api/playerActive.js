@@ -56,12 +56,13 @@ export function getActiveNum(dateTime) {
   })
 }
 
-export function getActiveDetailList(countTime,pageNo,pageSize) {
+export function getActiveDetailList(startTime,endTime,pageNo,pageSize) {
   return request({
-    url:'/active/log/fetchDailyActiveUserLogByPage',
-    method: 'post',
+    url:'/player/active/num/day',
+    method: 'get',
     params:{
-      'countTime': countTime,
+      'startTime': startTime,
+      'endTime': endTime,
       'pageNo': pageNo,
       'pageSize': pageSize
     }

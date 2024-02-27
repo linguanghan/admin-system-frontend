@@ -259,8 +259,10 @@
         let queryFormTemp = this.dataFormat(queryForm)
         this.listLoading = true
         var data = await getBookDetailList(queryFormTemp);
+        console.log(data);
         var result = data?.result == undefined ? [] : data?.result;
         this.list = result?.data == undefined ? [] : result.data;
+        console.log(this.list);
         this.total = result?.total == undefined ? 0 : result.total;
         this.listLoading = false
       },

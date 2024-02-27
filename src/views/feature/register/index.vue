@@ -308,10 +308,6 @@
         this.fetchData(this.queryForm)
       },
       async fetchData(queryForm) {
-        // if (this.valueDate < this.valueDateStart) {
-        //   alert('结束日期需大于开始日期')
-        //   return
-        // }
         if(this.valueDateDate == undefined ) {
           this.$message.error('请选择日期');
           return;
