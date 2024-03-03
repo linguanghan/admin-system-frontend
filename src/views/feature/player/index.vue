@@ -167,7 +167,7 @@
     mounted() {},
     methods: {
       stateValueFormatter(row, column) {
-        if (row.release == 1) {
+        if (row.state == 1) {
           return '是'
         } else {
           return '否'

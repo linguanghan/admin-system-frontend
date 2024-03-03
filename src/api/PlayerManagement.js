@@ -34,6 +34,9 @@ export function getPlayerDetailListById(agentPid) {
 }
 
 export function updatePlayerInfo(data) {
+  data = {
+    ...data,
+  }
   return request({
     url: '/player/management/update/info',
     method: 'post',
@@ -54,5 +57,13 @@ export function savePlayerInfo(data) {
     url: '/player/management/save/info',
     method: 'post',
     data,
+  })
+}
+
+
+export function getPlayerInfoById(playerId) {
+  return request({
+    url: '/player/getPlayerInfoById?playerId=' + playerId,
+    method: 'get'
   })
 }
