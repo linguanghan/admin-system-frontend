@@ -160,9 +160,9 @@
             this.$parent.fetchData(this.$parent.queryForm)
             this.form = this.$options.data().form
           } else {
-            return false
+            return false;
           }
-        })
+        });
       },
       async fillAgentName(val) {
         let res = await getPlayerInfoById(val);
