@@ -10,13 +10,25 @@
         <el-input v-model.trim="form.id" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="代理编号" prop="agentPid">
-        <el-input v-model.trim="form.agentPid" autocomplete="off"></el-input>
+        <el-input v-model.trim="form.agentPid" autocomplete="off" disabled></el-input>
       </el-form-item>
       <el-form-item label="代理名称" prop="agentName">
         <el-input v-model.trim="form.agentName" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="状态" prop="state">
-        <el-input v-model.trim="form.state" placeholder="请输入状态"></el-input>
+        <el-select
+            v-model="form.state" 
+            placeholder="请选择"
+            clearable
+            style="width: 100%;"
+            >
+            <el-option
+              v-for="item in statusOptons"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="用户数" prop="userNum">
         <el-input v-model.trim="form.userNum" autocomplete="off"></el-input>
@@ -31,7 +43,20 @@
         <el-input v-model.trim="form.profitRatio" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="身份" prop="identity">
-        <el-input v-model.trim="form.identity" autocomplete="off"></el-input>
+        <el-select
+            v-model="form.identity" 
+            placeholder="请选择"
+            clearable
+            style="width: 100%;"
+            disabled
+            >
+            <el-option
+              v-for="item in identityOptons"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+          </el-option>
+        </el-select>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -72,6 +97,39 @@
         },
         title: '',
         dialogFormVisible: false,
+        statusOptons: [
+          {
+            label: "是",
+            value: 1
+          },
+          {
+            label: "否",
+            value: 0
+          }
+        ],
+        //0-默认 1-学生 2-老师 3-家长 4-班主任
+        identityOptons: [
+          {
+            label: "默认",
+            value: 0
+          },
+          {
+            label: "学生",
+            value: 1
+          },
+          {
+            label: "老师",
+            value: 2
+          },
+          {
+            label: "家长",
+            value: 3
+          },
+          {
+            label: "班主任",
+            value: 4
+          }
+        ]
       }
     },
     methods: {
