@@ -28,16 +28,16 @@
         </el-select>
       </el-form-item>
       <el-form-item label="用户数" prop="userNum">
-        <el-input v-model.trim="form.userNum" autocomplete="off" placeholder="请输入数字"></el-input>
+        <el-input v-model.trim="form.userNum" autocomplete="off" placeholder="请输入数字（非空）"></el-input>
       </el-form-item>
       <el-form-item label="总收益" prop="totalProfit">
-        <el-input v-model.trim="form.totalProfit" autocomplete="off" placeholder="请输入数字"></el-input>
+        <el-input v-model.trim="form.totalProfit" autocomplete="off" placeholder="请输入数字(非空)"></el-input>
       </el-form-item>
       <el-form-item label="当前收益" prop="curProfit">
-        <el-input v-model.trim="form.curProfit" autocomplete="off" placeholder="请输入数字"></el-input>
+        <el-input v-model.trim="form.curProfit" autocomplete="off" placeholder="请输入数字（非空）"></el-input>
       </el-form-item>
       <el-form-item label="收益比例" prop="profitRatio">
-        <el-input v-model.trim="form.profitRatio" autocomplete="off" placeholder="请输入数字"></el-input>
+        <el-input v-model.trim="form.profitRatio" autocomplete="off" placeholder="请输入数字（非空）"></el-input>
       </el-form-item>
       <el-form-item label="身份" prop="identity">
         <el-select
@@ -45,7 +45,6 @@
             placeholder="请选择"
             clearable
             style="width: 100%;"
-            disabled
             >
             <el-option
               v-for="item in identityOptons"
