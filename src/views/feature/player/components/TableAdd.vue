@@ -45,7 +45,6 @@
             placeholder="请选择"
             clearable
             style="width: 100%;"
-            disabled
             >
             <el-option
               v-for="item in identityOptons"
