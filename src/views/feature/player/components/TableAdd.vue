@@ -10,7 +10,7 @@
         <el-input v-model.trim="form.agentPid" autocomplete="off" @change="(val) => {fillAgentName(val)}"></el-input>
       </el-form-item>
       <el-form-item label="代理名称" prop="agentName">
-        <el-input v-model.trim="form.agentName" autocomplete="off"></el-input>
+        <el-input v-model.trim="form.agentName" autocomplete="off" disabled></el-input>
       </el-form-item>
       <el-form-item label="状态" prop="state">
         <el-select
