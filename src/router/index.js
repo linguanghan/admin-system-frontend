@@ -92,7 +92,6 @@ export const asyncRoutes = [
         name: 'Daily',
         meta: {
           title: '绘本每日数据',
-          badge: 'New',
           permissions: ['admin'],
         },
       },
@@ -102,7 +101,7 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/version/index'),
         meta: {
           title: '特定版本购买',
-          badge: 'New',
+          
           permissions: ['admin'],
         },
       },
@@ -112,7 +111,7 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/purchase/index'),
         meta: {
           title: '用户购买版本',
-          badge: 'New',
+          
           permissions: ['admin'],
         },
       },
@@ -122,7 +121,7 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/video/index'),
         meta: {
           title: '视频查询',
-          badge: 'New',
+          
           permissions: ['admin'],
         },
       },
@@ -132,7 +131,7 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/book/index'),
         meta: {
           title: '书本版号',
-          badge: 'New',
+          
           permissions: ['admin', 'customer2', 'customer3'],
         },
       },
@@ -140,7 +139,7 @@ export const asyncRoutes = [
         path: 'player',
         name: 'Player',
         component: () => import('@/views/feature/player/index'),
-        meta: { title: '用户代理', badge: 'New',permissions: ['admin','customer'] },
+        meta: { title: '用户代理', permissions: ['admin','customer'] },
       },
       {
         path: 'review',
@@ -148,7 +147,7 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/review/index'),
         meta: {
           title: '用户评论',
-          badge: 'New',
+          
           permissions: ['admin', 'customer'],
         },
       },
@@ -158,7 +157,7 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/funcVersion/index'),
         meta: {
           title: '功能版号',
-          badge: 'New',
+          
           permissions: ['admin', 'customer2', 'customer3'],
         },
       },
@@ -166,7 +165,7 @@ export const asyncRoutes = [
         path: 'eventTrackLog',
         name: 'EventTrackLog',
         component: () => import('@/views/feature/eventTrackLog/index'),
-        meta: { title: '埋点记录', badge: 'New', permissions: ['admin'] },
+        meta: { title: '埋点记录',  permissions: ['admin'] },
       },
       {
         path: 'queryRecharge',
@@ -174,7 +173,6 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/queryRecharge/index'),
         meta: {
           title: '查询充值',
-          badge: 'New',
           permissions: ['admin', 'customer'],
         },
       },
@@ -183,8 +181,8 @@ export const asyncRoutes = [
         name: 'QueryPackage',
         component: () => import('@/views/feature/queryPackage/index'),
         meta: {
-          title: '按包查询',
-          badge: 'New',
+          title: 'App充值查询',
+          badge: 'New',          
           permissions: ['admin', 'customer'],
         },
       },
@@ -194,7 +192,7 @@ export const asyncRoutes = [
         redirect: 'noRedirect',
         name: 'HuibenVip',
         alwaysShow: true,
-        meta: { title: '绘本VIP', badge: 'New', permissions: ['admin'] },
+        meta: { title: '绘本VIP',  permissions: ['admin'] },
         children: [
           {
             path: 'vipRecordList',
@@ -203,7 +201,7 @@ export const asyncRoutes = [
               import('@/views/feature/playerext/vipRecordList/index'),
             meta: {
               title: '绘本VIP查询',
-              badge: 'New',
+              
               permissions: ['admin'],
             },
           },
@@ -214,7 +212,7 @@ export const asyncRoutes = [
               import('@/views/feature/playerext/vipDailyRecord/index'),
             meta: {
               title: '绘本VIP充值查询',
-              badge: 'New',
+              
               permissions: ['admin'],
             },
           },
@@ -226,13 +224,13 @@ export const asyncRoutes = [
         redirect: 'noRedirect',
         name: 'Record',
         alwaysShow: true,
-        meta: { title: '操作记录', badge: 'New', permissions: ['admin'] },
+        meta: { title: '操作记录',  permissions: ['admin'] },
         children: [
           {
             path: 'changeregister',
             name: 'Changeregister',
             component: () => import('@/views/feature/record/change/index'),
-            meta: { title: '转移记录', badge: 'New', permissions: ['admin'] },
+            meta: { title: '转移记录',  permissions: ['admin'] },
           },
         ],
       },
