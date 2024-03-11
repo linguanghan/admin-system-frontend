@@ -97,6 +97,7 @@
         label="角色ID">
       </el-table-column>
       <el-table-column
+        :formatter="dateFormatter2"
         show-overflow-tooltip
         prop="createtime"
         label="创建时间">
@@ -107,6 +108,7 @@
         label="书本编号">
       </el-table-column>
       <el-table-column
+        :formatter="stateValueFormatter"
         show-overflow-tooltip
         prop="state"
         label="开通状态">
@@ -190,8 +192,15 @@
       this.defaultDate.setMonth(new Date().getMonth()-1);
     },
     methods: {
+      stateValueFormatter(row, column) {
+        if (row.state == 1) {
+          return '是'
+        } else {
+          return '否'
+        }
+      },
       dateFormatter:function(row){
-        var date = new Date(row['lastlogin']*1000) //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        var date = new Date(row['lastlogin']*1000) 
         var Y = date.getFullYear() + '-'
         var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-'
         var D = date.getDate() + ' '
@@ -199,6 +208,21 @@
         var m = date.getMinutes() + ':'
         var s = date.getSeconds()
         return Y+M+D+h+m+s
+      },
+      dateFormatter2(row, column) {
+        const milliseconds = row.createtime * 1000;
+        console.log(milliseconds)
+        
+        const dateObject = new Date(milliseconds);
+        console.log(dateObject)
+          
+        const year = dateObject.getFullYear();
+        const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+        const day = String(dateObject.getDate()).padStart(2, '0');
+          
+        const formattedDate = `${year}-${month}-${day}`;
+          
+        return formattedDate;
       },
       timestampToTime(row, column) {
         var date = new Date(row['createtime']); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
@@ -276,13 +300,8 @@
           this.$message.error('结束日期需大于开始日期')
           return;
         }
-        console.log(this.valueDateDate[0])
-        console.log(this.valueDateDate[1])
-        // var val = this.valueDate;
-        // var valStart = this.valueDateStart;
         var val = this.valueDateDate[1];
         var valStart = this.valueDateDate[0];
-        console.log(val)
         if (val == undefined || val.trim().length == 0||valStart == undefined || valStart.trim().length == 0){
           this.$message.error('请选择日期')
           return
