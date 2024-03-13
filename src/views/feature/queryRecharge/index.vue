@@ -147,7 +147,7 @@
        <el-table-column
         show-overflow-tooltip
         prop="remainTime"
-        label="使用时间（月）">
+        label="剩余使用时间（月）">
       </el-table-column>
        <el-table-column
         show-overflow-tooltip
@@ -167,9 +167,8 @@
       <el-table-column show-overflow-tooltip label="操作" width="180px">
         <template #default="{ row }">
           <el-button type="text" @click="handleLock(row, row.unlock == 1 ?  '加锁' : '解锁' )">
-           {{ row.unlockShow == 0 ? 
-              '' : row.unlock == 1 ?
-              '加锁' : '解锁' 
+            {{
+              row.unlock == 1 ?'加锁' : '解锁' 
             }}
           </el-button>
           <el-button type="text" @click="handleEdit(row)">
@@ -288,7 +287,6 @@
       },
       handleAdd() {
         this.$refs['add-form'].showEdit();
-        console.log("新增");
       },
       handleLock(row, operateTypeName) {
         this.$confirm(`是否进行${operateTypeName}操作`, '提示', {
@@ -296,8 +294,6 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(async() => {
-          console.log(row?.unlock);
-          console.log(row?.unlock ^ 1);
           const res = await this.updateUnlockStatus(row.id, row?.unlock ^ 1)
           // this.listLoading = true
           this.fetchData(this.queryForm);
@@ -350,8 +346,7 @@
          }
       },
       handleEdit(row) {
-        this.$refs['edit-form'].showEdit(row);
-        console.log("编辑", row);
+        this.$refs['edit-form'].showEdit(row);        
       },
   async fetchDailyData() {
     this.listLoading = true
