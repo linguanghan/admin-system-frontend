@@ -295,7 +295,6 @@
           type: 'warning'
         }).then(async() => {
           const res = await this.updateUnlockStatus(row.id, row?.unlock ^ 1)
-          // this.listLoading = true
           this.fetchData(this.queryForm);
           if(res?.success == true) {
             this.$message({
@@ -309,13 +308,11 @@
             });
           }
           
-          // this.listLoading = false
         }).catch(() => {
           this.$message({
             type: 'info',
             message: '已取消'
-          });   
-          // this.listLoading = false       
+          });  
         });
       },
       bookTypeFormatter(row) {
