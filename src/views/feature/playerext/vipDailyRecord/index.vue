@@ -24,8 +24,7 @@
           v-model="valueDateDate"
           type="date"
           value-format="yyyy-MM-dd"
-          format="yyyy-MM-dd"
-          :default-value="defaultDate">
+          format="yyyy-MM-dd">
         </el-date-picker>
         <el-button
           icon="el-icon-search"
@@ -53,7 +52,7 @@
       <!--</vab-query-form-right-panel>-->
     </vab-query-form>
 
-    <el-table
+    <!-- <el-table
       ref="tableSort"
       v-loading="listLoading"
       :data="list"
@@ -74,36 +73,15 @@
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
-        prop="vipRechargeCount"
+        prop="total"
         label="充值人数">
+        <template #default="{ row }">
+          {{ row.total }}
+        </template>
       </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        label="统计日期"
-        prop="countTime">
-      </el-table-column>
-      <!--<el-table-column show-overflow-tooltip label="等级">-->
-      <!--<template #default="{ row }">-->
-      <!--<el-tooltip-->
-      <!--:content="row.status"-->
-      <!--class="item"-->
-      <!--effect="dark"-->
-      <!--placement="top-start"-->
-      <!--&gt;-->
-      <!--<el-tag :type="row.status | statusFilter">-->
-      <!--{{ row.status }}-->
-      <!--</el-tag>-->
-      <!--</el-tooltip>-->
-      <!--</template>-->
-      <!--</el-table-column>-->
-      <!--<el-table-column show-overflow-tooltip label="操作" width="180px">-->
-      <!--<template #default="{ row }">-->
-      <!--<el-button type="text" @click="handleEdit(row)">编辑</el-button>-->
-      <!--<el-button type="text" @click="handleDelete(row)">删除</el-button>-->
-      <!--</template>-->
-      <!--</el-table-column>-->
-    </el-table>
-    <el-pagination
+    </el-table> -->
+    <span id="rechargeNum" style="font-size: larger;">当日充值数量</span>
+    <!-- <el-pagination
       :background="background"
       :current-page="queryForm.pageNo"
       :layout="layout"
@@ -111,7 +89,7 @@
       :total="total"
       @current-change="handleCurrentChange"
       @size-change="handleSizeChange"
-    ></el-pagination>
+    ></el-pagination> -->
   </div>
 </template>
 
@@ -198,6 +176,13 @@
         var s = date.getSeconds();
         return Y + M + D + h + m + s;
       },
+      convertToUnixTimestamp(dateString) {
+          // 将日期字符串解析为 Date 对象
+          var date = new Date(dateString);
+          // 获取 Unix 时间戳（单位为毫秒）
+          var unixTimestamp = date.getTime();
+          return unixTimestamp / 1000;
+      },
       tableSortChange() {
         const imageList = []
         this.$refs.tableSort.tableData.forEach((item, index) => {
@@ -247,12 +232,19 @@
       },
       async fetchData(queryForm) {
         console.log(this.valueDateDate);
+        var startTimeStamp=this.convertToUnixTimestamp(this.valueDateDate);
+        console.log(startTimeStamp);
         this.listLoading = true
-        var data =  await fetchDailyVipRechargeUserLogByPage(this.valueDateDate, this.queryForm.pageNo, this.queryForm.pageSize)
+        var data =  await fetchDailyVipRechargeUserLogByPage(startTimeStamp, 1, 1)
+        console.log(data);
         var result = data?.result == undefined ? [] : data?.result; 
+        console.log(result);
         this.list = result?.data == undefined ? [] : result?.data;
+        console.log(this.list);
         var totalCount = result.total;
         this.total = totalCount
+        document.getElementById('rechargeNum').innerHTML = '当日充值数量: ' + this.total;
+        console.log(this.total);
         setTimeout(() => {
           this.listLoading = false
         }, 500)

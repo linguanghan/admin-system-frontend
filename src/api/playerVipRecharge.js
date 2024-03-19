@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 
-export function fetchDailyVipRechargeUserLogByPage(countTime,pageNo,pageSize) {
+export function fetchDailyVipRechargeUserLogByPage(countTime,endTime,pageNo,pageSize) {
   return request({
     url:'/vipRecharge/log/fetchDailyVipRechargeUserLogByPage',
     method: 'post',
