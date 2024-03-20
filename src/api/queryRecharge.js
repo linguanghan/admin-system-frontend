@@ -33,13 +33,14 @@ export function changeRecharge(form) {
  * @param {*} form 
  * @returns 
  */
-export function updateUnlockStatus(id, unlock) {
+export function updateUnlockStatus(id, unlock, pid) {
   return request({
     url: '/player/unit/updateUnlockStatus',
     method: 'post',
     params: {
       id: id,
-      unlock: unlock
+      unlock: unlock,
+      pid: pid
     },
   })
 }

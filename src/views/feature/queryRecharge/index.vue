@@ -294,7 +294,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(async() => {
-          const res = await this.updateUnlockStatus(row.id, row?.unlock ^ 1)
+          const res = await this.updateUnlockStatus(row.id, row?.unlock ^ 1, row.pid)
           this.fetchData(this.queryForm);
           if(res?.success == true) {
             this.$message({
@@ -319,8 +319,8 @@
         const bookTypesMap = getBooktypes().bookTypesMap;
         return bookTypesMap.get(row.bookType) == undefined ? 0 :  bookTypesMap.get(row.bookType);
       },
-      async updateUnlockStatus(id, unlockStatus) {
-         const res = await updateUnlockStatus(id, unlockStatus);
+      async updateUnlockStatus(id, unlockStatus, pid) {
+         const res = await updateUnlockStatus(id, unlockStatus, pid);
          return res;
       },
       async fetchData(queryForm) {
