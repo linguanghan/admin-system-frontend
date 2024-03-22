@@ -3,6 +3,7 @@
     <vab-query-form>
       <el-form
         ref="form"
+        style="display: flex; justify-content: space-between;"
         :model="queryForm"
         :inline="true"
         @submit.native.prevent
@@ -18,9 +19,9 @@
       :default-value="defaultDate"
     ></el-date-picker>
     <el-select v-model="timeRange" placeholder="选择时间范围" style="margin-left: 10px">
-      <el-option label="按日" value="day"></el-option>
-      <el-option label="按周" value="week"></el-option>
-      <el-option label="按月" value="month"></el-option>
+      <el-option label="按日显示" value="day"></el-option>
+      <el-option label="按周显示" value="week"></el-option>
+      <el-option label="按月显示" value="month"></el-option>
     </el-select>
     <el-input
       v-model="packageIdx"

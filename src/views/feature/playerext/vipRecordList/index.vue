@@ -3,6 +3,7 @@
     <vab-query-form>
         <el-form
           ref="form"
+          style="text-align: right;"
           :model="queryForm"
           :inline="true"
           @submit.native.prevent
@@ -19,7 +20,7 @@
             icon="el-icon-search"
             type="primary"
             native-type="submit"
-            style="margin-left: 10px"
+            style="margin-left: 10px;"
             @click="handleQuery"
           >
             查询
