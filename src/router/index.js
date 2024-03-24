@@ -86,15 +86,15 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/active/index'),
         meta: { title: '活跃查询', permissions: ['admin'] },
       },
-      {
-        path: 'daily',
-        component: () => import('@/views/feature/daily/index'),
-        name: 'Daily',
-        meta: {
-          title: '绘本每日数据',
-          permissions: ['admin'],
-        },
-      },
+      // {
+      //   path: 'daily',
+      //   component: () => import('@/views/feature/daily/index'),
+      //   name: 'Daily',
+      //   meta: {
+      //     title: '绘本每日数据',
+      //     permissions: ['admin'],
+      //   },
+      // },
       {
         path: 'version',
         name: 'Version',

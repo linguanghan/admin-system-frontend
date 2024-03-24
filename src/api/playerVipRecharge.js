@@ -1,12 +1,12 @@
 import request from '@/utils/request'
 
 
-export function fetchDailyVipRechargeUserLogByPage(countTime,pageNo,pageSize) {
+export function fetchDailyVipRechargeUserLogByPage(pageNo,pageSize) {
   return request({
-    url:'/vipRecharge/log/fetchDailyVipRechargeUserLogByPage',
+    url:'/playerExt/getPictureBookDailyRecharges',
     method: 'post',
     params:{
-      'countTime': countTime,
+      // 'countTime': countTime,
       'pageNo': pageNo,
       'pageSize': pageSize
     }
