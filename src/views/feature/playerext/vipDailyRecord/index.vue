@@ -20,7 +20,7 @@
         :inline="true"
         @submit.native.prevent
       >
-        <el-date-picker
+        <!-- <el-date-picker
           v-model="valueDateDate"
           type="date"
           value-format="yyyy-MM-dd"
@@ -35,7 +35,7 @@
           @click="handleQuery"
         >
           查询
-        </el-button>
+        </el-button> -->
         <!--<el-form-item>-->
         <!--<el-input v-model="queryForm.title" placeholder="标题" />-->
         <!--</el-form-item>-->
@@ -67,20 +67,27 @@
         type="selection"
         width="55"
       ></el-table-column>
-      <el-table-column show-overflow-tooltip label="序号" width="95">
+      <!-- <el-table-column show-overflow-tooltip label="序号" width="95">
         <template #default="scope">
           {{ scope.$index + 1 }}
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         show-overflow-tooltip
-        prop="vipRechargeCount"
+        label="日期"
+        prop="fTime">
+      </el-table-column>
+
+      <el-table-column
+        show-overflow-tooltip
+        prop="num"
         label="充值人数">
       </el-table-column>
+
       <el-table-column
         show-overflow-tooltip
-        label="统计日期"
-        prop="countTime">
+        label="充值总金额"
+        prop="fund">
       </el-table-column>
       <!--<el-table-column show-overflow-tooltip label="等级">-->
       <!--<template #default="{ row }">-->
@@ -169,6 +176,7 @@
     },
     created() {
       this.fetchData(this.queryForm)
+      this.handleQuery();
     },
     beforeDestroy() {},
     mounted() {
@@ -248,7 +256,7 @@
       async fetchData(queryForm) {
         console.log(this.valueDateDate);
         this.listLoading = true
-        var data =  await fetchDailyVipRechargeUserLogByPage(this.valueDateDate, this.queryForm.pageNo, this.queryForm.pageSize)
+        var data =  await fetchDailyVipRechargeUserLogByPage(this.queryForm.pageNo, this.queryForm.pageSize)
         var result = data?.result == undefined ? [] : data?.result; 
         this.list = result?.data == undefined ? [] : result?.data;
         var totalCount = result.total;
