@@ -2,7 +2,7 @@
   "editor.quickSuggestions": {
     "strings": true
   },
-  "workbench.colorTheme": "2077",
+  "workbench.colorTheme": "GitHub Dark Default",
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
   "emmet.triggerExpansionOnTab": true,

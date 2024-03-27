@@ -132,7 +132,7 @@ export const asyncRoutes = [
         meta: {
           title: '书本版号',
           
-          permissions: ['admin', 'customer2', 'customer3'],
+          permissions: ['admin', 'customer2', 'customer3', 'kfpz'],
         },
       },
       {
@@ -158,7 +158,7 @@ export const asyncRoutes = [
         meta: {
           title: '功能版号',
           
-          permissions: ['admin', 'customer2', 'customer3'],
+          permissions: ['admin', 'customer2', 'customer3', 'kfpz'],
         },
       },
       {
