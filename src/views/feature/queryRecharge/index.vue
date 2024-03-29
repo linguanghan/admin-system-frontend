@@ -147,7 +147,7 @@
        <el-table-column
         show-overflow-tooltip
         prop="remainTime"
-        label="剩余使用时间（月）">
+        label="使用时间（月）">
       </el-table-column>
        <el-table-column
         show-overflow-tooltip

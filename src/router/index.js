@@ -182,7 +182,7 @@ export const asyncRoutes = [
         name: 'QueryRecharge',
         component: () => import('@/views/feature/queryRecharge/index'),
         meta: {
-          title: '充值查询和操作',
+          title: '充值查询',
           permissions: ['admin', 'customer'],
         },
       },
