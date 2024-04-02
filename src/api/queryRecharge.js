@@ -45,6 +45,30 @@ export function updateUnlockStatus(id, unlock, pid) {
   })
 }
 
+export function PicLock(id, unlock, pid) {
+  return request({
+    url: '/player/unit/picLock',
+    method: 'post',
+    params: {
+      id: id,
+      unlock: unlock,
+      pid: pid
+    },
+  })
+}
+
+export function PicUnlock(id, unlock, pid) {
+  return request({
+    url: '/player/unit/picUnlock',
+    method: 'post',
+    params: {
+      id: id,
+      unlock: unlock,
+      pid: pid
+    },
+  })
+}
+
 export function queryBookResourceOptions(pid) {
   return request({
     url: '/player/unit/queryBookResourceOptions',

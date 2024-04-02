@@ -332,6 +332,8 @@
          const queryFormTemp = {...queryForm}
          delete queryFormTemp.createTime;
          try {
+            console.log('tempform')
+            console.log(queryFormTemp)
             var data =  await queryRechargeByPage(queryFormTemp)
             var result = data?.result == undefined ?  [] : data?.result;
             this.list = result?.data == undefined ? [] : result?.data;
