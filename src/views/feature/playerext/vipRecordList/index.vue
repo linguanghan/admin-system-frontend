@@ -87,6 +87,23 @@
         label="最近第三次绘本VIP购买类型"
         prop="playerExtCreateTimeTypeEntities[2].type">
       </el-table-column>
+      <el-table-column show-overflow-tooltip label="操作" width="180px">
+        <template #default="{ row }">
+          <el-button type="text" @click="handleUnlock(row, '解锁' )">
+            {{
+              row.unlock == 1 ?'加锁' : '解锁' 
+            }}
+          </el-button>
+          <el-button type="text" @click="handleLock(row,  '加锁' )">
+            {{
+              row.unlock == 1 ?'解锁' : '加锁' 
+            }}
+          </el-button>
+          <!-- <el-button type="text" @click="handleEdit(row)">
+           编辑
+          </el-button> -->
+        </template>
+      </el-table-column>
       <!--<el-table-column show-overflow-tooltip label="操作" width="180px">-->
         <!--<template #default="{ row }">-->
           <!--<el-button type="text" @click="handleEdit(row)">编辑</el-button>-->
@@ -109,6 +126,7 @@
 
 <script>
   import { queryPlayerExt } from '@/api/playerext'
+  import { queryRechargeByPage, updateUnlockStatus, PicLock, PicUnlock } from '@/api/queryRecharge'
   var moment = require('moment');
   export default {
     name: '',
@@ -181,6 +199,78 @@
       handleQuery() {
         this.queryForm.pageNo = 1
         this.fetchData(this.queryForm)
+      },
+      handleUnlock(row, operateTypeName) {
+        this.$confirm(`是否进行${operateTypeName}操作`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(async() => {
+          console.log(row?.unlock ^ 1)
+          const res = await this.PicUnlock(row.id, 1, row.id)
+          this.fetchData(this.queryForm);
+          if(res?.success == true) {
+            this.$message({
+              type: 'success',
+              message: '操作成功!'
+            });
+          }else{
+            this.$message({
+              type: 'error',
+              message: res?.errorMsg
+            });
+          }
+          
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });  
+        });
+      },
+      handleLock(row, operateTypeName) {
+        this.$confirm(`是否进行${operateTypeName}操作`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(async() => {
+          console.log(row?.unlock ^ 1)
+          const res = await this.PicLock(row.id, 0, row.id)
+          this.fetchData(this.queryForm);
+          if(res?.success == true) {
+            this.$message({
+              type: 'success',
+              message: '操作成功!'
+            });
+          }else{
+            this.$message({
+              type: 'error',
+              message: res?.errorMsg
+            });
+          }
+          
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });  
+        });
+      },
+      bookTypeFormatter(row) {
+        const bookTypesMap = getBooktypes().bookTypesMap;
+        return bookTypesMap.get(row.bookType) == undefined ? 0 :  bookTypesMap.get(row.bookType);
+      },
+      async updateUnlockStatus(id, unlockStatus, pid) {
+         const res = await updateUnlockStatus(id, unlockStatus, pid);
+         return res;
+      },
+      async PicLock(id, unlockStatus, pid) {
+         const res = await PicLock(id, unlockStatus, pid);
+         return res;
+      },
+      async PicUnlock(id, unlockStatus, pid) {
+         const res = await PicUnlock(id, unlockStatus, pid);
+         return res;
       },
       async fetchData(queryForm) {
         var data =  await queryPlayerExt(queryForm)
