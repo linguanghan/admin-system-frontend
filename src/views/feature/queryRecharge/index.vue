@@ -189,6 +189,7 @@
     <book-change-form ref="book-change-form" @fresh="fetchData(queryForm)"></book-change-form>
     <edit-form ref="edit-form"  @fresh="fetchData(queryForm)"></edit-form>
     <add-form ref="add-form"  @fresh="fetchData(queryForm)"></add-form>
+    <update-book-id ref="updateBookIdDialog" @fresh="fetchData(queryForm)"></update-book-id>
   </div>
 </template>
 
@@ -197,6 +198,7 @@
   import BookChangeForm from './components/BookChangeForm'
   import EditForm from './components/EditForm'
   import AddForm from './components/AddForm'
+  import UpdateBookId from './components/UpdateBookId.vue'
   import {getBooktypes} from '@/assets/data/bookTypeDefine.js'
   var moment = require('moment');
   export default {
@@ -204,7 +206,8 @@
     components: {
       BookChangeForm,
       EditForm,
-      AddForm
+      AddForm,
+      UpdateBookId
     },
     filters: {
       statusFilter(status) {
@@ -288,79 +291,69 @@
       handleAdd() {
         this.$refs['add-form'].showEdit();
       },
-      handleLock(row, operateTypeName) {
-        this.$confirm(`是否进行${operateTypeName}操作`, '提示', {
+      handleLock(row) {
+      this.currentRow = row;
+      if (row.unlock === 1) {
+        // 弹出确认加锁的对话框
+        this.$confirm('是否进行加锁操作？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
-        }).then(async() => {
-          const res = await this.updateUnlockStatus(row.id, row?.unlock ^ 1, row.pid)
-          this.fetchData(this.queryForm);
-          if(res?.success == true) {
+        }).then(async () => {
+          const res = await this.updateUnlockStatus(row.id, 0, row.pid);
+          if (res.success) {
             this.$message({
               type: 'success',
-              message: '操作成功!'
+              message: '加锁成功!',
             });
-          }else{
+            this.fetchData(this.queryForm);
+          } else {
             this.$message({
               type: 'error',
-              message: res?.errorMsg
+              message: res.errorMsg,
             });
           }
-          
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消'
-          });  
+            message: '已取消加锁操作'
+          });
         });
-      },
-      bookTypeFormatter(row) {
-        const bookTypesMap = getBooktypes().bookTypesMap;
-        return bookTypesMap.get(row.bookType) == undefined ? 0 :  bookTypesMap.get(row.bookType);
-      },
-      async updateUnlockStatus(id, unlockStatus, pid) {
-         const res = await updateUnlockStatus(id, unlockStatus, pid);
-         return res;
-      },
-      async fetchData(queryForm) {
-         this.listLoading = true
-         if(Array.isArray(queryForm.createTime)){
-          queryForm["startTime"] = queryForm.createTime[0];
-          queryForm["endTime"] = queryForm.createTime[1];
-         }
-         const queryFormTemp = {...queryForm}
-         delete queryFormTemp.createTime;
-         try {
-            console.log('tempform')
-            console.log(queryFormTemp)
-            var data =  await queryRechargeByPage(queryFormTemp)
-            var result = data?.result == undefined ?  [] : data?.result;
-            this.list = result?.data == undefined ? [] : result?.data;
-            this.total = result.total
-         } catch (error) {
-            message.error(error.message);
-         } finally{
-            this.listLoading = false
-         }
-      },
-      handleEdit(row) {
-        this.$refs['edit-form'].showEdit(row);        
-      },
-  async fetchDailyData() {
-    this.listLoading = true
-    const { data, totalCount } = await getList(this.queryForm)
-    this.list = data
-    const imageList = []
-    data.forEach((item, index) => {
-      imageList.push(item.img)
-  })
-    this.imageList = imageList
-    this.total = totalCount
-    setTimeout(() => {
-      this.listLoading = false
-  }, 500)
-  },
-  },
+      } else {
+        // 弹出解锁的修改框
+        if (this.$refs.updateBookIdDialog) {
+          this.$refs.updateBookIdDialog.showEdit(row);
+        } else {
+          console.error('Reference to updateBookIdDialog is not found');
+        }
+      }
+    },
+    async updateUnlockStatus(id, unlockStatus, pid) {
+      const res = await updateUnlockStatus(id, unlockStatus, pid);
+      return res;
+    },
+    async fetchData(queryForm) {
+      this.listLoading = true
+      if (Array.isArray(queryForm.createTime)) {
+        queryForm['startTime'] = queryForm.createTime[0]
+        queryForm['endTime'] = queryForm.createTime[1]
+      }
+      const queryFormTemp = { ...queryForm }
+      delete queryFormTemp.createTime
+      try {
+        var data = await queryRechargeByPage(queryFormTemp)
+        var result = data?.result == undefined ? [] : data?.result
+        this.list = result?.data == undefined ? [] : result?.data
+        this.total = result.total
+      } catch (error) {
+        message.error(error.message)
+      } finally {
+        this.listLoading = false
+      }
+    },
+    handleEdit(row) {
+      this.$refs['edit-form'].showEdit(row)
+    },
   }
+}
 </script>

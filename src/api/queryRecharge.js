@@ -131,8 +131,21 @@ export function updateBookUnitUpdateTimeOrLearnTime(param) {
       'learnTimeUnit20': param?.learnTimeUnit20
     }
   })
-  
 }
+  
+
+export function updateBookPackageAndType(param){
+    return request({
+      url: '/player/unit/updateBookPackageAndType',
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: JSON.stringify(param)
+    })
+  }
+  
+
 
 
 
