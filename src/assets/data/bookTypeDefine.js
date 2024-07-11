@@ -75,6 +75,70 @@ export function getBooktypes() {
     {
       label: "九年级下册",
       value: 92
+    },
+    {
+      label: "高一上册",
+      value: 101
+    },
+    {
+      label: "高一下册",
+      value: 102
+    },
+    {
+      label: "高二上册",
+      value: 111
+    },
+    {
+      label: "高二下册",
+      value: 112
+    },
+    {
+      label: "高三上册",
+      value: 121
+    },
+    {
+      label: "高三下册",
+      value: 122
+    },
+
+    {
+      label: "大一上册",
+      value: 131
+    },
+
+    {
+      label: "大一下册",
+      value: 132
+    },
+
+    {
+      label: "大二上册",
+      value: 141
+    },
+
+    {
+      label: "大二下册",
+      value: 142
+    },
+
+    {
+      label: "大三上册",
+      value: 151
+    },
+
+    {
+      label: "大三下册",
+      value: 152
+    },
+
+    {
+      label: "大四上册",
+      value: 161
+    },
+
+    {
+      label: "大四下册",
+      value: 162
     }
   ]
 
