@@ -55,11 +55,12 @@
         type="selection"
         width="55"
       ></el-table-column>
-      <el-table-column show-overflow-tooltip label="序号" width="95">
+      <!--序号列暂时隐藏-->
+      <!-- <el-table-column show-overflow-tooltip label="序号" width="95">
         <template #default="scope">
           {{ scope.$index + 1 }}
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         show-overflow-tooltip
         prop="idx"
@@ -80,15 +81,16 @@
         label="路径"
         prop="path"
       ></el-table-column>
+      <!--资源路径字段暂无后端接口和数据库字段，留空-->
+      <el-table-column
+        show-overflow-tooltip
+        label="资源路径"
+        prop="resourcePath"
+      ></el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="version"
         label="版本"
-      ></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="createTime"
-        label="创建时间"
       ></el-table-column>
       <el-table-column
         show-overflow-tooltip
