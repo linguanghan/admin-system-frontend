@@ -7,3 +7,5 @@ or docker in windows:
 
 docker build -t admin-system-frontend .
 docker run -p 3000:3000 admin-system-frontend
+
+node 14.17.0
