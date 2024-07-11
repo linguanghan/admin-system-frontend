@@ -164,7 +164,7 @@
                 const routerPath =
                   this.redirect === '/404' || this.redirect === '/401'
                     ? '/'
-                    : '/feature/review'
+                    : '/index'
                 this.$router.push(routerPath).catch(() => {})
                 this.loading = false
               })
