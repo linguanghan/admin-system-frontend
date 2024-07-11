@@ -13,6 +13,7 @@ export function searchFuncBundleVersionLogByKeyWord(queryForm) {
   })
 }
 
+
 export function updateFuncBundleVersionLog(data) {
   return request({
     url: '/funcBundleVersionLog/updateFuncBundleVersionLog',
