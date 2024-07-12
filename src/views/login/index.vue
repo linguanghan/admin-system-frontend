@@ -124,13 +124,13 @@
         },
         loading: false,
         passwordType: 'password',
-        redirect: '/feature/review',
+        redirect: '/index',
       }
     },
     watch: {
       $route: {
         handler(route) {
-          this.redirect = (route.query && route.query.redirect) || '/feature/review'
+          this.redirect = (route.query && route.query.redirect) || '/index'
         },
         immediate: true,
       },
