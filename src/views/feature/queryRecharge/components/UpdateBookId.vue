@@ -12,7 +12,7 @@
       <el-form-item label="包编号" prop="packageidx">
         <el-input v-model.trim="form.packageidx" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="书本种类" prop="booktype">
+      <el-form-item label="对应年级" prop="booktype">
         <el-input v-model.trim="form.booktype" autocomplete="off"></el-input>
       </el-form-item>
     </el-form>
@@ -71,12 +71,13 @@ export default {
           try {
             // 调用 updateBookPackageAndType 更新数据
             console.log(this.form)
+            debugger
             const updateResponse = await updateBookPackageAndType(this.form);
             console.log(updateResponse);
             if (updateResponse.data == "success") {
-
               // 调用 updateUnlockStatus 进行解锁
               const unlockResponse = await updateUnlockStatus(this.form.id, 1, this.form.pid);
+              console.log(unlockResponse)
               console.log(unlockResponse)
               if (unlockResponse.success) {
                 this.$message({
