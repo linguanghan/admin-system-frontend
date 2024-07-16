@@ -141,7 +141,6 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/class/index'),
         meta: {
           title: '班级查询',
-          badge: 'New',
           permissions: ['admin', 'customer2', 'customer3'],
         },
       },
@@ -167,7 +166,7 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/funcVersion/index'),
         meta: {
           title: '功能版号',
-          
+          badge: 'New',
           permissions: ['admin', 'customer2', 'customer3', 'kfpz'],
         },
       },
