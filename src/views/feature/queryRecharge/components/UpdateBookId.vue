@@ -71,7 +71,6 @@ export default {
           try {
             // 调用 updateBookPackageAndType 更新数据
             console.log(this.form)
-            debugger
             const updateResponse = await updateBookPackageAndType(this.form);
             console.log(updateResponse);
             if (updateResponse.data == "success") {

@@ -26,14 +26,6 @@
             format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="订单号" prop="orderId">
-          <el-input 
-            v-model.trim="queryForm.orderId" 
-            autocomplete="off"
-            placeholder="请输入订单号"
-            clearable
-          />
-        </el-form-item>
         <el-form-item label="解锁状态" prop="unlock">
           <el-select
             v-model="queryForm.unlock" 
@@ -47,6 +39,23 @@
               :value="item.value">
           </el-option>
         </el-select>
+        </el-form-item>
+        <el-form-item label="订单号" prop="orderId">
+          <el-input 
+            v-model.trim="queryForm.orderId" 
+            autocomplete="off"
+            placeholder="请输入订单号"
+            clearable
+          />
+        </el-form-item>
+        <el-form-item label="订单时间">
+          <el-date-picker
+            v-model="queryForm.orderTime"
+            type="datetime"
+            placeholder="选择日期时间"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            format="yyyy-MM-dd HH:mm:ss">
+          </el-date-picker>
         </el-form-item>
         <el-button
           icon="el-icon-search"
@@ -233,6 +242,7 @@
         queryForm: {
           createTime: [],
           orderId: '',
+          orderTime: '',
           unlock: '',
           pid:'',
           pageNo: 1,
@@ -335,6 +345,8 @@
     async fetchData(queryForm) {
       this.listLoading = true
       if (Array.isArray(queryForm.createTime)) {
+        console.log(queryForm.createTime)
+        console.log(queryForm.orderTime)
         queryForm['startTime'] = queryForm.createTime[0]
         queryForm['endTime'] = queryForm.createTime[1]
       }
