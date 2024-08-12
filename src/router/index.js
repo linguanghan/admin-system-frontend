@@ -78,13 +78,13 @@ export const asyncRoutes = [
         path: 'register',
         name: 'Register',
         component: () => import('@/views/feature/register/index'),
-        meta: { title: '注册查询', permissions: ['admin'] },
+        meta: { title: '注册查询', permissions: ['admin','zhangsan'] },
       },
       {
         path: 'active',
         name: 'Active',
         component: () => import('@/views/feature/active/index'),
-        meta: { title: '活跃查询', permissions: ['admin'] },
+        meta: { title: '活跃查询', permissions: ['admin','zhangsan'] },
       },
       // {
       //   path: 'daily',
@@ -101,8 +101,8 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/version/index'),
         meta: {
           title: '特定版本购买',
-          
-          permissions: ['admin'],
+
+          permissions: ['admin','zhangsan'],
         },
       },
       {
@@ -111,8 +111,8 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/purchase/index'),
         meta: {
           title: '用户购买版本',
-          
-          permissions: ['admin'],
+
+          permissions: ['admin','zhangsan'],
         },
       },
       {
@@ -121,34 +121,34 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/video/index'),
         meta: {
           title: '视频查询',
-          
-          permissions: ['admin'],
+
+          permissions: ['admin','zhangsan'],
         },
       },
       {
-        path: 'book',
-        name: 'Book',
-        component: () => import('@/views/feature/book/index'),
-        meta: {
-          title: '书本版号',
-          
-          permissions: ['admin', 'customer2', 'customer3', 'kfpz'],
-        },
-      },
-      {
-        path: 'class',
-        name: 'Class',
-        component: () => import('@/views/feature/class/index'),
-        meta: {
-          title: '班级查询',
-          permissions: ['admin', 'customer2', 'customer3'],
-        },
-      },
-      {
-        path: 'player',
-        name: 'Player',
-        component: () => import('@/views/feature/player/index'),
-        meta: { title: '用户代理', permissions: ['admin','customer'] },
+        path: '/class',
+        component: EmptyLayout,
+        redirect: 'noRedirect',
+        name: 'class',
+        alwaysShow: true,
+        meta: { title: '班级', badge: 'New', permissions: ['admin','zhangsan'] },
+        children: [
+          {
+            path: 'classSelect',
+            name: 'ClassSelect',
+            component: () => import('@/views/feature/class/index'),
+            meta: {
+              title: '班级查询',
+              permissions: ['admin', 'customer2', 'customer3','zhangsan'],
+            },
+          },
+          {
+            path: 'player',
+            name: 'Player',
+            component: () => import('@/views/feature/player/index'),
+            meta: { title: '用户代理', permissions: ['admin','customer','zhangsan'] },
+          },
+        ],
       },
       {
         path: 'review',
@@ -156,25 +156,15 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/review/index'),
         meta: {
           title: '用户评论',
-          
-          permissions: ['admin', 'customer'],
-        },
-      },
-      {
-        path: 'funcVersion',
-        name: 'FuncVersion',
-        component: () => import('@/views/feature/funcVersion/index'),
-        meta: {
-          title: '功能版号',
-          badge: 'New',
-          permissions: ['admin', 'customer2', 'customer3', 'kfpz'],
+
+          permissions: ['admin', 'customer','zhangsan'],
         },
       },
       {
         path: 'eventTrackLog',
         name: 'EventTrackLog',
         component: () => import('@/views/feature/eventTrackLog/index'),
-        meta: { title: '埋点记录',  permissions: ['admin'] },
+        meta: { title: '埋点记录',  permissions: ['admin','zhangsan'] },
       },
       {
         path: 'queryRecharge',
@@ -183,7 +173,8 @@ export const asyncRoutes = [
         meta: {
           title: '充值查询',
           badge: 'New',
-          permissions: ['admin', 'customer'],
+          permissions: ['admin', 'customer','zhangsan'],
+
         },
       },
       {
@@ -192,7 +183,7 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/queryPackage/index'),
         meta: {
           title: 'App充值查询',
-          permissions: ['admin', 'customer'],
+          permissions: ['admin', 'customer','zhangsan'],
         },
       },
       {
@@ -201,7 +192,7 @@ export const asyncRoutes = [
         redirect: 'noRedirect',
         name: 'HuibenVip',
         alwaysShow: true,
-        meta: { title: '绘本查询', badge: 'New', permissions: ['admin'] },
+        meta: { title: '绘本查询', badge: 'New', permissions: ['admin','zhangsan'] },
         children: [
           {
             path: 'vipRecordList',
@@ -211,7 +202,7 @@ export const asyncRoutes = [
             meta: {
               title: '绘本查询数据',
               badge: 'New',
-              permissions: ['admin'],
+              permissions: ['admin','zhangsan'],
             },
           },
           {
@@ -222,7 +213,7 @@ export const asyncRoutes = [
             meta: {
               title: '绘本每日数据',
               badge: 'New',
-              permissions: ['admin'],
+              permissions: ['admin','zhangsan'],
             },
           },
         ],
@@ -233,13 +224,13 @@ export const asyncRoutes = [
         redirect: 'noRedirect',
         name: 'Record',
         alwaysShow: true,
-        meta: { title: '操作记录',  permissions: ['admin'] },
+        meta: { title: '操作记录',  permissions: ['admin','zhangsan'] },
         children: [
           {
             path: 'changeregister',
             name: 'Changeregister',
             component: () => import('@/views/feature/record/change/index'),
-            meta: { title: '转移记录',  permissions: ['admin'] },
+            meta: { title: '转移记录',  permissions: ['admin','zhangsan'] },
           },
         ],
       },
@@ -250,7 +241,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: 'noRedirect',
     name: 'PersonnelManagement',
-    meta: { title: '配置', icon: 'users-cog', permissions: ['admin'] },
+    meta: { title: '配置', icon: 'users-cog', permissions: ['admin','zhangsan'] },
     children: [
       {
         path: 'userManagement',
@@ -265,6 +256,26 @@ export const asyncRoutes = [
         component: () =>
           import('@/views/personnelManagement/roleManagement/index'),
         meta: { title: '角色管理' },
+      },
+      {
+        path: 'book',
+        name: 'Book',
+        component: () => import('@/views/feature/book/index'),
+        meta: {
+          title: '书本版号',
+
+          permissions: ['admin', 'customer2', 'customer3', 'kfpz','zhangsan'],
+        },
+      },
+      {
+        path: 'funcVersion',
+        name: 'FuncVersion',
+        component: () => import('@/views/feature/funcVersion/index'),
+        meta: {
+          title: '功能版号',
+          badge: 'New',
+          permissions: ['admin', 'customer2', 'customer3', 'kfpz','zhangsan'],
+        },
       },
       // {
       //   path: 'themeManagement',
