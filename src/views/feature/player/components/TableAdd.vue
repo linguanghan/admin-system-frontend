@@ -172,7 +172,6 @@
           return;
         }
         this.form.agentName = agentInfo.name;
-        debugger
         this.form.identity = agentInfo.identity;
       }
     },

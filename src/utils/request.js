@@ -112,7 +112,6 @@ instance.interceptors.response.use(
     const { response, message } = error
     if (error.response && error.response.data) {
       const { status, data } = response
-      debugger
       handleCode(status, data.msg || message, busiCode, errorMsg)
       return Promise.reject(error)
     } else {
