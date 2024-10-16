@@ -72,7 +72,7 @@ export const asyncRoutes = [
     redirect: 'noRedirect',
     name: 'Feature',
     alwaysShow: true,
-    meta: { title: '功能', icon: 'box-open' },
+    meta: { title: '数据', icon: 'box-open' },
     children: [
       {
         path: 'register',
@@ -86,15 +86,6 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/active/index'),
         meta: { title: '活跃查询', permissions: ['admin','zhangsan'] },
       },
-      // {
-      //   path: 'daily',
-      //   component: () => import('@/views/feature/daily/index'),
-      //   name: 'Daily',
-      //   meta: {
-      //     title: '绘本每日数据',
-      //     permissions: ['admin'],
-      //   },
-      // },
       {
         path: 'version',
         name: 'Version',
@@ -126,67 +117,6 @@ export const asyncRoutes = [
         },
       },
       {
-        path: '/class',
-        component: EmptyLayout,
-        redirect: 'noRedirect',
-        name: 'class',
-        alwaysShow: true,
-        meta: { title: '班级', badge: 'New', permissions: ['admin','zhangsan'] },
-        children: [
-          {
-            path: 'classSelect',
-            name: 'ClassSelect',
-            component: () => import('@/views/feature/class/index'),
-            meta: {
-              title: '班级查询',
-              permissions: ['admin', 'customer2', 'customer3','zhangsan'],
-            },
-          },
-          {
-            path: 'player',
-            name: 'Player',
-            component: () => import('@/views/feature/player/index'),
-            meta: { title: '用户代理', permissions: ['admin','customer','zhangsan'] },
-          },
-        ],
-      },
-      {
-        path: 'review',
-        name: 'Rook',
-        component: () => import('@/views/feature/review/index'),
-        meta: {
-          title: '用户评论',
-
-          permissions: ['admin', 'customer','zhangsan'],
-        },
-      },
-      {
-        path: 'eventTrackLog',
-        name: 'EventTrackLog',
-        component: () => import('@/views/feature/eventTrackLog/index'),
-        meta: { title: '埋点记录',  permissions: ['admin','zhangsan'] },
-      },
-      {
-        path: 'queryRecharge',
-        name: 'QueryRecharge',
-        component: () => import('@/views/feature/queryRecharge/index'),
-        meta: {
-          title: '充值查询',
-          badge: 'New',
-          permissions: ['admin', 'customer','zhangsan'],
-
-        },
-      },
-      {
-        path: 'queryPackage',
-        name: 'QueryPackage',
-        component: () => import('@/views/feature/queryPackage/index'),
-        meta: {
-          title: 'App充值查询',
-          permissions: ['admin', 'customer','zhangsan'],
-        },
-      },
-      {
         path: '/huibenVip',
         component: EmptyLayout,
         redirect: 'noRedirect',
@@ -215,22 +145,6 @@ export const asyncRoutes = [
               badge: 'New',
               permissions: ['admin','zhangsan'],
             },
-          },
-        ],
-      },
-      {
-        path: '/record',
-        component: EmptyLayout,
-        redirect: 'noRedirect',
-        name: 'Record',
-        alwaysShow: true,
-        meta: { title: '操作记录',  permissions: ['admin','zhangsan'] },
-        children: [
-          {
-            path: 'changeregister',
-            name: 'Changeregister',
-            component: () => import('@/views/feature/record/change/index'),
-            meta: { title: '转移记录',  permissions: ['admin','zhangsan'] },
           },
         ],
       },
