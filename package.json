@@ -10,9 +10,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
     "build:report": "vue-cli-service build --report",
     "globle": "npm install -g cnpm --registry=https://registry.npmmirror.com&&cnpm i rimraf npm-check-updates nrm -g&&rimraf node_modules&&cnpm i",
-    "lint": "eslint --fix --ext .js,.vue src",
     "lint:style": "stylelint-config-prettier-check",
     "inspect": "vue-cli-service inspect",
     "template": "plop",
@@ -47,8 +47,8 @@
     ]
   },
   "dependencies": {
+    "@vue/runtime-dom": "^3.5.12",
     "axios": "^1.6.7",
-    "caniuse-lite": "^1.0.30001434",
     "clipboard": "^2.0.11",
     "core-js": "^3.26.1",
     "dayjs": "^1.11.6",
@@ -95,7 +95,7 @@
     "eslint-plugin-vue": "^9.1.1",
     "filemanager-webpack-plugin": "^8.0.0",
     "image-webpack-loader": "^8.1.0",
-    "lint-staged": "^13.0.4",
+    "lint-staged": "^13.3.0",
     "plop": "^3.1.1",
     "prettier": "^2.8.0",
     "sass": "~1.32.13",

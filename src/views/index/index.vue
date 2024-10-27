@@ -1,75 +1,22 @@
 <template>
   <div class="index-container">
-    <!--<el-card shadow="never">-->
-    <!--&lt;!&ndash;<div slot="header" style="display: none">&ndash;&gt;-->
-    <!--&lt;!&ndash;<span>注册人数</span>&ndash;&gt;-->
-    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-    <!--<div>-->
-    <!--<vab-chart autoresize :options="sqs" />-->
-    <!--</div>-->
-    <!--<div class="bottom">-->
-    <!--<span id="todayNum">-->
-    <!--今日总注册人数:-->
-    <!--&lt;!&ndash;<vab-count&ndash;&gt;-->
-    <!--&lt;!&ndash;:start-val="config2.startVal"&ndash;&gt;-->
-    <!--&lt;!&ndash;:end-val="config2.endVal"&ndash;&gt;-->
-    <!--&lt;!&ndash;:duration="config2.duration"&ndash;&gt;-->
-    <!--&lt;!&ndash;:separator="config2.separator"&ndash;&gt;-->
-    <!--&lt;!&ndash;:prefix="config2.prefix"&ndash;&gt;-->
-    <!--&lt;!&ndash;:suffix="config2.suffix"&ndash;&gt;-->
-    <!--&lt;!&ndash;:decimals="config2.decimals"&ndash;&gt;-->
-    <!--&lt;!&ndash;/>&ndash;&gt;-->
-    <!--</span>-->
-    <!--</div>-->
-    <!--</el-card>-->
-
     <el-row :gutter="10">
       <el-col :span="20">
         <el-card shadow="never">
-          <div slot="header" style="textalign: right">
-            <el-select
-              v-model="defaultTime"
-              placeholder="请选择"
-              style="right: 10px"
-              @change="(value) => queryDatas(value)"
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
+          <div class="block extra-spacing">
+            <el-date-picker
+              v-model="selectTime"
+              type="daterange"
+              unlink-panels
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :picker-options="pickerOptions"
+              @change="handleDateChange">
+            </el-date-picker>
           </div>
-          <div>
+          <div class="Chart">
             <vab-chart autoresize :options="sqs" />
-          </div>
-          <div class="bottom">
-            <span id="todayNum">
-              今日总注册人数:
-              <!--<vab-count-->
-              <!--:start-val="config2.startVal"-->
-              <!--:end-val="config2.endVal"-->
-              <!--:duration="config2.duration"-->
-              <!--:separator="config2.separator"-->
-              <!--:prefix="config2.prefix"-->
-              <!--:suffix="config2.suffix"-->
-              <!--:decimals="config2.decimals"-->
-              <!--/>-->
-            </span>
-            <span style="margin-left: 5px; color: blue">||</span>
-            <span id="todayActiveNum" style="margin-left: 5px">
-              今日总活跃人数:
-              <!--<vab-count-->
-              <!--:start-val="config2.startVal"-->
-              <!--:end-val="config2.endVal"-->
-              <!--:duration="config2.duration"-->
-              <!--:separator="config2.separator"-->
-              <!--:prefix="config2.prefix"-->
-              <!--:suffix="config2.suffix"-->
-              <!--:decimals="config2.decimals"-->
-              <!--/>-->
-            </span>
           </div>
         </el-card>
       </el-col>
@@ -79,6 +26,7 @@
 
 <script>
   import VabChart from '@/plugins/echarts'
+  import * as echarts from 'echarts';
   import { getList } from '@/api/player'
   import { getActiveList } from '@/api/player'
   import { getRegisterNum } from '@/api/player'
@@ -87,33 +35,59 @@
   export default {
     name: 'Index',
     components: {
-      VabChart,
+      VabChart
     },
     data() {
       return {
+        // 首页图表类型修改
+        pickerOptions: {
+          shortcuts: [{
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: '最近三个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit('pick', [start, end]);
+            }
+          },{
+            text: '最近一年',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+              picker.$emit('pick', [start, end]);
+            }
+          },{
+            text: '最近两年',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 365 * 2);
+              picker.$emit('pick', [start, end]);
+            }
+          }]
+        },
+        selectTime:[moment().subtract(1, 'months').toDate(),moment().toDate()],
         timer: 0,
         updateTime: process.env.VUE_APP_UPDATE_TIME,
         nodeEnv: process.env.NODE_ENV,
-        options: [
-          {
-            value: '1',
-            label: '一周',
-          },
-          {
-            value: '2',
-            label: '一个月',
-          },
-          {
-            value: '3',
-            label: '三个月',
-          },
-          {
-            value: '4',
-            label: '六个月',
-          },
-        ],
-        defaultTime: '1',
-        //访问人数数
+        //访问人数数(从后端获取的数据)
         sqs: {
           color: [
             '#1890FF',
@@ -133,19 +107,6 @@
           },
           legend: {
             data: ['注册人数', '活跃人数'],
-          },
-          toolbox: {
-            show: true,
-            orient: 'vertical',
-            left: 'right',
-            top: 'center',
-            feature: {
-              mark: { show: true },
-              dataView: { show: true, readOnly: false },
-              magicType: { show: true, type: ['line', 'bar', 'stack'] },
-              restore: { show: false },
-              saveAsImage: { show: true },
-            },
           },
           tooltip: {
             trigger: 'axis',
@@ -175,7 +136,8 @@
           series: [
             {
               name: '注册人数',
-              type: 'bar',
+              type: 'line',
+              smooth: true,
               barGap: 0,
               // barWidth: '60%',
               // data: [10, 52, 20, 33, 39, 33, 22],
@@ -195,7 +157,7 @@
             },
             {
               name: '活跃人数',
-              type: 'bar',
+              type: 'line',
               // barWidth: '60%',
               // data: [10, 52, 20, 33, 39, 33, 22],
               data: [0],
@@ -217,8 +179,9 @@
       }
     },
     created() {
+      
       this.fetchData()
-      this.fetchActiveData()
+      // this.fetchActiveData()
       this.fetchTodayData()
       this.fetchTodayActiveData()
     },
@@ -259,6 +222,12 @@
       // }, 3000)
     },
     methods: {
+      handleDateChange(value) {
+      if (value) {
+       console.log(this.selectTime);
+       this.fetchData();
+      }
+    },
       handleClick(e) {
         this.$baseMessage(`点击了${e.name},这里可以写跳转`)
       },
@@ -298,12 +267,14 @@
         //this.sqs.xAxis[1].data = dataY;
         this.sqs.series[1].data = dataX
       },
+      // 获取昨日注册人数
       async fetchTodayData() {
         let timeFormat = 'YYYY-MM-DD HH:mm:ss'
         let dateTime = moment().subtract(1, 'days').format(timeFormat)
         const { data } = await getRegisterNum(dateTime)
         document.getElementById('todayNum').innerHTML = '昨日注册人数: ' + data
       },
+      // 获取昨日活跃人数
       async fetchTodayActiveData() {
         let timeFormat = 'YYYY-MM-DD HH:mm:ss'
         let dateTime = moment()
@@ -314,51 +285,11 @@
         document.getElementById('todayActiveNum').innerHTML =
           '昨日活跃人数: ' + data
       },
-      getBetweenTimeByTimeSpan(type) {
+      getBetweenTimeByTimeSpan(timeline) {
         let timeFormat = 'YYYY-MM-DD HH:mm:ss'
-        let startTime = moment().format(timeFormat)
-        let endTime = moment().subtract(1, 'days').format(timeFormat)
-        // 一周前的数据
-        if (type == 1) {
-          startTime = moment()
-            .subtract(7, 'days')
-            .startOf('days')
-            .format(timeFormat)
-          return { startTime, endTime }
-        }
-
-        // 一个月前的数据
-        if (type == 2) {
-          startTime = moment()
-            .subtract(1, 'month')
-            .startOf('days')
-            .format(timeFormat)
-          return { startTime, endTime }
-        }
-
-        // 半年前的数据
-        if (type == 3) {
-          startTime = moment()
-            .subtract(3, 'month')
-            .startOf('days')
-            .format(timeFormat)
-          return { startTime, endTime }
-        }
-        // 一年前的数据
-        if (type == 4) {
-          startTime = moment()
-            .subtract(6, 'month')
-            .startOf('days')
-            .format(timeFormat)
-          return { startTime, endTime }
-        }
-      },
-      queryDatas(defaultTime) {
-        this.defaultTime = defaultTime
-        this.fetchData()
-        this.fetchActiveData()
-        this.fetchTodayData()
-        this.fetchTodayActiveData()
+        let startTime = moment(this.selectTime[0]).format(timeFormat)
+        let endTime = moment(this.selectTime[1]).format(timeFormat)
+        return{startTime, endTime}
       },
     },
   }
@@ -406,6 +337,10 @@
         }
       }
     }
+    
+    .extra-spacing {
+      margin-bottom: 20px; /* 或者你想要的任何值 */
+    }
 
     .bottom {
       padding-top: 20px;
@@ -416,6 +351,7 @@
     }
 
     .table {
+
       width: 100%;
       color: #666;
       border-collapse: collapse;
@@ -456,5 +392,7 @@
         margin: 5px 10px 15px 0;
       }
     }
+
+    
   }
 </style>

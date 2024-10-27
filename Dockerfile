@@ -11,10 +11,17 @@ ARG NODE_VERSION=14.17.0
 FROM node:${NODE_VERSION}-alpine
 
 # Use production node environment by default.
-ENV NODE_ENV production
+ENV NODE_ENV development
 
 
 WORKDIR /usr/src/app
+
+RUN apk add --no-cache \
+    build-base \
+    autoconf \
+    automake \
+    libtool \
+    pkgconfig
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.npm to speed up subsequent builds.
