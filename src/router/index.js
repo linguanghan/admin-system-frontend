@@ -72,19 +72,19 @@ export const asyncRoutes = [
     redirect: 'noRedirect',
     name: 'Feature',
     alwaysShow: true,
-    meta: { title: '数据', icon: 'box-open' },
+    meta: { title: '数据', icon: 'box-open',  permissions: ['admin'] },
     children: [
       {
         path: 'register',
         name: 'Register',
         component: () => import('@/views/feature/register/index'),
-        meta: { title: '注册查询', permissions: ['admin','zhangsan'] },
+        meta: { title: '注册查询', permissions: ['admin'] },
       },
       {
         path: 'active',
         name: 'Active',
         component: () => import('@/views/feature/active/index'),
-        meta: { title: '活跃查询', permissions: ['admin','zhangsan'] },
+        meta: { title: '活跃查询', permissions: ['admin'] },
       },
       {
         path: 'version',
@@ -93,7 +93,7 @@ export const asyncRoutes = [
         meta: {
           title: '特定版本购买',
 
-          permissions: ['admin','zhangsan'],
+          permissions: ['admin'],
         },
       },
       {
@@ -103,7 +103,7 @@ export const asyncRoutes = [
         meta: {
           title: '用户购买版本',
 
-          permissions: ['admin','zhangsan'],
+          permissions: ['admin'],
         },
       },
       {
@@ -113,7 +113,7 @@ export const asyncRoutes = [
         meta: {
           title: '视频查询',
 
-          permissions: ['admin','zhangsan'],
+          permissions: ['admin'],
         },
       },
       {
@@ -122,7 +122,7 @@ export const asyncRoutes = [
         redirect: 'noRedirect',
         name: 'HuibenVip',
         alwaysShow: true,
-        meta: { title: '绘本查询', badge: 'New', permissions: ['admin','zhangsan'] },
+        meta: { title: '绘本查询', badge: 'New', permissions: ['admin'] },
         children: [
           {
             path: 'vipRecordList',
@@ -132,7 +132,7 @@ export const asyncRoutes = [
             meta: {
               title: '绘本查询数据',
               badge: 'New',
-              permissions: ['admin','zhangsan'],
+              permissions: ['admin'],
             },
           },
           {
@@ -143,7 +143,7 @@ export const asyncRoutes = [
             meta: {
               title: '绘本每日数据',
               badge: 'New',
-              permissions: ['admin','zhangsan'],
+              permissions: ['admin'],
             },
           },
         ],
@@ -155,7 +155,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: 'noRedirect',
     name: 'PersonnelManagement',
-    meta: { title: '配置', icon: 'users-cog', permissions: ['admin','zhangsan'] },
+    meta: { title: '配置', icon: 'users-cog', permissions: ['admin','customer3'] },
     children: [
       {
         path: 'userManagement',
@@ -178,7 +178,7 @@ export const asyncRoutes = [
         meta: {
           title: '书本版号',
 
-          permissions: ['admin', 'customer2', 'customer3', 'kfpz','zhangsan'],
+          permissions: ['admin', 'customer3'],
         },
       },
       {
@@ -188,9 +188,9 @@ export const asyncRoutes = [
         meta: {
           title: '功能版号',
           badge: 'New',
-          permissions: ['admin', 'customer2', 'customer3', 'kfpz','zhangsan'],
+          permissions: ['admin', 'customer3'],
         },
-      },
+      }
       // {
       //   path: 'themeManagement',
       //   name: 'themeManagement',
@@ -206,6 +206,40 @@ export const asyncRoutes = [
       //   meta: { title: '菜单管理', badge: 'New' },
       // },
     ],
+  },
+  {
+    path: '/functionModule',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'functionModule',
+    meta: { title: '功能', icon: 'users-cog', permissions: ['admin','customer3'] },
+    children: [
+      {
+        path: 'queryRecharge',
+        name: 'QueryRecharge',
+        component: () => import('@/views/feature/queryRecharge/index'),
+        meta: {
+          title: '充值查詢',
+          permissions: ['admin', 'customer3'],
+        },
+      },
+      {
+        path: 'feedBack',
+        name: 'FeedBack',
+        component: () => import('@/views/feature/review/index'),
+        meta: { 
+          title: '用户反馈',
+          permissions: ['admin', 'customer3'],
+         },
+      }
+      // {
+      //   path: 'menuManagement',
+      //   name: 'MenuManagement',
+      //   component: () =>
+      //     import('@/views/personnelManagement/menuManagement/index'),
+      //   meta: { title: '菜单管理', badge: 'New' },
+      // },
+    ]
   },
   {
     path: '/error',
