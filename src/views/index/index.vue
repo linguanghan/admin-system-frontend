@@ -18,15 +18,17 @@
           <div class="Chart">
             <vab-chart autoresize :options="sqs" />
           </div>
+          <div id="todayNum"></div>
+          <div id="todayActiveNum"></div>
         </el-card>
       </el-col>
     </el-row>
+    
   </div>
 </template>
 
 <script>
   import VabChart from '@/plugins/echarts'
-  import * as echarts from 'echarts';
   import { getList } from '@/api/player'
   import { getActiveList } from '@/api/player'
   import { getRegisterNum } from '@/api/player'
@@ -181,7 +183,7 @@
     created() {
       
       this.fetchData()
-      // this.fetchActiveData()
+      this.fetchActiveData()
       this.fetchTodayData()
       this.fetchTodayActiveData()
     },
