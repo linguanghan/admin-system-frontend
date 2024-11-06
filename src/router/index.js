@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Layout from '@/layouts'
 import EmptyLayout from '@/layouts/EmptyLayout'
 import { publicPath, routerMode } from '@/config'
+import { meta } from 'eslint-plugin-vue'
 
 Vue.use(VueRouter)
 export const constantRoutes = [
@@ -48,24 +49,6 @@ export const asyncRoutes = [
       },
     ],
   },
-  /* {
-    path: "/test",
-    component: Layout,
-    redirect: "noRedirect",
-    children: [
-      {
-        path: "test",
-        name: "Test",
-        component: () => import("@/views/test/index"),
-        meta: {
-          title: "test",
-          icon: "marker",
-          permissions: ["admin"],
-        },
-      },
-    ],
-  }, */
-
   {
     path: '/feature',
     component: Layout,
@@ -85,6 +68,12 @@ export const asyncRoutes = [
         name: 'Active',
         component: () => import('@/views/feature/active/index'),
         meta: { title: '活跃查询', permissions: ['admin','zhangsan'] },
+      },
+      {
+        path: 'recharge',
+        name: 'Recharge',
+        component: () => import('@/views/feature/queryRecharge/index'),
+        meta: { title: '充值查询', permissions: ['admin','zhangsan'] },
       },
       {
         path: 'version',
@@ -188,6 +177,16 @@ export const asyncRoutes = [
         meta: {
           title: '功能版号',
           badge: 'New',
+          permissions: ['admin', 'customer2', 'customer3', 'kfpz','zhangsan'],
+        },
+      },
+      {
+        path: 'app',
+        name: 'App',
+        component: () => import('@/views/feature/app/index'),
+        meta: {
+          title: '应用配置',
+
           permissions: ['admin', 'customer2', 'customer3', 'kfpz','zhangsan'],
         },
       },

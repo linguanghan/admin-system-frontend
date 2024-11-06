@@ -18,6 +18,15 @@
           <div class="Chart">
             <vab-chart autoresize :options="sqs" />
           </div>
+          <div class="bottom">
+            <span id="todayNum">
+              今日总注册人数:
+            </span>
+            <span style="margin-left: 5px; color: blue">||</span>
+            <span id="todayActiveNum" style="margin-left: 5px">
+              今日总活跃人数:
+            </span>
+          </div>
         </el-card>
       </el-col>
     </el-row>
@@ -181,7 +190,7 @@
     created() {
       
       this.fetchData()
-      // this.fetchActiveData()
+      this.fetchActiveData()
       this.fetchTodayData()
       this.fetchTodayActiveData()
     },
@@ -224,8 +233,10 @@
     methods: {
       handleDateChange(value) {
       if (value) {
-       console.log(this.selectTime);
        this.fetchData();
+       this.fetchActiveData()
+       this.fetchTodayData()
+       this.fetchTodayActiveData()
       }
     },
       handleClick(e) {
@@ -339,7 +350,7 @@
     }
     
     .extra-spacing {
-      margin-bottom: 20px; /* 或者你想要的任何值 */
+      margin-bottom: 20px; 
     }
 
     .bottom {

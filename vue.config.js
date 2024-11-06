@@ -44,6 +44,7 @@ module.exports = {
   outputDir,
   lintOnSave,
 
+  // lintOnSave:false //关闭语法检测
   transpileDependencies,
   devServer: {
     hot: true,
