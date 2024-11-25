@@ -87,6 +87,12 @@ export const asyncRoutes = [
         meta: { title: '活跃查询', permissions: ['admin'] },
       },
       {
+        path: 'number',
+        name: 'Number',
+        component: () => import('@/views/feature/number/index'),
+        meta: { title: '注册和活跃人数统计', permissions: ['admin'] },
+      },
+      {
         path: 'version',
         name: 'Version',
         component: () => import('@/views/feature/version/index'),
@@ -212,6 +218,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: 'noRedirect',
     name: 'functionModule',
+    alwaysShow: true,
     meta: { title: '功能', icon: 'users-cog', permissions: ['admin','customer3'] },
     children: [
       {
@@ -222,16 +229,16 @@ export const asyncRoutes = [
           title: '充值查詢',
           permissions: ['admin', 'customer3'],
         },
-      },
-      {
-        path: 'feedBack',
-        name: 'FeedBack',
-        component: () => import('@/views/feature/review/index'),
-        meta: { 
-          title: '用户反馈',
-          permissions: ['admin', 'customer3'],
-         },
       }
+      // {
+      //   path: 'feedBack',
+      //   name: 'FeedBack',
+      //   component: () => import('@/views/feature/review/index'),
+      //   meta: { 
+      //     title: '用户反馈',
+      //     permissions: ['admin', 'customer3'],
+      //    },
+      // }
       // {
       //   path: 'menuManagement',
       //   name: 'MenuManagement',
