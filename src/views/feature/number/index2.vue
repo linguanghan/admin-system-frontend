@@ -29,13 +29,13 @@
 
 <script>
   import VabChart from '@/plugins/echarts'
-  import { getList } from '@/api/player'
-  import { getActiveList } from '@/api/player'
-  import { getRegisterNum } from '@/api/player'
-  import { getActiveNum } from '@/api/player'
+  import { getList } from '@/api/player2'
+  import { getActiveList } from '@/api/player2'
+  import { getRegisterNum } from '@/api/player2'
+  import { getActiveNum } from '@/api/player2'
   import moment from 'moment'
   export default {
-    name: 'Day',
+    name: 'Number',
     components: {
       VabChart
     },
@@ -44,19 +44,10 @@
         // 首页图表类型修改
         pickerOptions: {
           shortcuts: [{
-            text: '最近一周',
+            text: '本月',
             onClick(picker) {
               const end = new Date();
               const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '最近一个月',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
               picker.$emit('pick', [start, end]);
             }
           }, {
@@ -65,6 +56,14 @@
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit('pick', [start, end]);
+            }
+          },{
+            text: '最近六个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 180);
               picker.$emit('pick', [start, end]);
             }
           },{
@@ -274,7 +273,7 @@
         let timeFormat = 'YYYY-MM-DD HH:mm:ss'
         let dateTime = moment().subtract(1, 'days').format(timeFormat)
         const { data } = await getRegisterNum(dateTime)
-        document.getElementById('todayNum').innerHTML = '昨日注册人数: ' + data
+        document.getElementById('todayNum').innerHTML = '本月注册人数: ' + data
       },
       // 获取昨日活跃人数
       async fetchTodayActiveData() {
@@ -285,7 +284,7 @@
           .format(timeFormat)
         const { data } = await getActiveNum(dateTime)
         document.getElementById('todayActiveNum').innerHTML =
-          '昨日活跃人数: ' + data
+          '本月活跃人数: ' + data
       },
       getBetweenTimeByTimeSpan(timeline) {
         let timeFormat = 'YYYY-MM-DD HH:mm:ss'

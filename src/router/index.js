@@ -87,10 +87,16 @@ export const asyncRoutes = [
         meta: { title: '活跃查询', permissions: ['admin'] },
       },
       {
-        path: 'number',
-        name: 'Number',
+        path: 'day',
+        name: 'Day',
         component: () => import('@/views/feature/number/index'),
-        meta: { title: '注册和活跃人数统计', permissions: ['admin'] },
+        meta: { title: '注册活跃日统计', permissions: ['admin'] },
+      },
+      {
+        path: 'month',
+        name: 'Month',
+        component: () => import('@/views/feature/number/index2'),
+        meta: { title: '注册活跃月统计', permissions: ['admin'] },
       },
       {
         path: 'version',
