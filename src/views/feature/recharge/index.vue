@@ -22,6 +22,23 @@
           <div id="todayActiveNum"></div>
         </el-card>
       </el-col>
+      <el-table :data="tableData" stripe style="width: 100%">
+    <el-table-column
+      prop="timedate"
+      label="APP"
+      width="885"
+      header-align="center"
+      align="center">
+    </el-table-column>
+    <el-table-column
+      prop="num"
+      label="今日充值额"
+      width="885"
+      header-align="center"
+      align="center">
+    </el-table-column>
+    <el-table-column prop="someProperty" label="Some Label"></el-table-column>
+  </el-table>
     </el-row>
     
   </div>
@@ -29,10 +46,7 @@
 
 <script>
   import VabChart from '@/plugins/echarts'
-  import { queryPlayerRecharge } from '@/api/player3'
-  import { getActiveList } from '@/api/player'
-  import { getRegisterNum } from '@/api/player'
-  import { getActiveNum } from '@/api/player'
+  import { queryPlayerRecharge, queryAppRechargeCount } from '@/api/player3'
   import moment from 'moment'
   export default {
     name: 'Recharge',
@@ -168,12 +182,14 @@
             
           ],
         },
+        tableData: [],
+        emptyText: '暂无数据'
       }
     },
     created() {
       
       this.fetchData()
-      this.fetchActiveData()
+      this.fetchAppRechargeCount()
       //this.fetchTodayData()
       // this.fetchTodayActiveData()
     },
@@ -231,7 +247,7 @@
         const { startTime, endTime } = this.getBetweenTimeByTimeSpan(
           this.defaultTime
         )
-        const { data } = await queryPlayerRecharge(startTime, endTime)
+        const { data } = await queryPlayerRecharge(startTime, endTime);
         var dataX = []
         //var dataX_1 = []
         var dataY = []
@@ -246,27 +262,16 @@
         this.sqs.series[0].data = dataX
         //this.sqs.series[1].data = dataX_1
       },
-      async fetchActiveData() {
-       
+      async fetchAppRechargeCount() {
+        const { data } = await queryAppRechargeCount();
+        console.log("data", data)
+        if (Array.isArray(data) && data.length > 0) {
+          this.tableData = data;
+        } else {
+          this.tableData = []
+        }
+        
       },
-      // 获取昨日充值人数
-      //async fetchTodayData() {
-        //let timeFormat = 'YYYY-MM-DD HH:mm:ss'
-        //let dateTime = moment().subtract(1, 'days').format(timeFormat)
-        //const { data } = await getRegisterNum(dateTime)
-        //document.getElementById('todayNum').innerHTML = '昨日充值人数: ' + data
-      //},
-      // 获取昨日充值次数
-      //async fetchTodayActiveData() {
-        //let timeFormat = 'YYYY-MM-DD HH:mm:ss'
-        //let dateTime = moment()
-          //.subtract(1, 'days')
-          //.startOf('days')
-          //.format(timeFormat)
-        //const { data } = await getActiveNum(dateTime)
-        //document.getElementById('todayActiveNum').innerHTML =
-          //'昨日充值次数: ' + data
-      //},
       getBetweenTimeByTimeSpan(timeline) {
         let timeFormat = 'YYYY-MM-DD HH:mm:ss'
         let startTime = moment(this.selectTime[0]).format(timeFormat)
