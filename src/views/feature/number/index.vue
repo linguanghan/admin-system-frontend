@@ -228,6 +228,7 @@
       if (value) {
        console.log(this.selectTime);
        this.fetchData();
+       this.fetchActiveData();
       }
     },
       handleClick(e) {
