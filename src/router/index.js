@@ -102,7 +102,7 @@ export const asyncRoutes = [
         path: 'recharge',
         name: 'Recharge',
         component: () => import('@/views/feature/recharge/index'),
-        meta: { title: '充值统计', permissions: ['admin'] },
+        meta: { title: 'APP充值数', permissions: ['admin'] },
       },
       {
         path: 'version',

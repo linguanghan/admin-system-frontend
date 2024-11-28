@@ -116,7 +116,7 @@
             containLabel: true,
           },
           legend: {
-            data: ['充值人数', '充值次数'],
+            data: ['充值额'],
           },
           tooltip: {
             trigger: 'axis',
@@ -145,7 +145,7 @@
           ],
           series: [
             {
-              name: '充值人数',
+              name: '充值额',
               type: 'line',
               smooth: true,
               barGap: 0,
@@ -164,26 +164,8 @@
                   },
                 },
               },
-            },
-            {
-              name: '充值次数',
-              type: 'line',
-              // barWidth: '60%',
-              // data: [10, 52, 20, 33, 39, 33, 22],
-              data: [0],
-              itemStyle: {
-                normal: {
-                  label: {
-                    show: true,
-                    position: 'top',
-                    textStyle: {
-                      color: 'red',
-                      fontSize: 12,
-                    },
-                  },
-                },
-              },
-            },
+            }
+            
           ],
         },
       }
@@ -250,19 +232,19 @@
           this.defaultTime
         )
         const { data } = await queryPlayerRecharge(startTime, endTime)
-        var dataX_0 = []
-        var dataX_1 = []
+        var dataX = []
+        //var dataX_1 = []
         var dataY = []
         // registerNum
         console.log("data", data)
         for (var i = 0; i < data.length; i++) {
-          dataX_0.push(data[i].num)
-          dataX_1.push(data[i].num)
+          dataX.push(data[i].num)
+          //dataX_1.push(data[i].num)
           dataY.push(data[i].timedate)
         }
         this.sqs.xAxis[0].data = dataY
-        this.sqs.series[0].data = dataX_0
-        this.sqs.series[1].data = dataX_1
+        this.sqs.series[0].data = dataX
+        //this.sqs.series[1].data = dataX_1
       },
       async fetchActiveData() {
        
