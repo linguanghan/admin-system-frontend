@@ -26,18 +26,15 @@
     <el-table-column
       prop="timedate"
       label="APP"
-      width="885"
       header-align="center"
       align="center">
     </el-table-column>
     <el-table-column
       prop="num"
       label="今日充值额"
-      width="885"
       header-align="center"
       align="center">
     </el-table-column>
-    <el-table-column prop="someProperty" label="Some Label"></el-table-column>
   </el-table>
     </el-row>
     
