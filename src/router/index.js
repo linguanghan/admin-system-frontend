@@ -87,6 +87,24 @@ export const asyncRoutes = [
         meta: { title: '活跃查询', permissions: ['admin'] },
       },
       {
+        path: 'day',
+        name: 'Day',
+        component: () => import('@/views/feature/number/index'),
+        meta: { title: '注册活跃日统计', permissions: ['admin'] },
+      },
+      {
+        path: 'month',
+        name: 'Month',
+        component: () => import('@/views/feature/number/index2'),
+        meta: { title: '注册活跃月统计', permissions: ['admin'] },
+      },
+      {
+        path: 'recharge',
+        name: 'Recharge',
+        component: () => import('@/views/feature/recharge/index'),
+        meta: { title: 'APP充值数', permissions: ['admin'] },
+      },
+      {
         path: 'version',
         name: 'Version',
         component: () => import('@/views/feature/version/index'),
@@ -212,6 +230,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: 'noRedirect',
     name: 'functionModule',
+    alwaysShow: true,
     meta: { title: '功能', icon: 'users-cog', permissions: ['admin','customer3'] },
     children: [
       {
@@ -224,21 +243,14 @@ export const asyncRoutes = [
         },
       },
       {
-        path: 'feedBack',
-        name: 'FeedBack',
-        component: () => import('@/views/feature/review/index'),
+        path: 'player',
+        name: 'Player',
+        component: () => import('@/views/feature/player/index'),
         meta: { 
-          title: '用户反馈',
+          title: '用户代理',
           permissions: ['admin', 'customer3'],
          },
       }
-      // {
-      //   path: 'menuManagement',
-      //   name: 'MenuManagement',
-      //   component: () =>
-      //     import('@/views/personnelManagement/menuManagement/index'),
-      //   meta: { title: '菜单管理', badge: 'New' },
-      // },
     ]
   },
   {
