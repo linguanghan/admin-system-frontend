@@ -241,23 +241,16 @@ export const asyncRoutes = [
           title: '充值查詢',
           permissions: ['admin', 'customer3'],
         },
+      },
+      {
+        path: 'player',
+        name: 'Player',
+        component: () => import('@/views/feature/player/index'),
+        meta: { 
+          title: '用户代理',
+          permissions: ['admin', 'customer3'],
+         },
       }
-      // {
-      //   path: 'feedBack',
-      //   name: 'FeedBack',
-      //   component: () => import('@/views/feature/review/index'),
-      //   meta: { 
-      //     title: '用户反馈',
-      //     permissions: ['admin', 'customer3'],
-      //    },
-      // }
-      // {
-      //   path: 'menuManagement',
-      //   name: 'MenuManagement',
-      //   component: () =>
-      //     import('@/views/personnelManagement/menuManagement/index'),
-      //   meta: { title: '菜单管理', badge: 'New' },
-      // },
     ]
   },
   {
