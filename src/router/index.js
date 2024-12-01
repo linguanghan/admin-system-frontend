@@ -208,7 +208,16 @@ export const asyncRoutes = [
           badge: 'New',
           permissions: ['admin', 'customer3'],
         },
-      }
+      },
+      {
+        path: 'app',
+        name: 'App',
+        component: () => import('@/views/feature/app/index'),
+        meta: {
+          title: '应用配置',
+          permissions: ['admin', 'customer3'],
+        },
+      },
       // {
       //   path: 'themeManagement',
       //   name: 'themeManagement',
