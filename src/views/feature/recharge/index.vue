@@ -16,7 +16,7 @@
             </el-date-picker>
           </div>
           <div class="Chart">
-            <vab-chart autoresize :options="sqs" />
+            <vab-chart autoresize :options="sqs" @click="handleChartClick" />
           </div>
           <div id="todayNum"></div>
           <div id="todayActiveNum"></div>
@@ -187,6 +187,7 @@
       
       this.fetchData()
       this.fetchAppRechargeCount()
+      this.handleChartClick()
       //this.fetchTodayData()
       // this.fetchTodayActiveData()
     },
@@ -274,6 +275,17 @@
         let startTime = moment(this.selectTime[0]).format(timeFormat)
         let endTime = moment(this.selectTime[1]).format(timeFormat)
         return{startTime, endTime}
+      },
+      async handleChartClick(event) {
+      // event对象可能包含有关点击位置、点击的图表元素等信息
+      console.log('Chart clicked:', event);
+      console.log(event.name + ' 10:10:10')
+      const { data } = await queryAppRechargeCount(event.name + ' 10:10:10');
+        if (Array.isArray(data) && data.length > 0) {
+          this.tableData = data;
+        } else {
+          this.tableData = []
+        }
       },
     },
   }
