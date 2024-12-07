@@ -12,9 +12,13 @@ export function queryPlayerRecharge(startTime,endTime) {
 }
 
 
-export function queryAppRechargeCount() {
+export function queryAppRechargeCount(queryTime) {
   return request({
     url: '/player/unit/queryAppRechargeCount',
-    method: 'get'
+    method: 'get',
+    params: {
+      'queryTime': queryTime
+    }
   })
 }
+
