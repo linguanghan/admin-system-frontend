@@ -72,37 +72,37 @@ export const asyncRoutes = [
     redirect: 'noRedirect',
     name: 'Feature',
     alwaysShow: true,
-    meta: { title: '数据', icon: 'box-open',  permissions: ['admin'] },
+    meta: { title: '数据', icon: 'box-open',  permissions: ['admin', 'kfpz'] },
     children: [
       {
         path: 'register',
         name: 'Register',
         component: () => import('@/views/feature/register/index'),
-        meta: { title: '注册查询', permissions: ['admin'] },
+        meta: { title: '注册查询', permissions: ['admin', 'kfpz'] },
       },
       {
         path: 'active',
         name: 'Active',
         component: () => import('@/views/feature/active/index'),
-        meta: { title: '活跃查询', permissions: ['admin'] },
+        meta: { title: '活跃查询', permissions: ['admin', 'kfpz'] },
       },
       {
         path: 'day',
         name: 'Day',
         component: () => import('@/views/feature/number/index'),
-        meta: { title: '注册活跃日统计', permissions: ['admin'] },
+        meta: { title: '注册活跃日统计', permissions: ['admin', 'kfpz'] },
       },
       {
         path: 'month',
         name: 'Month',
         component: () => import('@/views/feature/number/index2'),
-        meta: { title: '注册活跃月统计', permissions: ['admin'] },
+        meta: { title: '注册活跃月统计', permissions: ['admin', 'kfpz'] },
       },
       {
         path: 'recharge',
         name: 'Recharge',
         component: () => import('@/views/feature/recharge/index'),
-        meta: { title: 'APP充值数', permissions: ['admin'] },
+        meta: { title: 'APP充值数', permissions: ['admin', 'kfpz'] },
       },
       {
         path: 'version',
@@ -111,7 +111,7 @@ export const asyncRoutes = [
         meta: {
           title: '特定版本购买',
 
-          permissions: ['admin'],
+          permissions: ['admin', 'kfpz'],
         },
       },
       {
@@ -121,7 +121,7 @@ export const asyncRoutes = [
         meta: {
           title: '用户购买版本',
 
-          permissions: ['admin'],
+          permissions: ['admin', 'kfpz'],
         },
       },
       {
@@ -131,7 +131,7 @@ export const asyncRoutes = [
         meta: {
           title: '视频查询',
 
-          permissions: ['admin'],
+          permissions: ['admin', 'kfpz'],
         },
       },
       {
@@ -140,7 +140,7 @@ export const asyncRoutes = [
         redirect: 'noRedirect',
         name: 'HuibenVip',
         alwaysShow: true,
-        meta: { title: '绘本查询', badge: 'New', permissions: ['admin'] },
+        meta: { title: '绘本查询', badge: 'New', permissions: ['admin', 'kfpz'] },
         children: [
           {
             path: 'vipRecordList',
@@ -150,7 +150,7 @@ export const asyncRoutes = [
             meta: {
               title: '绘本查询数据',
               badge: 'New',
-              permissions: ['admin'],
+              permissions: ['admin', 'kfpz'],
             },
           },
           {
@@ -161,7 +161,7 @@ export const asyncRoutes = [
             meta: {
               title: '绘本每日数据',
               badge: 'New',
-              permissions: ['admin'],
+              permissions: ['admin', 'kfpz'],
             },
           },
         ],
@@ -173,7 +173,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: 'noRedirect',
     name: 'PersonnelManagement',
-    meta: { title: '配置', icon: 'users-cog', permissions: ['admin','customer3'] },
+    meta: { title: '配置', icon: 'users-cog', permissions: ['admin', 'kfpz','customer3'] },
     children: [
       {
         path: 'userManagement',
@@ -196,7 +196,7 @@ export const asyncRoutes = [
         meta: {
           title: '书本版号',
 
-          permissions: ['admin', 'customer3'],
+          permissions: ['admin', 'kfpz', 'customer3'],
         },
       },
       {
@@ -206,7 +206,7 @@ export const asyncRoutes = [
         meta: {
           title: '功能版号',
           badge: 'New',
-          permissions: ['admin', 'customer3'],
+          permissions: ['admin', 'kfpz', 'customer3'],
         },
       }
       // {
@@ -231,7 +231,7 @@ export const asyncRoutes = [
     redirect: 'noRedirect',
     name: 'functionModule',
     alwaysShow: true,
-    meta: { title: '功能', icon: 'users-cog', permissions: ['admin','customer3'] },
+    meta: { title: '功能', icon: 'users-cog', permissions: ['admin', 'kfpz','customer3'] },
     children: [
       {
         path: 'queryRecharge',
@@ -239,7 +239,7 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/queryRecharge/index'),
         meta: {
           title: '充值查詢',
-          permissions: ['admin', 'customer3'],
+          permissions: ['admin', 'kfpz', 'kfpz', 'customer3'],
         },
       },
       {
@@ -248,7 +248,7 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/player/index'),
         meta: { 
           title: '用户代理',
-          permissions: ['admin', 'customer3'],
+          permissions: ['admin', 'kfpz', 'kfpz', 'customer3'],
          },
       }
     ]
