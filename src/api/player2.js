@@ -47,7 +47,7 @@ export function getRegisterDetail(startTime,endTime,pageNo,pageSize) {
 
 export function getActiveList(startTime,endTime) {
   return request({
-    url: '/player/active/num/month',
+    url: '/player/active/num/month2',
     method: 'get',
     params: {
       'startTime': startTime,
