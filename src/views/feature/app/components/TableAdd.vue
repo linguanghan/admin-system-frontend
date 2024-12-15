@@ -79,7 +79,7 @@
               var id = this.form.id
               if (id == undefined || id.length == 0){
                 const { data } = await saveAppinfo(this.form)
-                this.$baseMessage(data, 'success')
+                this.$baseMessage('添加成功', 'success')
                 this.$refs['form'].resetFields()
                 this.dialogFormVisible = false
                 this.$parent.fetchData(this.$parent.queryForm)

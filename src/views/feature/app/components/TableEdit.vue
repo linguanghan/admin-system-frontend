@@ -16,7 +16,7 @@
           <el-input v-model.trim="form.appName" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="备案号" prop="registrationNum">
-          <el-input v-model.trim="form.video" autocomplete="off"></el-input>
+          <el-input v-model.trim="form.registrationNum" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="公司名" prop="companyName">
           <el-input v-model.trim="form.companyName" autocomplete="off"></el-input>
@@ -91,7 +91,7 @@
               } else {
                 const { data } = await updateAppinfo(this.form)
                 // console.log(aa);
-                this.$baseMessage(data, 'success')
+                this.$baseMessage('编辑成功', 'success')
                 this.$refs['form'].resetFields()
                 this.dialogFormVisible = false
                 this.$parent.fetchData(this.$parent.queryForm)

@@ -198,7 +198,7 @@
           if (row.id) {
             this.$baseConfirm('你确定要删除当前项吗', null, async () => {
               const { data } = await deleteAppinfo(row)
-              this.$baseMessage(data, 'success')
+              this.$baseMessage('删除成功', 'success')
               this.fetchData(this.queryForm)
             })
           } else {
@@ -206,7 +206,7 @@
               const ids = this.selectRows.map((item) => item.id).join()
               this.$baseConfirm('你确定要删除选中项吗', null, async () => {
                 const { data } = await deleteAppinfo({ ids: ids })
-                this.$baseMessage(data, 'success')
+                this.$baseMessage('删除成功', 'success')
                 this.fetchData(this.queryForm)
               })
             } else {
