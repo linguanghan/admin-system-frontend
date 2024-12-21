@@ -218,6 +218,15 @@ export const asyncRoutes = [
           permissions: ['admin', 'customer3'],
         },
       },
+      {
+        path: 'classManagement',
+        name: 'ClassManagement',
+        component: () => import('@/views/feature/class/index2'),
+        meta: {
+          title: '班级管理',
+          permissions: ['admin', 'customer3'],
+        },
+      },
       // {
       //   path: 'themeManagement',
       //   name: 'themeManagement',
