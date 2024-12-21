@@ -103,6 +103,7 @@
   
         <el-table-column show-overflow-tooltip label="操作" width="180px">
           <template #default="{ row }">
+          <el-button type="text" @click="handleDetail(row)">详情</el-button>
             <el-button type="text" @click="handleEdit(row)">编辑</el-button>
             <el-button type="text" @click="handleDelete(row)">删除</el-button>
           </template>
@@ -117,6 +118,7 @@
         @current-change="handleCurrentChange"
         @size-change="handleSizeChange"
       ></el-pagination>
+      <table-detail ref="detail"></table-detail>
       <table-edit ref="edit"></table-edit>
       <table-add ref="add"></table-add>
     </div>
@@ -126,6 +128,7 @@
     import { getList, doDelete, getDailyList } from '@/api/classManagement'
     import TableEdit from './components/TableEdit2'
     import TableAdd from './components/TableAdd2'
+    import TableDetail from './components/TableDetail'
     import { getAppDetailList} from '@/api/appresource'
     import {
       getAppDetailListById,
@@ -136,6 +139,7 @@
       components: {
         TableEdit,
         TableAdd,
+        TableDetail,
       },
       filters: {
         statusFilter(status) {
@@ -206,6 +210,9 @@
         },
         handleEdit(row) {
           this.$refs['edit'].showEdit(row)
+        },
+         handleDetail(row) {
+          this.$refs['detail'].showEdit(row)
         },
         handleDelete(row) {
           if (row.id) {
