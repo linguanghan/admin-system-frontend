@@ -124,12 +124,13 @@ export const asyncRoutes = [
           permissions: ['admin'],
         },
       },
+      
       {
         path: 'video',
         name: 'Video',
-        component: () => import('@/views/feature/video/index'),
+        component: () => import('@/views/feature/order/index'),
         meta: {
-          title: '视频查询',
+          title: '订单查询',
 
           permissions: ['admin'],
         },
