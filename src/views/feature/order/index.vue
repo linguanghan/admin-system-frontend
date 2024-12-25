@@ -45,7 +45,22 @@
         <!--format="yyyy-MM-dd"-->
         <!--value-format="yyyy-MM-dd">-->
         <!--</el-date-picker>-->
-
+          <el-form-item label="订单号" prop="orderId">
+          <el-input 
+            v-model.trim="queryForm.orderId" 
+            autocomplete="off"
+            placeholder="请输入订单号"
+            clearable
+          />
+          </el-form-item>
+          <el-form-item label="用户pid" prop="orderId">
+          <el-input 
+            v-model.trim="queryForm.pid" 
+            autocomplete="off"
+            placeholder="请输入用户pid"
+            clearable
+          />
+          </el-form-item>
         <el-button
           icon="el-icon-search"
           type="primary"
@@ -199,6 +214,9 @@
           pageNo: 1,
           pageSize: 20,
           title: '',
+          orderId: '',
+          pid: ''
+
         },
         pickerOptions: {
           disabledDate(time) {
@@ -358,7 +376,7 @@
         val = val + ' 23:59:59';
         var timedate = val;
         this.listLoading = true
-        var data =  await getPlayerOrderList(valStart,timedate,queryForm.pageNo, queryForm.pageSize )
+        var data =  await getPlayerOrderList(valStart,timedate,queryForm.pageNo, queryForm.pageSize, queryForm.orderId, queryForm.pid)
         var result = data?.result == undefined ? [] : data.result; 
         this.list = result?.data == undefined ? [] : result.data;
         this.total = result?.total == undefined ? 0 : result.total;
