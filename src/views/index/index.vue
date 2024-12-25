@@ -37,6 +37,11 @@
           {{ row.time == undefined ? "-" : row.time}}
         </template>
       </el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        label="app名称"
+        prop="appName"
+      ></el-table-column>
       <el-table-column show-overflow-tooltip label="操作" width="180px">
         <template #default="{ row }">
           <el-button type="text" @click="handleReview(row)">评论</el-button>
