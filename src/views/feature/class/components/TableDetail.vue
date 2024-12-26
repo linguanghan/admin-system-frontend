@@ -16,7 +16,7 @@
       <el-descriptions-item label="状态">{{ form.state }}</el-descriptions-item>
       <el-descriptions-item label="创建教师ID">{{ form.ownerPid }}</el-descriptions-item>
       <el-descriptions-item label="创建时间">{{ form.createTime }}</el-descriptions-item>
-      <el-descriptions-item label="学生数据">{{ form.memData }}</el-descriptions-item>
+      <el-descriptions-item label="学生数据">{{ form.studentCount }}</el-descriptions-item>
     </el-descriptions>
 
       <!-- <el-form ref="form" :model="form" :rules="rules" label-width="80px">
