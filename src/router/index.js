@@ -124,12 +124,13 @@ export const asyncRoutes = [
           permissions: ['admin', 'kfpz'],
         },
       },
+      
       {
         path: 'video',
         name: 'Video',
-        component: () => import('@/views/feature/video/index'),
+        component: () => import('@/views/feature/order/index'),
         meta: {
-          title: '视频查询',
+          title: '订单查询',
 
           permissions: ['admin', 'kfpz'],
         },
@@ -215,6 +216,15 @@ export const asyncRoutes = [
         component: () => import('@/views/feature/app/index'),
         meta: {
           title: '应用配置',
+          permissions: ['admin', 'customer3'],
+        },
+      },
+      {
+        path: 'classManagement',
+        name: 'ClassManagement',
+        component: () => import('@/views/feature/class/index2'),
+        meta: {
+          title: '班级管理',
           permissions: ['admin', 'customer3'],
         },
       },

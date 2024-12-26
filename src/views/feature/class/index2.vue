@@ -62,32 +62,48 @@
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
-          prop="packageIdx"
-          label="包编号"
+          prop="classInviteID"
+          label="班级邀请ID"
         ></el-table-column>
         <el-table-column
           show-overflow-tooltip
-          prop="appName"
-          label="应用名"
+          prop="classNumber"
+          label="班级"
         ></el-table-column>
         <el-table-column
           show-overflow-tooltip
-          label="备案号"
-          prop="registrationNum"
+          label="教师名"
+          prop="teacherName"
         ></el-table-column>
         <el-table-column
           show-overflow-tooltip
-          label="公司名"
-          prop="companyName"
+          label="学校名"
+          prop="schoolName"
         ></el-table-column>
         <el-table-column
           show-overflow-tooltip
-          prop="packagePara"
-          label="包参数"
+          prop="grade"
+          label="年级"
+        ></el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          prop="state"
+          label="状态id"
+        ></el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          prop="createTime"
+          label="创建时间秒"
+        ></el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          prop="ownerPid"
+          label="创建教师ID"
         ></el-table-column>
   
         <el-table-column show-overflow-tooltip label="操作" width="180px">
           <template #default="{ row }">
+          <el-button type="text" @click="handleDetail(row)">详情</el-button>
             <el-button type="text" @click="handleEdit(row)">编辑</el-button>
             <el-button type="text" @click="handleDelete(row)">删除</el-button>
           </template>
@@ -102,15 +118,17 @@
         @current-change="handleCurrentChange"
         @size-change="handleSizeChange"
       ></el-pagination>
+      <table-detail ref="detail"></table-detail>
       <table-edit ref="edit"></table-edit>
       <table-add ref="add"></table-add>
     </div>
   </template>
   
   <script>
-    import { getList, doDelete } from '@/api/table'
-    import TableEdit from './components/TableEdit'
-    import TableAdd from './components/TableAdd'
+    import { getList, doDelete, getDailyList } from '@/api/classManagement'
+    import TableEdit from './components/TableEdit2'
+    import TableAdd from './components/TableAdd2'
+    import TableDetail from './components/TableDetail'
     import { getAppDetailList} from '@/api/appresource'
     import {
       getAppDetailListById,
@@ -121,6 +139,7 @@
       components: {
         TableEdit,
         TableAdd,
+        TableDetail,
       },
       filters: {
         statusFilter(status) {
@@ -192,6 +211,9 @@
         handleEdit(row) {
           this.$refs['edit'].showEdit(row)
         },
+         handleDetail(row) {
+          this.$refs['detail'].showEdit(row)
+        },
         handleDelete(row) {
           if (row.id) {
             this.$baseConfirm('你确定要删除当前项吗', null, async () => {
@@ -238,7 +260,7 @@
         async fetchData(queryForm) {
           let queryFormTemp = this.dataFormat(queryForm)
           this.listLoading = true
-          var data = await getAppDetailList(queryFormTemp);
+          var data = await getDailyList(queryFormTemp.pageNo, queryFormTemp.pageSize);
           console.log(data);
           var result = data?.result == undefined ? [] : data?.result;
           this.list = result?.data == undefined ? [] : result.data;
