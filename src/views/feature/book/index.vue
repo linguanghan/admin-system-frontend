@@ -98,6 +98,12 @@
         label="对应年级"
         :formatter="bookTypeFormatter"
       ></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        prop="videoPath"
+        label="视频路径"
+        
+      ></el-table-column>
       
       <el-table-column show-overflow-tooltip label="操作" width="180px">
         <template #default="{ row }">
