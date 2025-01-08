@@ -39,6 +39,11 @@
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
+        label="包编号"
+        prop="packageIdx"
+      ></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
         label="app名称"
         prop="appName"
       ></el-table-column>
