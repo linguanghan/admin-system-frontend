@@ -40,6 +40,10 @@
           </el-option>
         </el-select>
       </el-form-item>
+           <el-form-item label="视频路径" prop="videoPath">
+        <el-input v-model.trim="form.videoPath" autocomplete="off">
+        </el-input>
+      </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="close">取 消</el-button>
@@ -64,6 +68,7 @@
           video: '',
           version: '',
           serverAddress: '',
+          videoPath: '',
         },
         bookTypeOptions:[],
         rules: {
