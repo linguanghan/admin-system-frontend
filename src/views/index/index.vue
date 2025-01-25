@@ -22,16 +22,22 @@
         show-overflow-tooltip
         prop="pid"
         label="用户Id"
+        width="100px"
       ></el-table-column>
       <el-table-column
         show-overflow-tooltip
         label="评论内容"
         prop="describe"
-      ></el-table-column>
+      >
+        <template #default="{ row }">
+          <div @dblclick="copyText(row.describe)">{{ row.describe }}</div>
+        </template>
+      </el-table-column>
       <el-table-column
         show-overflow-tooltip
         label="评论时间"
         prop="time"
+        width="180px"
       >
         <template #default="{ row }">
           {{ row.time == undefined ? "-" : row.time}}
@@ -41,13 +47,15 @@
         show-overflow-tooltip
         label="包编号"
         prop="packageIdx"
+        width="120px"
       ></el-table-column>
       <el-table-column
         show-overflow-tooltip
         label="app名称"
         prop="appName"
+        width="120px"
       ></el-table-column>
-      <el-table-column show-overflow-tooltip label="操作" width="180px">
+      <el-table-column show-overflow-tooltip label="操作" width="80px">
         <template #default="{ row }">
           <el-button type="text" @click="handleReview(row)">评论</el-button>
         </template>
@@ -127,6 +135,14 @@
         this.total = data?.data?.total == undefined ? 0 : data?.data?.total;
         this.listLoading = false
       },
+      async copyText(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+          this.$message({ type: 'success', message: '复制成功!' });
+        } catch (err) {
+          this.$message.error('复制失败');
+        }
+      }
     },
   }
 </script>
