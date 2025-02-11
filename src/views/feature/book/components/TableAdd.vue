@@ -40,7 +40,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-           <el-form-item label="视频路径" prop="videoPath">
+      <el-form-item label="视频路径" prop="videoPath">
         <el-input v-model.trim="form.videoPath" autocomplete="off">
         </el-input>
       </el-form-item>
@@ -128,21 +128,27 @@
         this.$refs['form'].validate(async (valid) => {
           if (valid) {
             var id = this.form.id
-            if (id == undefined || id.length == 0){
-              const { data } = await saveBookinfo(this.form)
-              this.$baseMessage(data, 'success')
-              this.$refs['form'].resetFields()
-              this.dialogFormVisible = false
-              this.$parent.fetchData(this.$parent.queryForm)
-              this.form = this.$options.data().form
-            } else {
-              const { data } = await updateBookinfo(this.form)
-              this.$baseMessage(data, 'success')
-              this.$refs['form'].resetFields()
-              this.dialogFormVisible = false
-              this.$parent.fetchData(this.$parent.queryForm)
-              this.form = this.$options.data().form
+            try {
+                if (id == undefined || id.length == 0){
+                const { data } = await saveBookinfo(this.form)
+                this.$baseMessage(data, 'success')
+                this.$refs['form'].resetFields()
+                this.dialogFormVisible = false
+                this.$parent.fetchData(this.$parent.queryForm)
+                this.form = this.$options.data().form
+              } else {
+                const { data } = await updateBookinfo(this.form)
+                this.$baseMessage(data, 'success')
+                this.$refs['form'].resetFields()
+                this.dialogFormVisible = false
+                this.$parent.fetchData(this.$parent.queryForm)
+                this.form = this.$options.data().form
+              }
+            } catch (error) {
+              console.error('Error response:', error); // 添加调试信息
+              this.$baseMessage("书本编号重复，请重新输入", 'error');
             }
+            
           } else {
             return false
           }
