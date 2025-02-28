@@ -74,24 +74,24 @@ export const asyncRoutes = [
     alwaysShow: true,
     meta: { title: '数据', icon: 'box-open',  permissions: ['admin', 'kfpz'] },
     children: [
-      {
-        path: 'register',
-        name: 'Register',
-        component: () => import('@/views/feature/register/index'),
-        meta: { title: '注册查询', permissions: ['admin', 'kfpz'] },
-      },
+      // {
+      //   path: 'register',
+      //   name: 'Register',
+      //   component: () => import('@/views/feature/register/index'),
+      //   meta: { title: '注册查询', permissions: ['admin', 'kfpz'] },
+      // },
       {
         path: 'active',
         name: 'Active',
         component: () => import('@/views/feature/active/index'),
         meta: { title: '活跃查询', permissions: ['admin', 'kfpz'] },
       },
-      {
-        path: 'day',
-        name: 'Day',
-        component: () => import('@/views/feature/number/index'),
-        meta: { title: '注册活跃日统计', permissions: ['admin', 'kfpz'] },
-      },
+      // {
+      //   path: 'day',
+      //   name: 'Day',
+      //   component: () => import('@/views/feature/number/index'),
+      //   meta: { title: '注册活跃日统计', permissions: ['admin', 'kfpz'] },
+      // },
       {
         path: 'month',
         name: 'Month',
@@ -176,20 +176,20 @@ export const asyncRoutes = [
     name: 'PersonnelManagement',
     meta: { title: '配置', icon: 'users-cog', permissions: ['admin', 'kfpz','customer3'] },
     children: [
-      {
-        path: 'userManagement',
-        name: 'UserManagement',
-        component: () =>
-          import('@/views/personnelManagement/userManagement/index'),
-        meta: { title: '用户管理' },
-      },
-      {
-        path: 'roleManagement',
-        name: 'RoleManagement',
-        component: () =>
-          import('@/views/personnelManagement/roleManagement/index'),
-        meta: { title: '角色管理' },
-      },
+      // {
+      //   path: 'userManagement',
+      //   name: 'UserManagement',
+      //   component: () =>
+      //     import('@/views/personnelManagement/userManagement/index'),
+      //   meta: { title: '用户管理' },
+      // },
+      // {
+      //   path: 'roleManagement',
+      //   name: 'RoleManagement',
+      //   component: () =>
+      //     import('@/views/personnelManagement/roleManagement/index'),
+      //   meta: { title: '角色管理' },
+      // },
       {
         path: 'book',
         name: 'Book',
