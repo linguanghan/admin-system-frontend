@@ -53,7 +53,7 @@
             grade: '',
           },
           rules: {
-            classInviteID: [{ required: true, trigger: 'blur', message: '请输入班级邀请ID' },],
+            classInviteID: [{ required: true, trigger: 'blur', message: '请输入' },],
             classNumber: [{ required: true, trigger: 'blur', message: '请输入班级' }],
             teacherName: [{ required: true, trigger: 'blur', message: '请输入教师名' }],
             schoolName:  [{ required: true, trigger: 'blur', message: '请输入学校名' }],

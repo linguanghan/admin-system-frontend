@@ -20,6 +20,7 @@
         :inline="true"
         @submit.native.prevent
       >
+        
         <el-date-picker
           v-model="valueDateDate"
           type="daterange"
@@ -45,7 +46,7 @@
         <!--format="yyyy-MM-dd"-->
         <!--value-format="yyyy-MM-dd">-->
         <!--</el-date-picker>-->
-          <el-form-item label="订单号" prop="orderId">
+          <el-form-item label="充值单号" prop="orderId">
           <el-input 
             v-model.trim="queryForm.orderId" 
             autocomplete="off"
@@ -53,7 +54,7 @@
             clearable
           />
           </el-form-item>
-          <el-form-item label="用户pid" prop="orderId">
+          <el-form-item label="玩家账号ID" prop="orderId">
           <el-input 
             v-model.trim="queryForm.pid" 
             autocomplete="off"

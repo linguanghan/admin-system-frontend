@@ -82,12 +82,19 @@
             if (valid) {
               var id = this.form.id
               if (id == undefined || id.length == 0){
-                const { data } = await doAdd(this.form)
-                this.$baseMessage('添加成功', 'success')
-                this.$refs['form'].resetFields()
-                this.dialogFormVisible = false
-                this.$parent.fetchData(this.$parent.queryForm)
-                this.form = this.$options.data().form
+                  const data  = await doAdd(this.form)
+                  console.log('1111' + data.success)
+                  if(!data.success) {
+                    this.$baseMessage('添加失败：' + data.errorMsg + '，请检查班级邀请ID是否重复')
+                  } else {
+                     this.$baseMessage('添加成功', 'success')
+                  this.$refs['form'].resetFields()
+                  this.dialogFormVisible = false
+                  this.$parent.fetchData(this.$parent.queryForm)
+                  this.form = this.$options.data().form
+                  }
+                 
+              
               } else {
                 const { data } = await updateAppinfo(this.form)
                 this.$baseMessage(data, 'success')

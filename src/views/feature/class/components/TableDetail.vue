@@ -17,6 +17,7 @@
       <el-descriptions-item label="创建教师ID">{{ form.ownerPid }}</el-descriptions-item>
       <el-descriptions-item label="创建时间">{{ form.createTime }}</el-descriptions-item>
       <el-descriptions-item label="学生数据">{{ form.studentCount }}</el-descriptions-item>
+      <el-descriptions-item label="班级数量">{{ form.classCount }}</el-descriptions-item>
     </el-descriptions>
 
       <!-- <el-form ref="form" :model="form" :rules="rules" label-width="80px">
@@ -63,6 +64,7 @@
             teacherName: '',
             schoolName: '',
             grade: '',
+            classCount: '',
           },
           rules: {
             classInviteID: [{ required: true, trigger: 'blur', message: '请输入班级邀请ID' },],
