@@ -228,6 +228,15 @@ export const asyncRoutes = [
           permissions: ['admin', 'customer3'],
         },
       },
+      {
+        path: 'generalParamConfig',
+        name: 'GeneralParamConfig',
+        component: () => import('@/views/feature/general/index'),
+        meta: {
+          title: '通用参数',
+          permissions: ['admin', 'customer3'],
+        },
+      },
       // {
       //   path: 'themeManagement',
       //   name: 'themeManagement',
