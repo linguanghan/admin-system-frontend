@@ -6,19 +6,13 @@
       @close="close"
     >
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="活动通知" prop="ACTIVITY_NOTICE">
-          <el-select v-model="form.ACTIVITY_NOTICE" style="margin-left: 10px">
-            <el-option label="开启" :value="1"></el-option>
-            <el-option label="关闭" :value="0"></el-option>
-          </el-select>
+        <el-form-item label="参数名称" prop="ACTIVITY_NOTICE">
+           <el-input v-model.trim="form.paramName" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="检查状态" prop="CHECK_STATE">
-        <el-select v-model="form.CHECK_STATE" style="margin-left: 10px">
-            <el-option label="开启" :value="1"></el-option>
-            <el-option label="关闭" :value="0"></el-option>
-          </el-select>
+        <el-form-item label="中文名" prop="CHECK_STATE">
+            <el-input v-model.trim="form.name" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="自由交易" prop="FREE_TRADE">
+        <!-- <el-form-item label="自由交易" prop="FREE_TRADE">
         <el-select v-model="form.FREE_TRADE" style="margin-left: 10px">
             <el-option label="开启" :value="1"></el-option>
             <el-option label="关闭" :value="0"></el-option>
@@ -53,7 +47,7 @@
             <el-option label="开启" :value="1"></el-option>
             <el-option label="关闭" :value="0"></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
          <el-form-item label="是否开启" prop="status" size="large">
          <el-select v-model="form.status" style="margin-left: 10px">
             <el-option label="开启" :value="1"></el-option>
@@ -77,25 +71,13 @@
       data() {
         return {
           form: {
-            activityNotice: '',
-            checkState: '',
-            freeTrade: '',
-            overTimeCheck: '',
-            hiddenExpansion: '',
-            scoreOraltest: '',
-            debugMode: '',
-            unLogin: '',
+            paramName: '',
+            name: '',
             status: '',
           },
           rules: {
-            activityNotice: [{ required: true, trigger: 'blur', message: '请输活动通知 1开启 0关闭' },],
-            checkState: [{ required: true, trigger: 'blur', message: '请应检查状态 1开启 0关闭' }],
-            freeTrade: [{ required: true, trigger: 'blur', message: '请输入自由交易 1开启 0关闭' }],
-            overTimeCheck:  [{ required: true, trigger: 'blur', message: '请输入超时检测 1开启 0关闭' }],
-            hiddenExpansion:  [{ required: true, trigger: 'blur', message: '请输入隐藏扩展 1开启 0关闭' }],
-            scoreOraltest:  [{ required: true, trigger: 'blur', message: '请输入开启后测评分数在70以上 1开启 0关闭' }],
-            debugMode:  [{ required: true, trigger: 'blur', message: '请输入检测书本版本号 1开启 0关闭' }],
-            unLogin:  [{ required: true, trigger: 'blur', message: '请输不用登录 1开启 0关闭' }],
+            paramName:  [{ required: true, trigger: 'blur', message: '请输入参数名称' }],
+            name:  [{ required: true, trigger: 'blur', message: '请输入中文名称' }],
             status:  [{ required: true, trigger: 'blur', message: '请输入是否开启 1开启 0关闭' }],
           },
           title: '',

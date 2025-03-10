@@ -62,51 +62,13 @@
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
-          prop="ACTIVITY_NOTICE"
-          label="活动通知"
-          :formatter="formatBoolean"
+          prop="paramName"
+          label="参数名称"
         ></el-table-column>
         <el-table-column
           show-overflow-tooltip
-          prop="CHECK_STATE"
-          label="检查状态"
-          :formatter="formatBoolean"
-        ></el-table-column>
-        <el-table-column
-          show-overflow-tooltip
-          label="自由交易"
-          prop="FREE_TRADE"
-          :formatter="formatBoolean"
-        ></el-table-column>
-        <el-table-column
-          show-overflow-tooltip
-          label="超时检测"
-          prop="OVER_TIME_CHECK"
-          :formatter="formatBoolean"
-        ></el-table-column>
-        <el-table-column
-          show-overflow-tooltip
-          prop="HIDDEN_EXPANSION"
-          label="隐藏扩展"
-          :formatter="formatBoolean"
-        ></el-table-column>
-                <el-table-column
-          show-overflow-tooltip
-          prop="SCORE_ORALTEST"
-          label="开启后测评分数在70以上"
-          :formatter="formatBoolean"
-        ></el-table-column>
-                <el-table-column
-          show-overflow-tooltip
-          prop="DEBUG_MODE"
-          label="检测书本版本号"
-          :formatter="formatBoolean"
-        ></el-table-column>
-                <el-table-column
-          show-overflow-tooltip
-          prop="UN_LOGIN"
-          label="不用登录"
-          :formatter="formatBoolean"
+          prop="name"
+          label="中文名称"
         ></el-table-column>
                 <el-table-column
           show-overflow-tooltip
